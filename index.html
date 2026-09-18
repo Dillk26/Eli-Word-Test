@@ -1,1421 +1,1548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vocabulary Master: Flashcards, Quiz & Match Game</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eli Word Test Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #e0e7ff;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
     * {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
     }
-    .perspective-1000 {
-      perspective: 1000px;
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    .transform-style-3d {
+
+    header {
+      background: linear-gradient(135deg, #312e81, #4f46e5, #4338ca);
+      color: white;
+      padding: 2.2rem 1rem 1.8rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    header h1 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 2.6rem;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    header p {
+      color: #c7d2fe;
+      margin-top: 0.4rem;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.6rem 1rem;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 0.6rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .section-panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .section-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 2rem;
+      color: var(--text);
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    /* ---------------- FLASHCARDS ---------------- */
+    .flashcard-wrapper {
+      perspective: 1200px;
+      max-width: 620px;
+      height: 380px;
+      margin: 1rem auto 1.5rem;
+    }
+
+    .flashcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
       transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
     }
-    .backface-hidden {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-    .rotate-y-180 {
+
+    .flashcard.flipped {
       transform: rotateY(180deg);
     }
-    .card-transition {
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 3px solid #e0e7ff;
+      background: var(--surface);
+      box-shadow: var(--shadow);
     }
-    @keyframes pulse-subtle {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
+
+    .card-face.front {
+      background: linear-gradient(145deg, #ffffff, #f5f7ff);
     }
-    .animate-pulse-subtle {
-      animation: pulse-subtle 2.5s infinite ease-in-out;
+
+    .card-face.back {
+      background: linear-gradient(145deg, #f0fdf4, #ffffff);
+      transform: rotateY(180deg);
+      border-color: #bbf7d0;
     }
-    @keyframes wiggle {
+
+    .card-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-body-center {
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .card-word {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 3rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-pos {
+      font-style: italic;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .card-def {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-example {
+      background: rgba(79, 70, 229, 0.06);
+      border-left: 4px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-style: italic;
+      color: #334155;
+      font-size: 0.98rem;
+      text-align: left;
+    }
+
+    .card-footer-tip {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .speech-btn {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.15s ease;
+    }
+
+    .speech-btn:hover {
+      transform: scale(1.1);
+      border-color: var(--primary);
+    }
+
+    .fc-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+      color: white;
+    }
+
+    .fc-progress {
+      text-align: center;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* ---------------- MATCH GAME ---------------- */
+    .game-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.2rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .stat-pill {
+      background: var(--surface);
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 12px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .match-tile {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 0.9rem;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .match-tile.is-word {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      background: #faf5ff;
+      border-color: #e9d5ff;
+    }
+
+    .match-tile:hover:not(.matched) {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.15);
+    }
+
+    .match-tile.selected {
+      background: #e0e7ff;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    }
+
+    .match-tile.matched {
+      background: #dcfce7 !important;
+      border-color: #86efac !important;
+      color: #166534 !important;
+      opacity: 0.55;
+      cursor: default;
+      transform: none;
+      text-decoration: line-through;
+    }
+
+    .match-tile.wrong {
+      background: #fee2e2 !important;
+      border-color: #fca5a5 !important;
+      color: #991b1b !important;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
-    .shake-error {
-      animation: wiggle 0.4s ease-in-out;
+
+    /* ---------------- 5 QUIZ TESTS ---------------- */
+    .test-selector-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 2rem;
     }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+
+    .test-tab-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      color: var(--text);
+      font-weight: 800;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
+
+    .test-tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .test-tab-btn.active-test {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .test-description-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.4rem;
+      border-radius: 10px;
+      max-width: 720px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .test-description-box h4 {
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .test-description-box p {
+      color: #3730a3;
+      font-size: 0.92rem;
+      margin-top: 2px;
+    }
+
+    .quiz-container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .quiz-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      width: 10%;
+      transition: width 0.3s ease;
+    }
+
+    .quiz-header-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-direction-badge {
+      background: #ede9fe;
+      color: var(--primary);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .quiz-question-box {
+      margin-bottom: 1.6rem;
+    }
+
+    .quiz-prompt-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .quiz-question-text {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--text);
+    }
+
+    .quiz-question-text .highlight-word {
+      color: var(--primary);
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.85rem;
+      display: inline-block;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .option-btn .letter-indicator {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .option-btn:hover:not([disabled]) {
+      border-color: var(--primary);
+      background: #f5f7ff;
+      transform: translateX(4px);
+    }
+
+    .option-btn:hover:not([disabled]) .letter-indicator {
+      background: var(--primary);
+      color: white;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #15803d !important;
+    }
+
+    .option-btn.correct .letter-indicator {
+      background: #22c55e !important;
+      color: white !important;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #991b1b !important;
+    }
+
+    .option-btn.wrong .letter-indicator {
+      background: #ef4444 !important;
+      color: white !important;
+    }
+
+    .feedback-box {
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      display: none;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+
+    .feedback-box.correct {
+      display: block;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    .feedback-box.wrong {
+      display: block;
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    .quiz-next-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Results Screen */
+    .quiz-results-card {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .trophy-badge {
+      font-size: 4rem;
+      margin-bottom: 0.75rem;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    .quiz-score-big {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .quiz-score-sub {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ---------------- WORD BANK ---------------- */
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .word-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .word-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+    .word-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .word-card h3 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.6rem;
+      color: var(--primary-dark);
+    }
+
+    .word-card-def {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 0.8rem;
+    }
+
+    .word-card-example {
+      background: #f8fafc;
+      border-left: 3px solid #cbd5e1;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #475569;
+    }
+
+    /* Modal / Confetti */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 640px) {
+      header h1 { font-size: 2rem; }
+      .flashcard-wrapper { height: 350px; }
+      .card-word { font-size: 2.3rem; }
+      .card-def { font-size: 1.15rem; }
+      .quiz-container { padding: 1.25rem; }
+      .test-tab-btn { font-size: 0.85rem; padding: 0.5rem 0.9rem; }
     }
   </style>
 </head>
+<body>
 
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
-
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-        </div>
-        <div>
-          <h1 class="text-lg font-bold text-slate-900 tracking-tight leading-none">VocabMaster</h1>
-          <p class="text-xs text-slate-500 mt-0.5">Study Set: Food & Biology Essentials (10 Words)</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-1 sm:gap-2">
-        <nav class="flex items-center bg-slate-100 p-1 rounded-xl text-sm font-medium border border-slate-200">
-          <button id="nav-flashcards" onclick="switchTab('flashcards')" class="tab-btn px-3 py-1.5 rounded-lg text-indigo-700 bg-white shadow-sm font-semibold transition-all">
-            Cards
-          </button>
-          <button id="nav-matching" onclick="switchTab('matching')" class="tab-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">
-            Match Game
-          </button>
-          <button id="nav-quiz" onclick="switchTab('quiz')" class="tab-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">
-            Quiz
-          </button>
-          <button id="nav-list" onclick="switchTab('list')" class="tab-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">
-            All Words
-          </button>
-        </nav>
-
-        <button id="sound-toggle-btn" onclick="toggleAudio()" title="Toggle Sound FX" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-indigo-600 transition shadow-sm">
-          <svg id="sound-icon-on" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-          </svg>
-          <svg id="sound-icon-off" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-          </svg>
-        </button>
-      </div>
-    </div>
+  <!-- HEADER -->
+  <header>
+    <div class="badge-top">📚 Vocabulary Study Hub</div>
+    <h1>Eli Word Test Practice</h1>
+    <p>Practice all 10 words with interactive flashcards, match game, and 5 complete practice tests!</p>
   </header>
 
-  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+  <!-- MAIN NAVIGATION TABS -->
+  <nav>
+    <button class="tab-btn active" onclick="switchSection('flashcards', this)">
+      <span>🃏</span> Flashcards
+    </button>
+    <button class="tab-btn" onclick="switchSection('quiz', this)">
+      <span>📝</span> 5 Practice Tests
+    </button>
+    <button class="tab-btn" onclick="switchSection('match', this)">
+      <span>🧩</span> Match Game
+    </button>
+    <button class="tab-btn" onclick="switchSection('list', this)">
+      <span>📖</span> Word List
+    </button>
+  </nav>
 
-    <!-- ==========================================
-         SECTION 1: FLASHCARDS MODE
-         ========================================== -->
-    <section id="section-flashcards" class="space-y-6">
-      <!-- Top info bar -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-        <div class="flex items-center space-x-3 w-full sm:w-auto">
-          <span class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Progress:</span>
-          <div class="w-full sm:w-44 bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
-            <div id="flashcard-progress-bar" class="bg-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 10%"></div>
-          </div>
-          <span id="flashcard-counter" class="text-sm font-bold text-slate-700">1 / 10</span>
-        </div>
-
-        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
-          <button onclick="shuffleCards()" class="px-3 py-1.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            Shuffle
-          </button>
-          <button id="mastery-toggle-btn" onclick="toggleCurrentMastery()" class="px-3 py-1.5 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-            <span id="mastery-label">Mark as Learned</span>
-          </button>
-        </div>
+  <main>
+    <!-- SECTION 1: FLASHCARDS -->
+    <section id="flashcards" class="section-panel active">
+      <div class="section-header">
+        <h2>Interactive Flashcards</h2>
+        <p>Click the card or press <kbd>Space</kbd> to flip between word & definition.</p>
       </div>
 
-      <div class="perspective-1000 w-full max-w-2xl mx-auto h-[380px] sm:h-[400px]">
-        <div id="flashcard-element" onclick="flipCard()" class="w-full h-full relative transform-style-3d card-transition cursor-pointer select-none">
-          
-          <!-- Card Front: The Word -->
-          <div class="absolute inset-0 w-full h-full backface-hidden bg-white rounded-3xl p-8 flex flex-col justify-between border-2 border-indigo-100 shadow-xl shadow-indigo-100/50 hover:border-indigo-300 transition-colors">
-            <div class="flex items-center justify-between">
-              <span id="card-pos-front" class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full uppercase tracking-wider">
-                Verb
-              </span>
-              <button onclick="event.stopPropagation(); speakWord()" title="Listen to pronunciation" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 flex items-center justify-center transition shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-              </button>
+      <div class="flashcard-wrapper">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <!-- Front Face -->
+          <div class="card-face front">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="card-badge" id="fc-pos">Verb</span>
+              <button class="speech-btn" onclick="speakWord(event)" title="Listen to pronunciation">🔊</button>
             </div>
-
-            <div class="text-center my-auto">
-              <h2 id="card-word" class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-2">
-                Satiate
-              </h2>
-              <p id="card-phonetic" class="text-sm font-medium text-slate-400 italic">
-                / ˈseɪ.ʃi.eɪt /
-              </p>
+            <div class="card-body-center">
+              <h3 class="card-word" id="fc-word">Satiate</h3>
+              <p class="card-pos" id="fc-type">verb</p>
             </div>
-
-            <div class="text-center">
-              <p class="text-xs text-indigo-600 font-semibold inline-flex items-center gap-1.5 bg-indigo-50/70 px-4 py-1.5 rounded-full">
-                <svg class="w-3.5 h-3.5 animate-spin" style="animation-duration: 4s;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                Click or press Space to flip
-              </p>
+            <div class="card-footer-tip">
+              <span>💡 Click anywhere to flip</span>
+              <span>Front</span>
             </div>
           </div>
 
-          <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-900 via-indigo-800 to-violet-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl border-2 border-indigo-700">
-            <div>
-              <div class="flex items-center justify-between border-b border-indigo-700/60 pb-3 mb-4">
-                <div class="flex items-center gap-2">
-                  <span id="card-pos-back" class="px-2.5 py-0.5 bg-indigo-500/30 border border-indigo-400/40 text-indigo-200 text-xs font-semibold rounded-full uppercase">
-                    Verb
-                  </span>
-                  <span id="card-word-mini" class="text-lg font-bold text-white tracking-wide">
-                    Satiate
-                  </span>
-                </div>
-                <span class="text-xs text-indigo-300">Flip back to word</span>
-              </div>
-
-              <!-- Definition -->
-              <div class="mb-4">
-                <span class="text-xs font-semibold tracking-wider text-indigo-300 uppercase block mb-1">Definition:</span>
-                <p id="card-definition" class="text-base sm:text-lg font-medium text-white leading-relaxed">
-                  To satisfy a desire or hunger completely (no hunger remaining).
-                </p>
-              </div>
-
-              <!-- Student Handwritten Note Quote -->
-              <div class="bg-indigo-950/50 rounded-2xl p-3.5 border border-indigo-600/40 mb-3">
-                <span class="text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1 mb-1">
-                  ✏️ Original Note on Card:
-                </span>
-                <p id="card-notes" class="text-xs sm:text-sm text-indigo-100 font-mono italic">
-                  "TO satisfy a disire food (no hunger ok)"
-                </p>
-              </div>
+          <!-- Back Face -->
+          <div class="card-face back">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="card-badge" style="background:#dcfce7; color:#166534;">Definition</span>
+              <button class="speech-btn" onclick="speakDefinition(event)" title="Listen to definition">🔊</button>
             </div>
-
-            <!-- Example Sentence -->
-            <div class="pt-2 border-t border-indigo-700/60">
-              <span class="text-[11px] font-semibold text-indigo-300 uppercase tracking-wider block">Example:</span>
-              <p id="card-example" class="text-sm font-medium text-amber-200 italic mt-0.5">
-                "The hearty lunch was enough to satiate the athlete's appetite."
-              </p>
+            <div class="card-body-center">
+              <p class="card-def" id="fc-def">To satisfy a hunger or desire completely.</p>
+              <div class="card-example" id="fc-example">"The glass of lemonade helped satiate my thirst."</div>
+            </div>
+            <div class="card-footer-tip">
+              <span>💡 Click to flip back</span>
+              <span>Back</span>
             </div>
           </div>
-
         </div>
       </div>
 
-      <!-- Flashcard Controls -->
-      <div class="flex items-center justify-center gap-4 max-w-md mx-auto pt-2">
-        <button onclick="prevCard()" class="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 hover:shadow-md transition active:scale-95" title="Previous Card (Left Arrow)">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-        </button>
-
-        <button onclick="flipCard()" class="flex-1 py-3.5 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-200 transition active:scale-[0.98] flex items-center justify-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          Flip Card
-        </button>
-
-        <button onclick="nextCard()" class="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 hover:shadow-md transition active:scale-95" title="Next Card (Right Arrow)">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-        </button>
+      <!-- Controls -->
+      <div class="fc-controls">
+        <button class="btn" onclick="prevCard()">← Prev</button>
+        <button class="btn btn-primary" onclick="flipCard()">🔄 Flip Card</button>
+        <button class="btn" onclick="nextCard()">Next →</button>
+        <button class="btn" onclick="shuffleCards()" title="Shuffle Order">🔀</button>
       </div>
 
-      <div class="text-center text-xs text-slate-400">
-        Tip: You can use your keyboard <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono">→</kbd> arrows and <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono">Space</kbd>
-      </div>
+      <div class="fc-progress" id="fc-counter">Card 1 of 10</div>
     </section>
 
-    <!-- ==========================================
-         SECTION 2: MATCHING GAME
-         ========================================== -->
-    <section id="section-matching" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+    <!-- SECTION 2: 5 PRACTICE TESTS -->
+    <section id="quiz" class="section-panel">
+      <div class="section-header">
+        <h2>Practice Quizzes for Eli</h2>
+        <p>5 full 10-question tests with 100% multiple-choice matching questions!</p>
+      </div>
+
+      <!-- Test Navigation Selector -->
+      <div class="test-selector-tabs">
+        <button class="test-tab-btn active-test" onclick="selectTest(1, this)">
+          <span>🎯</span> Test 1: Word ➔ Def
+        </button>
+        <button class="test-tab-btn" onclick="selectTest(2, this)">
+          <span>🔍</span> Test 2: Def ➔ Word
+        </button>
+        <button class="test-tab-btn" onclick="selectTest(3, this)">
+          <span>⚡</span> Test 3: Mixed (A)
+        </button>
+        <button class="test-tab-btn" onclick="selectTest(4, this)">
+          <span>🔥</span> Test 4: Mixed (B)
+        </button>
+        <button class="test-tab-btn" onclick="selectTest(5, this)">
+          <span>🏆</span> Test 5: Mastery Sprint
+        </button>
+      </div>
+
+      <div class="test-description-box" id="test-info-box">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">Vocabulary Connect Match</h2>
-          <p class="text-xs text-slate-500">Tap a word and match it with its correct handwritten definition card.</p>
+          <h4 id="test-title-text">Practice Test 1: Word to Definition</h4>
+          <p id="test-desc-text">You will be given the vocabulary word. Pick the correct definition matching it.</p>
+        </div>
+        <button class="btn" style="font-size:0.85rem; padding:0.45rem 1rem;" onclick="restartCurrentTest()">🔄 Restart Test</button>
+      </div>
+
+      <!-- Quiz Card Container -->
+      <div class="quiz-container" id="quiz-box">
+        <div class="quiz-progress-bar-container">
+          <div class="quiz-progress-bar" id="quiz-progress"></div>
         </div>
 
-        <div class="flex items-center gap-4">
-          <div class="text-center px-3 py-1 bg-slate-100 rounded-xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">Matches</span>
-            <span id="match-score" class="text-base font-bold text-indigo-600">0 / 10</span>
+        <div class="quiz-header-meta">
+          <span id="quiz-counter">Question 1 of 10</span>
+          <span class="quiz-direction-badge" id="quiz-badge">Word ➔ Definition</span>
+        </div>
+
+        <div class="quiz-question-box">
+          <div class="quiz-prompt-label" id="quiz-prompt-label">Match the Word:</div>
+          <div class="quiz-question-text" id="quiz-question">
+            What is the correct definition for <span class="highlight-word">Satiate</span>?
           </div>
-          <div class="text-center px-3 py-1 bg-slate-100 rounded-xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">Time</span>
-            <span id="match-timer" class="text-base font-bold text-slate-700">00:00</span>
-          </div>
-          <button onclick="initMatchGame()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl font-semibold text-sm transition">
-            Restart
+        </div>
+
+        <!-- 4 Multiple Choice Options -->
+        <div class="options-grid" id="options-grid"></div>
+
+        <!-- Explanation / Feedback -->
+        <div class="feedback-box" id="feedback-box"></div>
+
+        <!-- Next Button -->
+        <div class="quiz-next-footer">
+          <button class="btn btn-primary" id="next-q-btn" onclick="nextQuestion()" style="display:none;">
+            Next Question →
           </button>
         </div>
       </div>
 
-      <!-- Matching Tiles Grid -->
-      <div id="matching-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        <!-- Cards will be dynamically injected here -->
-      </div>
-
-      <!-- Victory Banner Modal for Matching -->
-      <div id="match-victory" class="hidden bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 text-white text-center shadow-xl space-y-3">
-        <div class="inline-flex p-3 rounded-full bg-white/20 text-3xl">🎉</div>
-        <h3 class="text-2xl font-black">All Matched! Great Job!</h3>
-        <p id="match-victory-summary" class="text-emerald-50 text-sm max-w-md mx-auto">
-          You conquered all 5 vocabulary words in 24 seconds with 0 mismatches.
-        </p>
-        <button onclick="initMatchGame()" class="px-6 py-2.5 bg-white text-emerald-800 font-bold rounded-xl shadow hover:bg-emerald-50 transition transform active:scale-95 text-sm">
-          Play Again
-        </button>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 3: QUIZ PRACTICE MODE
-         ========================================== -->
-    <section id="section-quiz" class="hidden space-y-5 max-w-2xl mx-auto">
-      
-      <!-- Practice Test Selector Navigation -->
-      <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-        <div class="flex items-center justify-between px-1">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Select Practice Test</span>
-          <span id="quiz-test-status" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full">10 Questions</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <button id="test-tab-1" onclick="selectPracticeTest(1)" class="quiz-tab-btn p-3 rounded-xl border-2 text-left transition-all bg-indigo-50/80 border-indigo-600 shadow-sm">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-indigo-900">Practice Test 1</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-200/60 text-indigo-800">Test 1</span>
-            </div>
-            <p class="text-[11px] text-slate-600 font-medium mt-1">Word ➔ Definition</p>
-            <span class="text-[10px] text-slate-400 block mt-0.5">Match term to meaning</span>
-          </button>
-
-          <button id="test-tab-2" onclick="selectPracticeTest(2)" class="quiz-tab-btn p-3 rounded-xl border-2 text-left transition-all bg-white border-slate-200 hover:border-slate-300">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-slate-800">Practice Test 2</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">Test 2</span>
-            </div>
-            <p class="text-[11px] text-slate-600 font-medium mt-1">Definition ➔ Word</p>
-            <span class="text-[10px] text-slate-400 block mt-0.5">Identify term from definition</span>
-          </button>
-
-          <button id="test-tab-3" onclick="selectPracticeTest(3)" class="quiz-tab-btn p-3 rounded-xl border-2 text-left transition-all bg-white border-slate-200 hover:border-slate-300">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-slate-800">Practice Test 3</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">Test 3</span>
-            </div>
-            <p class="text-[11px] text-slate-600 font-medium mt-1">Mixed Mastery</p>
-            <span class="text-[10px] text-slate-400 block mt-0.5">50/50 dual direction challenge</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <span id="quiz-question-counter" class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Question 1 of 10</span>
-          <h2 id="quiz-active-title" class="text-base sm:text-lg font-bold text-slate-900 mt-0.5">Practice Test 1: Word ➔ Definition</h2>
-        </div>
-        <div class="text-right">
-          <span class="text-xs text-slate-400 font-semibold block">Score</span>
-          <span id="quiz-live-score" class="text-base font-extrabold text-emerald-600">0 pts</span>
-        </div>
-      </div>
-
-      <!-- Quiz Card Area -->
-      <div id="quiz-box" class="bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-sm space-y-5">
-        <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <span id="quiz-type-badge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
-              Word ➔ Definition
-            </span>
+      <!-- Quiz Results Card (Hidden Initially) -->
+      <div class="quiz-container" id="quiz-results" style="display:none;">
+        <div class="quiz-results-card">
+          <div class="trophy-badge" id="results-icon">🎉</div>
+          <div class="quiz-score-big" id="results-score">10 / 10</div>
+          <div class="quiz-score-sub" id="results-msg">Awesome job, Eli! You got every question right!</div>
+          <div class="results-actions">
+            <button class="btn btn-primary" onclick="restartCurrentTest()">🔄 Retake This Test</button>
+            <button class="btn" onclick="advanceNextTest()">Try Next Test ➔</button>
           </div>
-          <p id="quiz-prompt" class="text-lg sm:text-xl font-bold text-slate-800 leading-snug">
-            Loading question...
-          </p>
-          <p id="quiz-subtext" class="text-xs text-slate-400">
-            Select the matching choice below (all multiple choice):
-          </p>
-        </div>
-
-        <div id="quiz-options" class="space-y-2.5">
-          <!-- Dynamic options rendered here -->
-        </div>
-
-        <!-- Feedback Drawer -->
-        <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-sm transition-all duration-300">
-          <div class="flex items-start gap-3">
-            <span id="quiz-feedback-icon" class="text-xl">✅</span>
-            <div class="space-y-1">
-              <p id="quiz-feedback-title" class="font-bold text-slate-900">Correct!</p>
-              <p id="quiz-feedback-explanation" class="text-slate-600 text-xs leading-relaxed"></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between pt-2">
-          <button onclick="restartCurrentTest()" class="text-xs font-semibold text-slate-400 hover:text-slate-600 transition">
-            ↺ Restart This Test
-          </button>
-          <button id="quiz-next-btn" onclick="handleQuizNext()" class="hidden px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition shadow-md shadow-indigo-100 flex items-center gap-2">
-            Next Question
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Quiz Completed Screen -->
-      <div id="quiz-summary" class="hidden bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 text-center space-y-6 shadow-sm">
-        <div class="w-20 h-20 mx-auto rounded-full bg-indigo-50 flex items-center justify-center text-4xl shadow-inner">
-          🏆
-        </div>
-        <div class="space-y-1">
-          <h3 id="quiz-summary-heading" class="text-2xl font-black text-slate-900">Practice Test Completed!</h3>
-          <p id="quiz-summary-msg" class="text-sm text-slate-500">Here is your multiple-choice test performance.</p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 max-w-xs mx-auto">
-          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-            <span class="text-xs text-slate-400 font-semibold block">Score</span>
-            <span id="quiz-final-score" class="text-xl font-extrabold text-indigo-600">10 / 10</span>
-          </div>
-          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-            <span class="text-xs text-slate-400 font-semibold block">Accuracy</span>
-            <span id="quiz-final-pct" class="text-xl font-extrabold text-emerald-600">100%</span>
-          </div>
-        </div>
-
-        <div id="quiz-review-list" class="text-left space-y-2 max-h-60 overflow-y-auto pr-1">
-          <!-- Recap items -->
-        </div>
-
-        <div class="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-          <button onclick="restartCurrentTest()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow transition">
-            Retake Current Test
-          </button>
-          <button id="quiz-next-test-btn" onclick="goToNextTest()" class="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow transition">
-            Try Next Practice Test →
-          </button>
-          <button onclick="switchTab('flashcards')" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm transition">
-            Back to Cards
-          </button>
         </div>
       </div>
     </section>
 
-    <!-- ==========================================
-         SECTION 4: ALL WORDS STUDY LIST
-         ========================================== -->
-    <section id="section-list" class="hidden space-y-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-xl font-bold text-slate-900">Complete Study List</h2>
-          <p class="text-xs text-slate-500">Transcribed from your study cards with definitions, parts of speech, and notes.</p>
-        </div>
-        <button onclick="openAddWordModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Add Word
-        </button>
+    <!-- SECTION 3: MATCH GAME -->
+    <section id="match" class="section-panel">
+      <div class="section-header">
+        <h2>Learn Matching Game</h2>
+        <p>Click a word and match it with its correct definition. Clear all 10 pairs!</p>
       </div>
 
-      <div id="words-dictionary-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Dynamically rendered word cards -->
+      <div class="game-stats">
+        <div class="stat-pill">⏱️ Time: <span id="game-timer">00:00</span></div>
+        <div class="stat-pill">🎯 Matches: <span id="game-matches">0</span> / 10</div>
+        <button class="btn" style="padding:0.4rem 1rem;" onclick="initMatchGame()">🔄 Reset</button>
       </div>
+
+      <div class="match-grid" id="match-grid"></div>
     </section>
 
+    <!-- SECTION 4: WORD LIST / REFERENCE -->
+    <section id="list" class="section-panel">
+      <div class="section-header">
+        <h2>10 Study Words</h2>
+        <p>Quick dictionary reference with definitions and flashcard notes.</p>
+      </div>
+
+      <div class="word-grid" id="word-grid-container"></div>
+    </section>
   </main>
 
-  <!-- Add Word Modal -->
-  <div id="add-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200">
-      <div class="flex items-center justify-between">
-        <h3 class="text-lg font-bold text-slate-900">Add New Vocabulary Card</h3>
-        <button onclick="closeAddWordModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <form id="add-word-form" onsubmit="handleAddWord(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">Word</label>
-          <input id="input-word" type="text" required placeholder="e.g., Omnivore" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">Part of Speech</label>
-            <select id="input-pos" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <option value="Noun">Noun (N)</option>
-              <option value="Verb">Verb (V)</option>
-              <option value="Adjective">Adjective (adj)</option>
-              <option value="Adverb">Adverb</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">Phonetic (optional)</label>
-            <input id="input-phonetic" type="text" placeholder="/ ... /" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">Definition</label>
-          <textarea id="input-def" required rows="2" placeholder="What does this word mean?" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">Example Sentence</label>
-          <input id="input-example" type="text" placeholder="Use it in a sentence..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeAddWordModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
-          <button type="submit" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow transition">Save Card</button>
-        </div>
-      </form>
+  <!-- MATCH GAME WIN MODAL -->
+  <div class="modal-overlay" id="win-modal">
+    <div class="modal-content">
+      <div style="font-size:4rem; margin-bottom:0.5rem;">🏆</div>
+      <h2 style="font-family:'Fredoka', cursive; font-size:2rem; color:var(--primary);">Super Job, Eli!</h2>
+      <p style="margin: 0.75rem 0 1.5rem; color:var(--text-muted); font-size:1.1rem;" id="win-time-text">
+        You cleared the matching board in 45 seconds!
+      </p>
+      <button class="btn btn-primary" onclick="closeWinModal()">Play Again 🔄</button>
     </div>
-  </div>
-
-  <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-xs font-semibold">
-    <span id="toast-icon">✨</span>
-    <span id="toast-text">Message here</span>
   </div>
 
   <script>
-    // ==========================================
-    // 1. DATA INITIALIZATION FROM FLASHCARDS
-    // ==========================================
-    const DEFAULT_WORDS = [
+    /* ==========================================================
+       DATA: 10 Words from handwritten flashcards
+       ========================================================== */
+    const VOCABULARY = [
       {
-        id: "w1",
+        id: "satiate",
         word: "Satiate",
-        pos: "Verb",
-        phonetic: "/ ˈseɪ.ʃi.eɪt /",
-        definition: "To satisfy a desire or hunger completely (leaving no hunger or need).",
-        handwrittenNotes: "TO satisfy a disire food (no hunger ok)",
-        example: "A hearty bowl of vegetable soup was enough to satiate our hunger after practice.",
-        hint: "Starts with S; means feeling completely satisfied after eating.",
-        mastered: false
+        pos: "verb",
+        def: "To satisfy a hunger or desire completely.",
+        example: "The glass of lemonade helped satiated my thirst.",
+        notes: "To satisfy a desire food / no hunger ok."
       },
       {
-        id: "w2",
-        word: "Nutrient",
-        pos: "Noun",
-        phonetic: "/ ˈnjuː.tri.ənt /",
-        definition: "Something that supports and helps growth or development, especially found in food.",
-        handwrittenNotes: "N Something that supports and helps growth or development especially in food",
-        example: "My parents read food labels to find foods rich in nutrients.",
-        hint: "Healthy vitamins and minerals that help your body grow.",
-        mastered: false
-      },
-      {
-        id: "w3",
-        word: "Insipid",
-        pos: "Adjective",
-        phonetic: "/ ɪnˈsɪp.ɪd /",
-        definition: "1. Without flavor or taste; bland. 2. Not having interest or excitement.",
-        handwrittenNotes: "adj without flavor or taste. adj not having interest",
-        example: "The pizza at the restaurant was insipid, with no cheese or herbs to add flavor.",
-        hint: "Opposite of delicious or flavorful; dull or plain.",
-        mastered: false
-      },
-      {
-        id: "w4",
-        word: "Herbivores",
-        pos: "Noun",
-        phonetic: "/ ˈhɜː.bɪ.vɔːz /",
-        definition: "Animals that eat mostly plants and plant products.",
-        handwrittenNotes: "N An animal that eats mostly plants. Cows eat plant products.",
-        example: "Cows, deer, and rabbits are herbivores because they feed entirely on plant products.",
-        hint: "Animals whose diet consists of green plants and grass.",
-        mastered: false
-      },
-      {
-        id: "w5",
-        word: "Nourish",
-        pos: "Verb",
-        phonetic: "/ ˈnʌr.ɪʃ /",
-        definition: "1. To give food or other things that are needed for life. 2. To support and help growth or development.",
-        handwrittenNotes: "V 1. to give food or other things that are needed for life. 2. to support and help the growth or development.",
-        example: "My friends and I nourish our friendship by listening to each other.",
-        hint: "To feed, cherish, or help something grow strongly.",
-        mastered: false
-      },
-      {
-        id: "w6",
-        word: "Savory",
-        pos: "Adjective",
-        phonetic: "/ ˈseɪ.vər.i /",
-        definition: "Agreeable in taste or smell; appetizing, rich, or delightfully flavorful.",
-        handwrittenNotes: "Adj agreeable in tast or smell; appetizing",
-        example: "I smelled the savory pasta bubbling on the stove.",
-        hint: "Pleasing aroma or flavor, often savory rather than sweet.",
-        mastered: false
-      },
-      {
-        id: "w7",
+        id: "satiated",
         word: "Satiated",
-        pos: "Verb",
-        phonetic: "/ ˈseɪ.ʃi.eɪ.tɪd /",
-        definition: "To satisfy a hunger or desire completely; filled to full satisfaction.",
-        handwrittenNotes: "V TO satisfy a hunger or desire completely.",
-        example: "The glass of lemonade helped satiate my thirst after the race.",
-        hint: "Completely satisfied and no longer thirsty or hungry.",
-        mastered: false
+        pos: "verb / adj.",
+        def: "Completely satisfied and full after eating or fulfilling a desire.",
+        example: "After the Thanksgiving dinner, we felt completely satiated.",
+        notes: "Past tense form of satiate (hunger satisfied)."
       },
       {
-        id: "w8",
-        word: "Voracious",
-        pos: "Adjective",
-        phonetic: "/ vəˈreɪ.ʃəs /",
-        definition: "1. Eating or wanting large amounts of food. 2. Having an eager, unquenchable desire for an activity.",
-        handwrittenNotes: "adj eating or wanting larg amounts of food. adj not able to be satisfied in some activity.",
-        example: "I am a voracious reader of history books and finish several a week.",
-        hint: "Having an insatiable appetite for food, knowledge, or reading.",
-        mastered: false
-      },
-      {
-        id: "w9",
-        word: "Carnivores",
-        pos: "Noun",
-        phonetic: "/ ˈkɑːr.nɪ.vɔːrz /",
-        definition: "Animals that eat mostly meat and the flesh of other animals.",
-        handwrittenNotes: "N An animal that eats mostly meat.",
-        example: "The lion ate the raw steak because lions are apex carnivores.",
-        hint: "Meat-eating creatures such as lions, wolves, and eagles.",
-        mastered: false
-      },
-      {
-        id: "w10",
+        id: "insatiable",
         word: "Insatiable",
-        pos: "Adjective",
-        phonetic: "/ ɪnˈseɪ.ʃə.bəl /",
-        definition: "Not able to be satisfied; impossible to fulfill, pacify, or quench.",
-        handwrittenNotes: "adj not able be satisfied",
+        pos: "adj.",
+        def: "Not able to be satisfied; impossible to fulfill.",
         example: "We feed our puppy often because she has an insatiable appetite.",
-        hint: "Describing a hunger or longing that can never be completely filled.",
-        mastered: false
+        notes: "Opposite of satiable; never gets full."
+      },
+      {
+        id: "insipid",
+        word: "Insipid",
+        pos: "adj.",
+        def: "Without flavor or taste; bland; not having interest.",
+        example: "The pizza at the restaurant was insipid.",
+        notes: "Lacking flavor or excitement."
+      },
+      {
+        id: "savory",
+        word: "Savory",
+        pos: "adj.",
+        def: "Agreeable in taste or smell; appetizing and flavorful (salty/spicy, not sweet).",
+        example: "I smelled the savory pasta cooking on the stove.",
+        notes: "Pleasing aroma and rich taste."
+      },
+      {
+        id: "nourish",
+        word: "Nourish",
+        pos: "verb",
+        def: "To give food or other things needed for life; to support growth and development.",
+        example: "My friends and I nourish our friendship by listening to each other.",
+        notes: "Feed and help grow."
+      },
+      {
+        id: "nutrient",
+        word: "Nutrient",
+        pos: "noun",
+        def: "Something that supports and helps growth or development, especially in food.",
+        example: "My parents read food labels to find foods rich in nutrients.",
+        notes: "Substance needed to grow strong and healthy."
+      },
+      {
+        id: "voracious",
+        word: "Voracious",
+        pos: "adj.",
+        def: "Eating or wanting large amounts of food; not able to be satisfied in an activity.",
+        example: "I am a voracious reader of history books.",
+        notes: "Having a huge appetite for food or knowledge."
+      },
+      {
+        id: "herbivores",
+        word: "Herbivores",
+        pos: "noun",
+        def: "An animal that eats mostly plants.",
+        example: "Cows eat plant products because they are herbivores.",
+        notes: "Plant-eaters."
+      },
+      {
+        id: "carnivores",
+        word: "Carnivores",
+        pos: "noun",
+        def: "An animal that eats mostly meat.",
+        example: "The lion ate the raw steak because lions are carnivores.",
+        notes: "Meat-eaters."
       }
     ];
 
-    // App state with automatic migration for the expanded 10-word set
-    let words = JSON.parse(localStorage.getItem('vocab_words_set_v2')) || DEFAULT_WORDS;
-    if (!localStorage.getItem('vocab_words_set_v2')) {
-      localStorage.setItem('vocab_words_set_v2', JSON.stringify(DEFAULT_WORDS));
-      words = DEFAULT_WORDS;
-    }
-    let currentCardIndex = 0;
-    let isFlipped = false;
-    let audioEnabled = true;
+    /* ==========================================================
+       SECTION TAB NAVIGATION
+       ========================================================== */
+    function switchSection(sectionId, btnElement) {
+      document.querySelectorAll('.section-panel').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-    let synth = null;
+      document.getElementById(sectionId).classList.add('active');
+      btnElement.classList.add('active');
 
-    function initAudioContext() {
-      if (!synth && window.Tone) {
-        try {
-          synth = new Tone.PolySynth(Tone.Synth, {
-            oscillator: { type: 'sine' },
-            envelope: { attack: 0.01, decay: 0.15, sustain: 0.1, release: 0.2 }
-          }).toDestination();
-          synth.volume.value = -8;
-        } catch (e) {
-          console.log("Tone.js audio initialized on gesture");
-        }
-      }
-    }
-
-    function playTone(type) {
-      if (!audioEnabled) return;
-      try {
-        if (!synth) initAudioContext();
-        if (Tone.context.state !== 'running') {
-          Tone.start();
-        }
-        if (type === 'flip') {
-          synth.triggerAttackRelease(['G4'], '32n', undefined, 0.2);
-        } else if (type === 'correct') {
-          synth.triggerAttackRelease(['C5', 'E5', 'G5'], '16n');
-        } else if (type === 'wrong') {
-          synth.triggerAttackRelease(['C3', 'B2'], '8n', undefined, 0.4);
-        } else if (type === 'fanfare') {
-          const now = Tone.now();
-          synth.triggerAttackRelease('C4', '8n', now);
-          synth.triggerAttackRelease('E4', '8n', now + 0.1);
-          synth.triggerAttackRelease('G4', '8n', now + 0.2);
-          synth.triggerAttackRelease('C5', '4n', now + 0.3);
-        }
-      } catch (err) {
-        // Fallback gracefully
-      }
-    }
-
-    function toggleAudio() {
-      audioEnabled = !audioEnabled;
-      document.getElementById('sound-icon-on').classList.toggle('hidden', !audioEnabled);
-      document.getElementById('sound-icon-off').classList.toggle('hidden', audioEnabled);
-      showToast(audioEnabled ? 'Sound Effects Enabled 🔊' : 'Sound Muted 🔇');
-    }
-
-    function speakWord(customWord = null) {
-      const target = customWord || words[currentCardIndex].word;
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(target);
-        utterance.rate = 0.9;
-        utterance.pitch = 1.0;
-        window.speechSynthesis.speak(utterance);
-      } else {
-        showToast('Speech synthesis not supported on this browser');
-      }
-    }
-
-    function switchTab(tab) {
-      const tabs = ['flashcards', 'matching', 'quiz', 'list'];
-      tabs.forEach(t => {
-        document.getElementById(`section-${t}`).classList.add('hidden');
-        const btn = document.getElementById(`nav-${t}`);
-        btn.className = "tab-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all font-medium";
-      });
-
-      document.getElementById(`section-${tab}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`nav-${tab}`);
-      activeBtn.className = "tab-btn px-3 py-1.5 rounded-lg text-indigo-700 bg-white shadow-sm font-semibold transition-all";
-
-      if (tab === 'matching') {
+      if (sectionId === 'match') {
         initMatchGame();
-      } else if (tab === 'quiz') {
-        startQuiz();
-      } else if (tab === 'list') {
-        renderWordList();
       }
     }
 
-    // ==========================================
-    // 2. FLASHCARD LOGIC
-    // ==========================================
-    function renderFlashcard() {
-      if (words.length === 0) return;
-      const card = words[currentCardIndex];
-      const cardEl = document.getElementById('flashcard-element');
+    /* ==========================================================
+       FLASHCARDS LOGIC
+       ========================================================== */
+    let currentFcIndex = 0;
+    let cardDeck = [...VOCABULARY];
 
-      // Reset flip state smoothly
-      if (isFlipped) {
-        cardEl.classList.remove('rotate-y-180');
-        isFlipped = false;
-      }
+    function updateFlashcardUI() {
+      const card = cardDeck[currentFcIndex];
+      const fcElem = document.getElementById('flashcard');
+      fcElem.classList.remove('flipped');
 
-      // Populate Front
-      document.getElementById('card-word').textContent = card.word;
-      document.getElementById('card-pos-front').textContent = card.pos;
-      document.getElementById('card-phonetic').textContent = card.phonetic || '/ pronunciation /';
-
-      // Populate Back
-      document.getElementById('card-word-mini').textContent = card.word;
-      document.getElementById('card-pos-back').textContent = card.pos;
-      document.getElementById('card-definition').textContent = card.definition;
-      document.getElementById('card-notes').textContent = `"${card.handwrittenNotes}"`;
-      document.getElementById('card-example').textContent = `"${card.example}"`;
-
-      // Update counters & progress
-      const progressPct = ((currentCardIndex + 1) / words.length) * 100;
-      document.getElementById('flashcard-progress-bar').style.width = `${progressPct}%`;
-      document.getElementById('flashcard-counter').textContent = `${currentCardIndex + 1} / ${words.length}`;
-
-      // Update Mastery Button style
-      updateMasteryBtnUI(card.mastered);
+      document.getElementById('fc-word').textContent = card.word;
+      document.getElementById('fc-pos').textContent = card.pos;
+      document.getElementById('fc-type').textContent = card.pos;
+      document.getElementById('fc-def').textContent = card.def;
+      document.getElementById('fc-example').textContent = `"${card.example}"`;
+      document.getElementById('fc-counter').textContent = `Card ${currentFcIndex + 1} of ${cardDeck.length}`;
     }
 
     function flipCard() {
-      const cardEl = document.getElementById('flashcard-element');
-      isFlipped = !isFlipped;
-      if (isFlipped) {
-        cardEl.classList.add('rotate-y-180');
-      } else {
-        cardEl.classList.remove('rotate-y-180');
-      }
-      playTone('flip');
+      document.getElementById('flashcard').classList.toggle('flipped');
     }
 
     function nextCard() {
-      if (currentCardIndex < words.length - 1) {
-        currentCardIndex++;
-      } else {
-        currentCardIndex = 0; // loop
-      }
-      renderFlashcard();
+      currentFcIndex = (currentFcIndex + 1) % cardDeck.length;
+      updateFlashcardUI();
     }
 
     function prevCard() {
-      if (currentCardIndex > 0) {
-        currentCardIndex--;
-      } else {
-        currentCardIndex = words.length - 1;
-      }
-      renderFlashcard();
+      currentFcIndex = (currentFcIndex - 1 + cardDeck.length) % cardDeck.length;
+      updateFlashcardUI();
     }
 
     function shuffleCards() {
-      for (let i = words.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [words[i], words[j]] = [words[j], words[i]];
-      }
-      currentCardIndex = 0;
-      renderFlashcard();
-      showToast('Cards shuffled! 🔀');
+      cardDeck = [...cardDeck].sort(() => Math.random() - 0.5);
+      currentFcIndex = 0;
+      updateFlashcardUI();
     }
 
-    function toggleCurrentMastery() {
-      words[currentCardIndex].mastered = !words[currentCardIndex].mastered;
-      saveWordsToStorage();
-      updateMasteryBtnUI(words[currentCardIndex].mastered);
-      showToast(words[currentCardIndex].mastered ? 'Marked as Learned! ⭐' : 'Saved for review');
-    }
-
-    function updateMasteryBtnUI(isMastered) {
-      const btn = document.getElementById('mastery-toggle-btn');
-      const label = document.getElementById('mastery-label');
-      if (isMastered) {
-        btn.className = "px-3 py-1.5 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-emerald-300 bg-emerald-50 text-emerald-700";
-        label.textContent = "Learned ✓";
-      } else {
-        btn.className = "px-3 py-1.5 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100";
-        label.textContent = "Mark as Learned";
-      }
-    }
-
-    // Keyboard support for flashcards
+    // Keyboard navigation for flashcards
     window.addEventListener('keydown', (e) => {
-      const activeSection = document.getElementById('section-flashcards');
-      if (activeSection.classList.contains('hidden')) return;
-
-      if (e.code === 'Space') {
-        e.preventDefault();
-        flipCard();
-      } else if (e.code === 'ArrowRight') {
-        nextCard();
-      } else if (e.code === 'ArrowLeft') {
-        prevCard();
+      const fcSection = document.getElementById('flashcards');
+      if (fcSection.classList.contains('active')) {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          flipCard();
+        } else if (e.code === 'ArrowRight') {
+          nextCard();
+        } else if (e.code === 'ArrowLeft') {
+          prevCard();
+        }
       }
     });
 
-    // ==========================================
-    // 3. VOCABULARY MATCHING GAME LOGIC
-    // ==========================================
-    let matchDeck = [];
-    let selectedFirst = null;
-    let selectedSecond = null;
-    let matchesFound = 0;
-    let matchTimerInterval = null;
-    let matchSeconds = 0;
-    let isMatchingProcessing = false;
-
-    function initMatchGame() {
-      clearInterval(matchTimerInterval);
-      matchSeconds = 0;
-      matchesFound = 0;
-      selectedFirst = null;
-      selectedSecond = null;
-      isMatchingProcessing = false;
-      document.getElementById('match-score').textContent = `0 / ${words.length}`;
-      document.getElementById('match-timer').textContent = '00:00';
-      document.getElementById('match-victory').classList.add('hidden');
-
-      // Create tiles: one tile for Word, one tile for Definition
-      matchDeck = [];
-      words.forEach(w => {
-        matchDeck.push({
-          id: `${w.id}-w`,
-          pairId: w.id,
-          type: 'word',
-          text: w.word,
-          pos: w.pos
-        });
-        matchDeck.push({
-          id: `${w.id}-d`,
-          pairId: w.id,
-          type: 'def',
-          text: w.definition,
-          pos: w.pos
-        });
-      });
-
-      // Shuffle deck
-      matchDeck.sort(() => Math.random() - 0.5);
-
-      const grid = document.getElementById('matching-grid');
-      grid.innerHTML = '';
-
-      matchDeck.forEach(tile => {
-        const card = document.createElement('div');
-        card.id = `tile-${tile.id}`;
-        card.dataset.id = tile.id;
-        card.dataset.pairId = tile.pairId;
-        card.dataset.type = tile.type;
-        card.onclick = () => handleTileClick(tile, card);
-
-        const isWordType = tile.type === 'word';
-        card.className = `min-h-[110px] sm:min-h-[125px] p-4 rounded-2xl cursor-pointer border-2 transition-all duration-200 flex flex-col justify-between select-none shadow-sm ${
-          isWordType 
-            ? 'bg-white border-slate-200 hover:border-indigo-400 hover:shadow-md' 
-            : 'bg-indigo-50/70 border-indigo-100 hover:border-indigo-300'
-        }`;
-
-        card.innerHTML = `
-          <div class="flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase">
-            <span>${isWordType ? 'Term' : 'Meaning'}</span>
-            <span class="text-indigo-500">${tile.pos || ''}</span>
-          </div>
-          <div class="my-auto ${isWordType ? 'text-lg sm:text-xl font-extrabold text-slate-800' : 'text-xs sm:text-sm font-medium text-slate-700 leading-snug'}">
-            ${tile.text}
-          </div>
-          <div class="text-[10px] text-slate-400 font-semibold text-right">Tap to pair</div>
-        `;
-
-        grid.appendChild(card);
-      });
-
-      // Start timer
-      matchTimerInterval = setInterval(() => {
-        matchSeconds++;
-        const mins = String(Math.floor(matchSeconds / 60)).padStart(2, '0');
-        const secs = String(matchSeconds % 60).padStart(2, '0');
-        document.getElementById('match-timer').textContent = `${mins}:${secs}`;
-      }, 1000);
+    // Speech Synthesis
+    function speakWord(event) {
+      event.stopPropagation();
+      const word = cardDeck[currentFcIndex].word;
+      const utter = new SpeechSynthesisUtterance(word);
+      utter.rate = 0.9;
+      window.speechSynthesis.speak(utter);
     }
 
-    function handleTileClick(tile, cardElement) {
-      if (isMatchingProcessing) return;
-      if (cardElement.classList.contains('matched-card')) return;
-      if (selectedFirst && selectedFirst.element === cardElement) return;
-
-      initAudioContext();
-
-      // Highlight selected tile
-      cardElement.classList.add('border-indigo-600', 'ring-2', 'ring-indigo-300', 'bg-indigo-50');
-
-      if (!selectedFirst) {
-        selectedFirst = { tile, element: cardElement };
-        playTone('flip');
-      } else {
-        selectedSecond = { tile, element: cardElement };
-        checkMatchPair();
-      }
+    function speakDefinition(event) {
+      event.stopPropagation();
+      const def = cardDeck[currentFcIndex].def;
+      const utter = new SpeechSynthesisUtterance(def);
+      utter.rate = 0.95;
+      window.speechSynthesis.speak(utter);
     }
 
-    function checkMatchPair() {
-      isMatchingProcessing = true;
-      const isMatch = selectedFirst.tile.pairId === selectedSecond.tile.pairId && selectedFirst.tile.type !== selectedSecond.tile.type;
+    /* ==========================================================
+       5 PRACTICE TESTS BUILDER (10 Questions Each, 100% Multiple Choice)
+       ========================================================== */
+    let currentTestNum = 1;
+    let currentQuestionIdx = 0;
+    let quizScore = 0;
+    let activeTestQuestions = [];
+    let answered = false;
 
-      if (isMatch) {
-        playTone('correct');
-        matchesFound++;
-        document.getElementById('match-score').textContent = `${matchesFound} / ${words.length}`;
+    // Helper: generate 3 distractors from the remaining 9 words
+    function getDistractors(correctItem, keyToPick) {
+      const others = VOCABULARY.filter(item => item.id !== correctItem.id);
+      const shuffledOthers = [...others].sort(() => Math.random() - 0.5);
+      return shuffledOthers.slice(0, 3).map(item => item[keyToPick]);
+    }
 
-        // Highlight success
-        [selectedFirst.element, selectedSecond.element].forEach(el => {
-          el.className = "min-h-[110px] sm:min-h-[125px] p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-800 flex flex-col justify-between opacity-70 pointer-events-none matched-card transition-all";
-          el.innerHTML += `<div class="text-center font-bold text-xs text-emerald-600">✓ Matched</div>`;
-        });
+    // Generate 10-Question Test according to test type
+    function buildTest(testNum) {
+      const items = [...VOCABULARY].sort(() => Math.random() - 0.5);
+      const questions = [];
 
-        resetSelection();
-        isMatchingProcessing = false;
+      items.forEach((item, index) => {
+        let type; // 'word-to-def' or 'def-to-word'
 
-        // Check for victory
-        if (matchesFound === words.length) {
-          clearInterval(matchTimerInterval);
-          playTone('fanfare');
-          triggerConfetti();
-          const vic = document.getElementById('match-victory');
-          const vicSummary = document.getElementById('match-victory-summary');
-          const mins = Math.floor(matchSeconds / 60);
-          const secs = matchSeconds % 60;
-          vicSummary.textContent = `Brilliant! You matched all ${words.length} terms in ${mins > 0 ? mins + 'm ' : ''}${secs} seconds!`;
-          vic.classList.remove('hidden');
+        if (testNum === 1) {
+          type = 'word-to-def'; // Test 1: All Word ➔ Definition
+        } else if (testNum === 2) {
+          type = 'def-to-word'; // Test 2: All Definition ➔ Word
+        } else if (testNum === 3) {
+          // Test 3: Alternating A (Even = word->def, Odd = def->word)
+          type = (index % 2 === 0) ? 'word-to-def' : 'def-to-word';
+        } else if (testNum === 4) {
+          // Test 4: Alternating B (Even = def->word, Odd = word->def)
+          type = (index % 2 === 0) ? 'def-to-word' : 'word-to-def';
+        } else {
+          // Test 5: Randomized Mastery Sprint
+          type = Math.random() > 0.5 ? 'word-to-def' : 'def-to-word';
         }
 
-      } else {
-        // Mismatch
-        playTone('wrong');
-        [selectedFirst.element, selectedSecond.element].forEach(el => {
-          el.classList.add('shake-error', 'border-rose-400', 'bg-rose-50');
-        });
-
-        setTimeout(() => {
-          [selectedFirst.element, selectedSecond.element].forEach(el => {
-            el.classList.remove('shake-error', 'border-rose-400', 'bg-rose-50', 'border-indigo-600', 'ring-2', 'ring-indigo-300');
-            if (el.dataset.type === 'word') {
-              el.classList.add('bg-white', 'border-slate-200');
-            } else {
-              el.classList.add('bg-indigo-50/70', 'border-indigo-100');
-            }
+        if (type === 'word-to-def') {
+          const distractors = getDistractors(item, 'def');
+          const options = [item.def, ...distractors].sort(() => Math.random() - 0.5);
+          questions.push({
+            type: 'word-to-def',
+            word: item.word,
+            def: item.def,
+            pos: item.pos,
+            questionPrompt: `What is the correct definition for <span class="highlight-word">${item.word}</span>?`,
+            label: "Word ➔ Definition",
+            correctAnswer: item.def,
+            options: options
           });
-          resetSelection();
-          isMatchingProcessing = false;
-        }, 700);
-      }
-    }
+        } else {
+          const distractors = getDistractors(item, 'word');
+          const options = [item.word, ...distractors].sort(() => Math.random() - 0.5);
+          questions.push({
+            type: 'def-to-word',
+            word: item.word,
+            def: item.def,
+            pos: item.pos,
+            questionPrompt: `Which vocabulary word matches this definition?<br><div style="font-weight:700; color:var(--primary-dark); margin-top:8px;">"${item.def}"</div>`,
+            label: "Definition ➔ Word",
+            correctAnswer: item.word,
+            options: options
+          });
+        }
+      });
 
-    function resetSelection() {
-      selectedFirst = null;
-      selectedSecond = null;
+      return questions;
     }
-
-    // ==========================================
-    // 4. MULTIPLE-CHOICE PRACTICE TESTS LOGIC
-    // ==========================================
-    let currentTestId = 1;
-    let quizQuestions = [];
-    let currentQuizIndex = 0;
-    let quizScore = 0;
-    let quizAnswerSelected = false;
-    let quizHistory = [];
 
     const TEST_METADATA = {
       1: {
-        name: "Practice Test 1: Word ➔ Definition",
-        badge: "Word ➔ Definition",
-        description: "Match each vocabulary term to its correct definition"
+        title: "Practice Test 1: Word to Definition",
+        desc: "Match the given word with its exact definition out of 4 multiple-choice choices."
       },
       2: {
-        name: "Practice Test 2: Definition ➔ Word",
-        badge: "Definition ➔ Word",
-        description: "Read the definition and identify the vocabulary word"
+        title: "Practice Test 2: Definition to Word",
+        desc: "Read the definition and identify which vocabulary word it belongs to."
       },
       3: {
-        name: "Practice Test 3: Mixed Mastery",
-        badge: "Mixed Practice",
-        description: "50% Word-to-Definition and 50% Definition-to-Word matching"
+        title: "Practice Test 3: Mixed Challenge (A)",
+        desc: "A 50/50 mix testing both word-to-definition and definition-to-word matching."
+      },
+      4: {
+        title: "Practice Test 4: Mixed Challenge (B)",
+        desc: "An inverted challenge test matching both directions for thorough practice."
+      },
+      5: {
+        title: "Practice Test 5: Ultimate Mastery Sprint",
+        desc: "Shuffled, randomized matching quiz covering all 10 terms for final exam prep."
       }
     };
 
-    function selectPracticeTest(testId) {
-      currentTestId = testId;
-      [1, 2, 3].forEach(id => {
-        const tabBtn = document.getElementById(`test-tab-${id}`);
-        if (!tabBtn) return;
-        if (id === testId) {
-          tabBtn.className = "quiz-tab-btn p-3 rounded-xl border-2 text-left transition-all bg-indigo-50/80 border-indigo-600 shadow-sm";
-          const title = tabBtn.querySelector('span:first-child');
-          if (title) title.className = "text-xs font-extrabold text-indigo-900";
-        } else {
-          tabBtn.className = "quiz-tab-btn p-3 rounded-xl border-2 text-left transition-all bg-white border-slate-200 hover:border-slate-300";
-          const title = tabBtn.querySelector('span:first-child');
-          if (title) title.className = "text-xs font-extrabold text-slate-800";
-        }
-      });
+    function selectTest(num, btnElement) {
+      currentTestNum = num;
+      document.querySelectorAll('.test-tab-btn').forEach(btn => btn.classList.remove('active-test'));
+      if (btnElement) btnElement.classList.add('active-test');
 
-      document.getElementById('quiz-active-title').textContent = TEST_METADATA[testId].name;
-      startQuiz(testId);
-    }
+      const meta = TEST_METADATA[num];
+      document.getElementById('test-title-text').textContent = meta.title;
+      document.getElementById('test-desc-text').textContent = meta.desc;
 
-    function generateQuizQuestions(testId = 1) {
-      const qList = [];
-      const wordPool = [...words];
-
-      if (testId === 1) {
-        // ==========================================
-        // TEST 1: WORD ➔ DEFINITION (All 10 words)
-        // ==========================================
-        wordPool.forEach(w => {
-          // Get 3 distractor definitions
-          const otherDefs = wordPool
-            .filter(item => item.id !== w.id)
-            .map(item => item.definition);
-          shuffleArray(otherDefs);
-          const choices = [w.definition, otherDefs[0], otherDefs[1], otherDefs[2]];
-          shuffleArray(choices);
-
-          qList.push({
-            testId: 1,
-            direction: "word-to-def",
-            type: "Word ➔ Definition",
-            targetWord: w.word,
-            partOfSpeech: w.pos,
-            promptText: "What is the correct definition for this word?",
-            displaySnippet: `<span class="text-indigo-950 font-black text-2xl tracking-tight">${w.word}</span> <span class="ml-2 text-xs font-bold text-indigo-600 uppercase bg-indigo-100/80 px-2 py-0.5 rounded-full">${w.pos}</span>`,
-            correctAnswer: w.definition,
-            choices: choices,
-            explanation: `"${w.word}" (${w.pos}) means: ${w.definition}`,
-            wordRef: w
-          });
-        });
-
-      } else if (testId === 2) {
-        // ==========================================
-        // TEST 2: DEFINITION ➔ WORD (All 10 definitions)
-        // ==========================================
-        wordPool.forEach(w => {
-          // Get 3 distractor words
-          const otherWords = wordPool
-            .filter(item => item.id !== w.id)
-            .map(item => item.word);
-          shuffleArray(otherWords);
-          const choices = [w.word, otherWords[0], otherWords[1], otherWords[2]];
-          shuffleArray(choices);
-
-          qList.push({
-            testId: 2,
-            direction: "def-to-word",
-            type: "Definition ➔ Word",
-            targetWord: w.word,
-            partOfSpeech: w.pos,
-            promptText: "Which vocabulary word matches this definition?",
-            displaySnippet: `<div class="font-medium text-slate-800 text-base sm:text-lg leading-relaxed">"${w.definition}"</div>`,
-            correctAnswer: w.word,
-            choices: choices,
-            explanation: `"${w.definition}" is the definition for "${w.word}" (${w.pos}).`,
-            wordRef: w
-          });
-        });
-
-      } else if (testId === 3) {
-        // ==========================================
-        // TEST 3: MIXED MASTERY (5 Word➔Def + 5 Def➔Word)
-        // ==========================================
-        shuffleArray(wordPool);
-        wordPool.forEach((w, index) => {
-          const isWordToDef = index % 2 === 0;
-
-          if (isWordToDef) {
-            const otherDefs = words
-              .filter(item => item.id !== w.id)
-              .map(item => item.definition);
-            shuffleArray(otherDefs);
-            const choices = [w.definition, otherDefs[0], otherDefs[1], otherDefs[2]];
-            shuffleArray(choices);
-
-            qList.push({
-              testId: 3,
-              direction: "word-to-def",
-              type: "Word ➔ Definition",
-              targetWord: w.word,
-              partOfSpeech: w.pos,
-              promptText: "Select the correct definition for:",
-              displaySnippet: `<span class="text-indigo-950 font-black text-2xl tracking-tight">${w.word}</span> <span class="ml-2 text-xs font-bold text-indigo-600 uppercase bg-indigo-100/80 px-2 py-0.5 rounded-full">${w.pos}</span>`,
-              correctAnswer: w.definition,
-              choices: choices,
-              explanation: `"${w.word}" (${w.pos}) means: ${w.definition}`,
-              wordRef: w
-            });
-          } else {
-            const otherWords = words
-              .filter(item => item.id !== w.id)
-              .map(item => item.word);
-            shuffleArray(otherWords);
-            const choices = [w.word, otherWords[0], otherWords[1], otherWords[2]];
-            shuffleArray(choices);
-
-            qList.push({
-              testId: 3,
-              direction: "def-to-word",
-              type: "Definition ➔ Word",
-              targetWord: w.word,
-              partOfSpeech: w.pos,
-              promptText: "Which word matches this definition?",
-              displaySnippet: `<div class="font-medium text-slate-800 text-base sm:text-lg leading-relaxed">"${w.definition}"</div>`,
-              correctAnswer: w.word,
-              choices: choices,
-              explanation: `"${w.definition}" is the definition for "${w.word}".`,
-              wordRef: w
-            });
-          }
-        });
-      }
-
-      shuffleArray(qList);
-      return qList;
-    }
-
-    function startQuiz(testId = null) {
-      if (testId !== null) {
-        currentTestId = testId;
-      }
-      quizQuestions = generateQuizQuestions(currentTestId);
-      currentQuizIndex = 0;
-      quizScore = 0;
-      quizHistory = [];
-      quizAnswerSelected = false;
-
-      document.getElementById('quiz-box').classList.remove('hidden');
-      document.getElementById('quiz-summary').classList.add('hidden');
-      document.getElementById('quiz-live-score').textContent = '0 pts';
-
-      renderQuizQuestion();
+      restartCurrentTest();
     }
 
     function restartCurrentTest() {
-      startQuiz(currentTestId);
-      showToast(`Restarted ${TEST_METADATA[currentTestId].name} 🔄`);
+      currentQuestionIdx = 0;
+      quizScore = 0;
+      activeTestQuestions = buildTest(currentTestNum);
+      document.getElementById('quiz-box').style.display = 'block';
+      document.getElementById('quiz-results').style.display = 'none';
+      renderQuestion();
     }
 
-    function goToNextTest() {
-      const nextId = currentTestId < 3 ? currentTestId + 1 : 1;
-      selectPracticeTest(nextId);
-    }
+    function renderQuestion() {
+      answered = false;
+      const q = activeTestQuestions[currentQuestionIdx];
 
-    function renderQuizQuestion() {
-      quizAnswerSelected = false;
-      const q = quizQuestions[currentQuizIndex];
-
-      document.getElementById('quiz-question-counter').textContent = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
-      document.getElementById('quiz-type-badge').textContent = q.type;
-      document.getElementById('quiz-prompt').innerHTML = `
-        <span class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">${q.promptText}</span>
-        <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100/90 shadow-sm">
-          ${q.displaySnippet}
-        </div>
-      `;
-
-      const optionsBox = document.getElementById('quiz-options');
-      optionsBox.innerHTML = '';
-
-      const letters = ['A', 'B', 'C', 'D'];
-      q.choices.forEach((choice, idx) => {
-        const btn = document.createElement('button');
-        const isWordChoice = q.direction === 'def-to-word';
-        btn.className = `w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-slate-50 transition active:scale-[0.99] flex items-start gap-3 shadow-sm ${
-          isWordChoice ? 'font-bold text-base text-slate-800' : 'font-medium text-xs sm:text-sm text-slate-700 leading-relaxed'
-        }`;
-
-        btn.innerHTML = `
-          <span class="flex-shrink-0 w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center border border-slate-200">
-            ${letters[idx] || (idx + 1)}
-          </span>
-          <span class="flex-grow pt-0.5">${choice}</span>
-          <span class="choice-check flex-shrink-0 w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs text-transparent">✓</span>
-        `;
-        btn.onclick = () => selectQuizAnswer(choice, btn);
-        optionsBox.appendChild(btn);
-      });
+      // Progress bar & counters
+      const progressPercent = ((currentQuestionIdx + 1) / activeTestQuestions.length) * 100;
+      document.getElementById('quiz-progress').style.width = `${progressPercent}%`;
+      document.getElementById('quiz-counter').textContent = `Question ${currentQuestionIdx + 1} of ${activeTestQuestions.length}`;
+      document.getElementById('quiz-badge').textContent = q.label;
+      document.getElementById('quiz-prompt-label').textContent = q.type === 'word-to-def' ? 'Select Matching Definition:' : 'Select Matching Word:';
+      document.getElementById('quiz-question').innerHTML = q.questionPrompt;
 
       // Hide feedback & next button
-      document.getElementById('quiz-feedback').classList.add('hidden');
-      document.getElementById('quiz-next-btn').classList.add('hidden');
+      const fbBox = document.getElementById('feedback-box');
+      fbBox.className = 'feedback-box';
+      fbBox.style.display = 'none';
+      document.getElementById('next-q-btn').style.display = 'none';
+
+      // Render 4 options
+      const optContainer = document.getElementById('options-grid');
+      optContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.options.forEach((optText, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `
+          <span class="letter-indicator">${letters[i]}</span>
+          <span style="flex:1;">${optText}</span>
+        `;
+        btn.onclick = () => selectOption(btn, optText, q);
+        optContainer.appendChild(btn);
+      });
     }
 
-    function selectQuizAnswer(selectedChoice, selectedBtn) {
-      if (quizAnswerSelected) return;
-      quizAnswerSelected = true;
-      initAudioContext();
+    function selectOption(btnElement, chosenAnswer, questionObj) {
+      if (answered) return;
+      answered = true;
 
-      const q = quizQuestions[currentQuizIndex];
-      const isCorrect = selectedChoice === q.correctAnswer;
-      quizHistory.push({ question: q, userChoice: selectedChoice, correct: isCorrect });
+      const isCorrect = (chosenAnswer === questionObj.correctAnswer);
+      const allButtons = document.querySelectorAll('.option-btn');
+      allButtons.forEach(b => b.disabled = true);
 
-      const optionsBox = document.getElementById('quiz-options');
-      const allButtons = optionsBox.querySelectorAll('button');
-
-      allButtons.forEach(btn => {
-        btn.classList.add('pointer-events-none');
-        const optionText = btn.querySelector('span:nth-child(2)').textContent.trim();
-        const checkIcon = btn.querySelector('.choice-check');
-
-        if (optionText === q.correctAnswer) {
-          btn.className = btn.className.replace('border-slate-200 bg-white', 'border-emerald-500 bg-emerald-50 text-emerald-900');
-          if (checkIcon) {
-            checkIcon.className = "choice-check flex-shrink-0 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs";
-            checkIcon.textContent = "✓";
-          }
-        } else if (btn === selectedBtn && !isCorrect) {
-          btn.className = btn.className.replace('border-slate-200 bg-white', 'border-rose-500 bg-rose-50 text-rose-900');
-          if (checkIcon) {
-            checkIcon.className = "choice-check flex-shrink-0 w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs";
-            checkIcon.textContent = "✕";
-          }
-        }
-      });
-
-      const feedback = document.getElementById('quiz-feedback');
-      const feedbackTitle = document.getElementById('quiz-feedback-title');
-      const feedbackExpl = document.getElementById('quiz-feedback-explanation');
-      const feedbackIcon = document.getElementById('quiz-feedback-icon');
+      const fbBox = document.getElementById('feedback-box');
 
       if (isCorrect) {
-        quizScore += 10;
-        playTone('correct');
-        feedback.className = "p-4 rounded-2xl text-sm transition-all duration-300 bg-emerald-50 border border-emerald-200 text-emerald-900";
-        feedbackIcon.textContent = "🌟";
-        feedbackTitle.textContent = "Correct!";
+        quizScore++;
+        btnElement.classList.add('correct');
+        fbBox.className = 'feedback-box correct';
+        fbBox.innerHTML = `✨ <strong>Correct!</strong> <em>${questionObj.word}</em> (${questionObj.pos}): ${questionObj.def}`;
       } else {
-        playTone('wrong');
-        feedback.className = "p-4 rounded-2xl text-sm transition-all duration-300 bg-rose-50 border border-rose-200 text-rose-900";
-        feedbackIcon.textContent = "💡";
-        feedbackTitle.textContent = `Incorrect. The correct answer was: "${q.correctAnswer}"`;
+        btnElement.classList.add('wrong');
+        // highlight correct one
+        allButtons.forEach(b => {
+          if (b.innerText.includes(questionObj.correctAnswer)) {
+            b.classList.add('correct');
+          }
+        });
+        fbBox.className = 'feedback-box wrong';
+        fbBox.innerHTML = `❌ <strong>Not quite.</strong> The correct answer is: <strong>${questionObj.correctAnswer}</strong>.<br><span style="font-size:0.9rem; font-weight:600;"><em>${questionObj.word}</em> means: ${questionObj.def}</span>`;
       }
 
-      feedbackExpl.textContent = q.explanation;
-      feedback.classList.remove('hidden');
-
-      document.getElementById('quiz-live-score').textContent = `${quizScore} pts`;
-      document.getElementById('quiz-next-btn').classList.remove('hidden');
+      fbBox.style.display = 'block';
+      document.getElementById('next-q-btn').style.display = 'inline-flex';
     }
 
-    function handleQuizNext() {
-      if (currentQuizIndex < quizQuestions.length - 1) {
-        currentQuizIndex++;
-        renderQuizQuestion();
+    function nextQuestion() {
+      if (currentQuestionIdx < activeTestQuestions.length - 1) {
+        currentQuestionIdx++;
+        renderQuestion();
       } else {
-        finishQuiz();
+        showResults();
       }
     }
 
-    function finishQuiz() {
-      document.getElementById('quiz-box').classList.add('hidden');
-      const summaryBox = document.getElementById('quiz-summary');
-      summaryBox.classList.remove('hidden');
+    function showResults() {
+      document.getElementById('quiz-box').style.display = 'none';
+      const resContainer = document.getElementById('quiz-results');
+      resContainer.style.display = 'block';
 
-      const correctCount = quizHistory.filter(h => h.correct).length;
-      const pct = Math.round((correctCount / quizQuestions.length) * 100);
+      document.getElementById('results-score').textContent = `${quizScore} / 10`;
 
-      document.getElementById('quiz-summary-heading').textContent = `${TEST_METADATA[currentTestId].badge} Completed!`;
-      document.getElementById('quiz-final-score').textContent = `${correctCount} / ${quizQuestions.length}`;
-      document.getElementById('quiz-final-pct').textContent = `${pct}%`;
+      let icon = "🎉";
+      let msg = "";
 
-      const nextBtn = document.getElementById('quiz-next-test-btn');
-      if (nextBtn) {
-        const nextId = currentTestId < 3 ? currentTestId + 1 : 1;
-        nextBtn.textContent = `Try Test ${nextId} (${TEST_METADATA[nextId].badge}) →`;
-      }
-
-      if (pct >= 80) {
-        triggerConfetti();
-        playTone('fanfare');
-        document.getElementById('quiz-summary-msg').textContent = `Superb job! You scored ${pct}% on ${TEST_METADATA[currentTestId].name}.`;
+      if (quizScore === 10) {
+        icon = "🌟";
+        msg = "Flawless score, Eli! You completely mastered this practice test!";
+      } else if (quizScore >= 8) {
+        icon = "👏";
+        msg = "Great job, Eli! You have a solid grasp of these vocabulary words!";
+      } else if (quizScore >= 6) {
+        icon = "💪";
+        msg = "Good effort! Review the flashcards once more and retake to aim for a 10/10.";
       } else {
-        document.getElementById('quiz-summary-msg').textContent = `Good try! Review your missed terms below or retake this test to improve.`;
+        icon = "📚";
+        msg = "Keep practicing! Spend 5 minutes on the flashcards and match game, then try again!";
       }
 
-      // Populate review breakdown
-      const reviewContainer = document.getElementById('quiz-review-list');
-      reviewContainer.innerHTML = '';
-      quizHistory.forEach((h, idx) => {
-        const item = document.createElement('div');
-        item.className = `p-3.5 rounded-xl border text-xs flex items-start justify-between gap-2 ${
-          h.correct ? 'bg-emerald-50/70 border-emerald-200 text-emerald-950' : 'bg-rose-50/70 border-rose-200 text-rose-950'
-        }`;
-        item.innerHTML = `
-          <div class="space-y-0.5">
-            <div class="flex items-center gap-2">
-              <span class="font-bold">${idx + 1}. Word: <strong>${h.question.targetWord}</strong></span>
-              <span class="text-[10px] uppercase font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded">${h.question.direction === 'word-to-def' ? 'Word ➔ Def' : 'Def ➔ Word'}</span>
-            </div>
-            <p class="text-slate-600 text-[11px]">${h.question.explanation}</p>
-            ${!h.correct ? `<p class="text-rose-600 font-medium text-[10px]">Your answer: ${h.userChoice}</p>` : ''}
-          </div>
-          <span class="font-black text-sm flex-shrink-0 ${h.correct ? 'text-emerald-600' : 'text-rose-600'}">${h.correct ? '✓' : '✕'}</span>
-        `;
-        reviewContainer.appendChild(item);
+      document.getElementById('results-icon').textContent = icon;
+      document.getElementById('results-msg').textContent = msg;
+    }
+
+    function advanceNextTest() {
+      const nextTest = (currentTestNum % 5) + 1;
+      const testButtons = document.querySelectorAll('.test-tab-btn');
+      selectTest(nextTest, testButtons[nextTest - 1]);
+    }
+
+    /* ==========================================================
+       MATCH GAME LOGIC
+       ========================================================== */
+    let matchTiles = [];
+    let selectedTile1 = null;
+    let selectedTile2 = null;
+    let matchedPairs = 0;
+    let gameTimerInterval = null;
+    let secondsElapsed = 0;
+
+    function initMatchGame() {
+      clearInterval(gameTimerInterval);
+      secondsElapsed = 0;
+      matchedPairs = 0;
+      document.getElementById('game-timer').textContent = "00:00";
+      document.getElementById('game-matches').textContent = "0";
+      selectedTile1 = null;
+      selectedTile2 = null;
+
+      // Start timer
+      gameTimerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('game-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      // Create 20 tiles (10 words, 10 definitions)
+      matchTiles = [];
+      VOCABULARY.forEach(item => {
+        matchTiles.push({
+          id: item.id,
+          type: 'word',
+          text: item.word
+        });
+        matchTiles.push({
+          id: item.id,
+          type: 'def',
+          text: item.def
+        });
+      });
+
+      // Shuffle tiles
+      matchTiles.sort(() => Math.random() - 0.5);
+
+      const grid = document.getElementById('match-grid');
+      grid.innerHTML = '';
+
+      matchTiles.forEach((tileData, index) => {
+        const tile = document.createElement('div');
+        tile.className = `match-tile ${tileData.type === 'word' ? 'is-word' : ''}`;
+        tile.textContent = tileData.text;
+        tile.dataset.id = tileData.id;
+        tile.dataset.type = tileData.type;
+        tile.dataset.index = index;
+
+        tile.onclick = () => handleTileClick(tile);
+        grid.appendChild(tile);
       });
     }
 
-    // ==========================================
-    // 5. ALL WORDS STUDY LIST & CUSTOM WORDS
-    // ==========================================
-    function renderWordList() {
-      const container = document.getElementById('words-dictionary-container');
+    function handleTileClick(tile) {
+      if (tile.classList.contains('matched') || tile.classList.contains('selected')) {
+        return;
+      }
+
+      // If two already selected, ignore click until check finishes
+      if (selectedTile1 && selectedTile2) return;
+
+      tile.classList.add('selected');
+
+      if (!selectedTile1) {
+        selectedTile1 = tile;
+      } else {
+        selectedTile2 = tile;
+        checkMatch();
+      }
+    }
+
+    function checkMatch() {
+      const id1 = selectedTile1.dataset.id;
+      const id2 = selectedTile2.dataset.id;
+      const type1 = selectedTile1.dataset.type;
+      const type2 = selectedTile2.dataset.type;
+
+      // Valid match requires same word id AND different types (one word, one def)
+      if (id1 === id2 && type1 !== type2) {
+        setTimeout(() => {
+          selectedTile1.classList.remove('selected');
+          selectedTile2.classList.remove('selected');
+          selectedTile1.classList.add('matched');
+          selectedTile2.classList.add('matched');
+
+          selectedTile1 = null;
+          selectedTile2 = null;
+          matchedPairs++;
+          document.getElementById('game-matches').textContent = matchedPairs;
+
+          if (matchedPairs === VOCABULARY.length) {
+            clearInterval(gameTimerInterval);
+            showWinModal();
+          }
+        }, 300);
+      } else {
+        // Wrong match
+        setTimeout(() => {
+          selectedTile1.classList.add('wrong');
+          selectedTile2.classList.add('wrong');
+
+          setTimeout(() => {
+            selectedTile1.classList.remove('selected', 'wrong');
+            selectedTile2.classList.remove('selected', 'wrong');
+            selectedTile1 = null;
+            selectedTile2 = null;
+          }, 500);
+        }, 200);
+      }
+    }
+
+    function showWinModal() {
+      const modal = document.getElementById('win-modal');
+      const mins = Math.floor(secondsElapsed / 60);
+      const secs = secondsElapsed % 60;
+      const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs} seconds`;
+      document.getElementById('win-time-text').textContent = `You matched all 10 pairs in ${timeStr}!`;
+      modal.classList.add('active');
+    }
+
+    function closeWinModal() {
+      document.getElementById('win-modal').classList.remove('active');
+      initMatchGame();
+    }
+
+    /* ==========================================================
+       WORD LIST DICTIONARY
+       ========================================================== */
+    function renderWordGrid() {
+      const container = document.getElementById('word-grid-container');
       container.innerHTML = '';
 
-      words.forEach((item, index) => {
+      VOCABULARY.forEach(item => {
         const card = document.createElement('div');
-        card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-300 transition space-y-3";
+        card.className = 'word-card';
         card.innerHTML = `
-          <div class="flex items-start justify-between">
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-xl font-extrabold text-slate-900">${item.word}</h3>
-                <span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full">${item.pos}</span>
-                ${item.mastered ? '<span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Learned ✓</span>' : ''}
-              </div>
-              <p class="text-xs text-slate-400 font-mono italic">${item.phonetic || ''}</p>
-            </div>
-            <button onclick="speakWord('${item.word}')" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-            </button>
+          <div class="word-card-top">
+            <h3>${item.word}</h3>
+            <span class="card-badge">${item.pos}</span>
           </div>
-
-          <div class="space-y-1.5 text-xs text-slate-700">
-            <p><strong class="text-slate-900">Definition:</strong> ${item.definition}</p>
-            <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 font-mono text-[11px]">
-              <span class="font-bold text-indigo-600">Flashcard Note:</span> "${item.handwrittenNotes}"
-            </div>
-            ${item.example ? `<p class="italic text-slate-500"><strong class="not-italic text-slate-900">Example:</strong> "${item.example}"</p>` : ''}
-          </div>
+          <div class="word-card-def">${item.def}</div>
+          <div class="word-card-example"><strong>Example:</strong> "${item.example}"</div>
         `;
         container.appendChild(card);
       });
     }
 
-    // Modal logic
-    function openAddWordModal() {
-      document.getElementById('add-modal').classList.remove('hidden');
-    }
-
-    function closeAddWordModal() {
-      document.getElementById('add-modal').classList.add('hidden');
-      document.getElementById('add-word-form').reset();
-    }
-
-    function handleAddWord(e) {
-      e.preventDefault();
-      const wordVal = document.getElementById('input-word').value.trim();
-      const posVal = document.getElementById('input-pos').value;
-      const phoneticVal = document.getElementById('input-phonetic').value.trim();
-      const defVal = document.getElementById('input-def').value.trim();
-      const exampleVal = document.getElementById('input-example').value.trim();
-
-      const newWord = {
-        id: "w" + Date.now(),
-        word: wordVal,
-        pos: posVal,
-        phonetic: phoneticVal || `/ ${wordVal.toLowerCase()} /`,
-        definition: defVal,
-        handwrittenNotes: defVal,
-        example: exampleVal || `The word "${wordVal}" is used in literature and science.`,
-        mastered: false
-      };
-
-      words.push(newWord);
-      saveWordsToStorage();
-      closeAddWordModal();
-      renderWordList();
-      renderFlashcard();
-      showToast(`Added "${wordVal}" to your flashcards! 🎉`);
-    }
-
-    function saveWordsToStorage() {
-      localStorage.setItem('vocab_words_set_v2', JSON.stringify(words));
-    }
-
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function triggerConfetti() {
-      if (window.confetti) {
-        window.confetti({
-          particleCount: 70,
-          spread: 60,
-          origin: { y: 0.6 }
-        });
-      }
-    }
-
-    let toastTimer = null;
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toast-text').textContent = msg;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 2500);
-    }
-
-    // Initialize application on window load
-    window.onload = function() {
-      renderFlashcard();
-    };
+    /* ==========================================================
+       INITIALIZATION
+       ========================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      updateFlashcardUI();
+      selectTest(1, document.querySelector('.test-tab-btn'));
+      renderWordGrid();
+    });
   </script>
 </body>
 </html>
