@@ -3,37 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Food Unit 1: Vocabulary Flashcards, Match & Quiz</title>
-  <!-- Tailwind CSS CDN -->
+  <title>Eli's 5th Grade Vocabulary Prep</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Canvas Confetti for celebrations -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            heading: ['"Outfit"', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
-    /* 3D Flashcard flip styles */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-fun {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+    /* 3D Flashcard flip effect */
     .perspective-1000 {
       perspective: 1000px;
     }
     .transform-style-3d {
       transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .backface-hidden {
       backface-visibility: hidden;
@@ -42,499 +31,415 @@
     .rotate-y-180 {
       transform: rotateY(180deg);
     }
-    .card-flipped {
-      transform: rotateY(180deg);
+    /* Custom shaking animation for wrong matches */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
     }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    .animate-shake {
+      animation: shake 0.4s ease-in-out;
     }
-    ::-webkit-scrollbar-track {
-      background: #f8fafc;
+    /* Pulse glow */
+    @keyframes pulse-match {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
     }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
+    .animate-match {
+      animation: pulse-match 0.35s ease-in-out;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+    /* Print Styles */
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      .test-paper { box-shadow: none !important; border: none !important; }
+    }
+    @media screen {
+      .print-only { display: none !important; }
     }
   </style>
 </head>
+<body class="bg-amber-50/50 text-slate-800 min-h-screen flex flex-col">
 
-<body class="bg-amber-50/60 text-slate-800 min-h-screen font-sans flex flex-col antialiased selection:bg-amber-200">
-
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/80 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+  <!-- Top Navigation Header -->
+  <header class="bg-white border-b border-amber-200 sticky top-0 z-30 shadow-sm no-print">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 flex items-center justify-center text-white shadow-md shadow-amber-500/20 text-xl font-bold">
-          🍽️
+        <div class="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md transform rotate-2">
+          🥑
         </div>
         <div>
-          <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">Unit 1 &bull; Lesson 3 &bull; 4th Grade Friendly</span>
-          <h1 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900 tracking-tight">Food Words & Definitions</h1>
+          <h1 class="text-xl font-bold font-fun text-slate-900 tracking-wide flex items-center gap-2">
+            Eli's Vocab Quest <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-sans font-semibold">5th Grade</span>
+          </h1>
+          <p class="text-xs text-slate-500 font-medium">Food & Feast Vocabulary Mastery</p>
         </div>
       </div>
 
-      <!-- Navigation tabs -->
-      <nav class="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 text-xs sm:text-sm font-bold">
-        <button id="nav-flashcards" onclick="switchTab('flashcards')" class="nav-btn px-3.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 bg-white text-amber-700 shadow-sm">
-          <span>📇</span> Flashcards & Words
+      <!-- Main Navigation Tabs -->
+      <nav class="flex items-center space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-2xl text-xs sm:text-sm font-semibold">
+        <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 bg-white text-indigo-700 shadow-sm font-bold">
+          <span>📇</span> <span>Cards</span>
         </button>
-        <button id="nav-match" onclick="switchTab('match')" class="nav-btn px-3.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 text-slate-600 hover:text-slate-900">
-          <span>🧩</span> Match Game
+        <button onclick="switchTab('match')" id="tab-match" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <span>⏱️</span> <span>Match</span>
         </button>
-        <button id="nav-quiz" onclick="switchTab('quiz')" class="nav-btn px-3.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 text-slate-600 hover:text-slate-900">
-          <span>📝</span> 4-Mode Tests
+        <button onclick="switchTab('tests')" id="tab-tests" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <span>📝</span> <span>Tests (4)</span>
+        </button>
+        <button onclick="switchTab('bank')" id="tab-bank" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <span>📖</span> <span>Word Bank</span>
         </button>
       </nav>
-
-      <!-- Audio & Utilities -->
-      <div class="flex items-center gap-2">
-        <button id="soundToggle" onclick="toggleAudio()" class="px-3 py-2 rounded-xl text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition text-xs font-bold flex items-center gap-1.5" title="Toggle Sound Effects">
-          <span id="soundIcon">🔊</span>
-          <span class="hidden sm:inline">Audio</span>
-        </button>
-      </div>
     </div>
   </header>
 
-  <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-grow space-y-6">
-
-    <!-- Textbook Context Guide Banner -->
-    <div class="bg-gradient-to-r from-amber-100/90 via-orange-50 to-amber-100/80 border border-amber-300/80 rounded-2xl p-4 sm:p-5 shadow-sm">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-start sm:items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-xl shadow-sm">
-            🔍
-          </div>
-          <div>
-            <h2 class="font-heading font-extrabold text-slate-900 text-base sm:text-lg flex items-center gap-2">
-              Find the Meaning Strategies
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-200/90 text-amber-900">Page 19</span>
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-600 mt-0.5">Follow the 3 textbook steps to master all 10 food vocabulary terms:</p>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-semibold text-slate-700">
-          <div class="bg-white/90 border border-amber-200 rounded-xl px-3 py-2 flex items-center gap-2 shadow-xs">
-            <span class="w-5 h-5 rounded-full bg-amber-500 text-white font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
-            <span>Use <strong>context clues</strong></span>
-          </div>
-          <div class="bg-white/90 border border-amber-200 rounded-xl px-3 py-2 flex items-center gap-2 shadow-xs">
-            <span class="w-5 h-5 rounded-full bg-amber-500 text-white font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
-            <span>Look for <strong>root / prefix</strong></span>
-          </div>
-          <div class="bg-white/90 border border-amber-200 rounded-xl px-3 py-2 flex items-center gap-2 shadow-xs">
-            <span class="w-5 h-5 rounded-full bg-amber-500 text-white font-bold text-[11px] flex items-center justify-center shrink-0">3</span>
-            <span>Check <strong>dictionary</strong></span>
-          </div>
-        </div>
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+    
+    <!-- Filter Bar & Quick Stats -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6 no-print bg-white p-3.5 rounded-2xl border border-amber-100 shadow-sm">
+      <div class="flex items-center gap-2 text-xs sm:text-sm">
+        <span class="font-bold text-slate-700 flex items-center gap-1">
+          <span>📚 Studying:</span>
+          <span id="active-count" class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">30 Words</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleAudioMute()" id="audio-mute-btn" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+          <span id="mute-icon">🔊</span> <span id="mute-label">Sound On</span>
+        </button>
+        <button onclick="speakCurrentWord()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+          <span>🗣️</span> Pronounce
+        </button>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SECTION 1: FLASHCARDS & VOCABULARY LIST   -->
-    <!-- ========================================== -->
-    <section id="section-flashcards" class="space-y-6">
-
-      <!-- Quick Word Jump Bar (Immediate visibility of all 10 words) -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-        <div class="flex items-center justify-between mb-2.5">
-          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-400">All 10 Vocabulary Words (Click any to view):</span>
-          <button onclick="readAllWordsSummary()" class="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1">
-            <span>🗣️ Listen to List</span>
-          </button>
+    <!-- TAB 1: FLASHCARDS -->
+    <section id="section-flashcards" class="tab-content transition-all duration-300">
+      <div class="max-w-xl mx-auto flex flex-col items-center">
+        <!-- Progress Bar and Counter -->
+        <div class="w-full flex items-center justify-between text-xs font-bold text-slate-500 mb-2 px-1">
+          <span id="card-index-label">Card 1 of 30</span>
+          <span id="card-progress-pct" class="text-indigo-600">3%</span>
         </div>
-        <div id="quickWordPills" class="flex flex-wrap gap-2">
-          <!-- Dynamically populated word pills -->
-        </div>
-      </div>
-
-      <!-- Main Flashcard Viewer Container -->
-      <div class="bg-white rounded-3xl border border-amber-200/80 p-5 sm:p-8 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-amber-100 text-amber-900 mb-1">
-              <span>📇</span> Interactive 3D Flashcard
-            </div>
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900">Study Flashcards</h2>
-            <p class="text-xs sm:text-sm text-slate-500">Tap the card or click "Flip Card" to reveal the internet definition, textbook sentence, and clues.</p>
-          </div>
-
-          <!-- Flashcard Counter & Controls -->
-          <div class="flex items-center gap-3">
-            <div class="bg-amber-50 border border-amber-200 px-3.5 py-1.5 rounded-xl text-center">
-              <span class="text-[10px] uppercase font-bold text-amber-700 block">Card</span>
-              <span id="fcCounter" class="text-base font-extrabold font-heading text-amber-900">1 / 10</span>
-            </div>
-            <button onclick="shuffleFlashcards()" class="px-3 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition flex items-center gap-1.5">
-              <span>🔀</span> Shuffle
-            </button>
-          </div>
+        <div class="w-full bg-slate-200 h-2 rounded-full mb-6 overflow-hidden">
+          <div id="card-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 3.33%;"></div>
         </div>
 
-        <!-- Progress Bar -->
-        <div class="w-full bg-slate-100 rounded-full h-2 my-4 overflow-hidden">
-          <div id="fcProgressBar" class="bg-amber-500 h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
-        </div>
-
-        <!-- 3D FLIP FLASHCARD COMPONENT -->
-        <div class="max-w-2xl mx-auto my-4 perspective-1000">
-          <div id="flashcardElement" onclick="flipFlashcard()" class="relative w-full min-h-[340px] sm:min-h-[380px] transform-style-3d cursor-pointer group">
+        <!-- 3D Flippable Flashcard Card -->
+        <div class="w-full h-80 sm:h-96 perspective-1000 cursor-pointer select-none" onclick="flipCard()">
+          <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-3xl shadow-xl">
             
             <!-- FRONT OF CARD -->
-            <div class="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col justify-between border-4 border-amber-300/40">
-              <div class="flex justify-between items-start">
-                <span id="fcFrontBadge" class="text-xs font-black uppercase tracking-wider bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white">
-                  Word 1 of 10
+            <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-indigo-100 rounded-3xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-md hover:border-indigo-300 transition">
+              <div class="w-full flex justify-between items-center">
+                <span id="card-pos-badge-front" class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-200">
+                  Noun
                 </span>
-                <button onclick="event.stopPropagation(); speakCurrentWord();" class="w-10 h-10 rounded-2xl bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-lg transition shadow-sm" title="Listen to pronunciation">
-                  🔊
+                <button type="button" onclick="event.stopPropagation(); playCurrentAudio();" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition" title="Listen to pronunciation">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
                 </button>
               </div>
 
-              <div class="text-center my-auto py-4">
-                <span id="fcFrontIcon" class="text-5xl sm:text-6xl block mb-3 animate-bounce-short">🥣</span>
-                <h3 id="fcFrontWord" class="text-3xl sm:text-4xl md:text-5xl font-heading font-black capitalize tracking-tight text-white drop-shadow-sm">
-                  Concoction
-                </h3>
-                <div class="flex items-center justify-center gap-2 mt-2">
-                  <span id="fcFrontPos" class="text-xs font-bold uppercase tracking-wider bg-white/25 px-2.5 py-0.5 rounded-full">noun</span>
-                  <span id="fcFrontPronounce" class="text-sm font-mono text-amber-100">/kuhn-KOK-shuhn/</span>
-                </div>
+              <!-- Term Word -->
+              <div class="my-auto">
+                <h2 id="card-word" class="text-3xl sm:text-5xl font-bold font-fun text-slate-800 tracking-wide mb-3">
+                  vegetarian
+                </h2>
+                <p id="card-phonetic" class="text-sm font-medium text-slate-400">
+                  /ˌvedʒ.əˈter.i.ən/
+                </p>
               </div>
 
-              <div class="text-center pt-3 border-t border-white/20 flex items-center justify-center gap-1.5 text-xs text-amber-100 font-semibold">
-                <span>🔄</span> Tap card to view definition & context
+              <div class="text-xs text-slate-400 flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
+                <span>🔄 Click to flip for definition</span>
               </div>
             </div>
 
             <!-- BACK OF CARD -->
-            <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl flex flex-col justify-between border-4 border-amber-400">
-              <div>
-                <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <div class="flex items-center gap-2">
-                    <span id="fcBackIcon" class="text-2xl">🥣</span>
-                    <h3 id="fcBackWord" class="text-2xl font-heading font-black text-slate-900 capitalize">Concoction</h3>
-                    <span id="fcBackPos" class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">noun</span>
-                  </div>
-                  <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2 text-slate-400 hover:text-amber-600 rounded-xl transition" title="Listen">
-                    🔊
-                  </button>
-                </div>
+            <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-600 to-purple-700 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-md">
+              <div class="w-full flex justify-between items-center">
+                <span id="card-pos-badge-back" class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-white/20 text-white rounded-full backdrop-blur-sm">
+                  Noun / Adjective
+                </span>
+                <span class="text-xs text-indigo-200">5th Grade Vocab</span>
+              </div>
 
-                <!-- Internet Dictionary Definition -->
-                <div class="mt-4">
-                  <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-700 block mb-1">
-                    📖 4th-Grade Definition:
-                  </span>
-                  <p id="fcBackDefinition" class="text-slate-800 text-sm sm:text-base font-semibold leading-relaxed">
-                    A mixture or preparation created by combining various diverse ingredients or elements.
-                  </p>
-                </div>
-
-                <!-- Textbook Sentence (Page 19) -->
-                <div class="mt-4 bg-amber-50/80 border border-amber-200/80 rounded-2xl p-3 text-xs sm:text-sm text-slate-700">
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-900 block mb-1">
-                    📚 Textbook Lesson 3 Sentence:
-                  </span>
-                  <p id="fcBackSentence" class="italic text-slate-900 font-medium">
-                    "The <strong class="text-amber-800 font-black">concoction</strong> was made with walnuts and cream cheese."
-                  </p>
-                </div>
-
-                <!-- Context Root Tip -->
-                <div class="mt-3 text-xs text-slate-500 flex items-start gap-1.5">
-                  <span class="text-amber-500 font-bold">💡</span>
-                  <span id="fcBackRoot">Prefix & Root: From Latin 'concoquere' (to cook together).</span>
+              <div class="my-auto px-2">
+                <div class="text-xs uppercase font-extrabold tracking-widest text-indigo-200 mb-1">Simple Definition</div>
+                <p id="card-definition" class="text-lg sm:text-2xl font-bold leading-relaxed mb-4">
+                  A person who does not eat meat, or food made only from plants.
+                </p>
+                <div class="bg-white/10 rounded-2xl p-3 border border-white/15 text-xs sm:text-sm text-indigo-100 italic">
+                  "<span id="card-example">Liam ordered a delicious vegetarian pizza loaded with peppers and mushrooms.</span>"
                 </div>
               </div>
 
-              <div class="text-center pt-3 border-t border-slate-100 text-xs text-slate-400 font-bold flex items-center justify-center gap-1">
-                <span>🔄</span> Tap card to flip back to word
+              <div class="text-xs text-indigo-200 flex items-center gap-1">
+                <span>🔄 Click to flip back to word</span>
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- Flashcard Navigation Controls -->
-        <div class="flex items-center justify-center gap-3 sm:gap-4 mt-6">
-          <button onclick="prevFlashcard()" class="px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm flex items-center gap-2 transition">
-            <span>&larr;</span> <span>Previous</span>
+        <!-- Deck Navigation Buttons -->
+        <div class="flex items-center justify-center gap-4 mt-6">
+          <button onclick="prevCard()" class="p-3.5 bg-white border border-slate-200 hover:bg-slate-100 active:scale-95 text-slate-700 rounded-2xl shadow-sm transition flex items-center gap-2 font-bold text-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            <span>Back</span>
           </button>
-          <button onclick="flipFlashcard()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm shadow-md transition flex items-center gap-2">
-            <span>🔄</span> <span>Flip Card</span>
-          </button>
-          <button onclick="nextFlashcard()" class="px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm flex items-center gap-2 transition">
-            <span>Next</span> <span>&rarr;</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- FULL WORD LIST GRID REFERENCE (Always clearly visible) -->
-      <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
-          <div>
-            <h3 class="text-xl font-heading font-extrabold text-slate-900">All 10 Words & Definitions Reference List</h3>
-            <p class="text-xs sm:text-sm text-slate-500">Kid-friendly definitions alongside their authentic workbook sentences from Page 19.</p>
-          </div>
-          <span class="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">10 / 10 Active Words</span>
-        </div>
-
-        <div id="fullWordsTable" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-          <!-- Dynamically populated word cards -->
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SECTION 2: TWO-COLUMN WORD ↔ DEF MATCH GAME-->
-    <!-- ========================================== -->
-    <section id="section-match" class="hidden space-y-6">
-      <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm">
-        
-        <!-- Game Header & Stats -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 mb-1">
-              <span>🧩</span> Two-Column Match Game
-            </div>
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900">Match Words to Definitions</h2>
-            <p class="text-xs sm:text-sm text-slate-600">
-              Click a <strong>Word</strong> on the left, then click its corresponding <strong>Internet Definition</strong> on the right!
-            </p>
-          </div>
-
-          <!-- Score & Timer Dashboard -->
-          <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-200 text-center">
-            <div class="px-3 py-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Matches</span>
-              <span id="matchScoreDisplay" class="text-lg font-extrabold font-heading text-emerald-600">0 / 10</span>
-            </div>
-            <div class="h-8 w-[1px] bg-slate-200"></div>
-            <div class="px-3 py-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Time</span>
-              <span id="matchTimerDisplay" class="text-lg font-extrabold font-heading text-amber-600">00:00</span>
-            </div>
-            <div class="h-8 w-[1px] bg-slate-200"></div>
-            <div class="px-3 py-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Attempts</span>
-              <span id="matchAttemptsDisplay" class="text-lg font-extrabold font-heading text-slate-700">0</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Controls & Instructions Bar -->
-        <div class="flex items-center justify-between pt-4 pb-2">
-          <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <span>📌 Instructions:</span>
-            <span class="hidden sm:inline text-slate-600">1. Select a Word &bull; 2. Select its Definition</span>
-          </div>
-          <button onclick="startMatchGame()" class="px-3.5 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-900 text-white rounded-xl shadow transition flex items-center gap-1.5">
-            <span>🔄</span> New Shuffle
-          </button>
-        </div>
-
-        <!-- MATCH BOARD: 2 VISIBLE COLUMNS (WORDS vs DEFINITIONS) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4">
           
-          <!-- LEFT COLUMN: THE WORDS -->
-          <div class="space-y-3">
-            <div class="bg-amber-100/70 border border-amber-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
-              <span class="font-heading font-extrabold text-amber-950 text-sm flex items-center gap-2">
-                <span>🔤</span> Column A: Vocabulary Words
-              </span>
-              <span class="text-[11px] font-bold text-amber-800">10 Words</span>
-            </div>
-            <div id="matchWordsColumn" class="space-y-2.5">
-              <!-- Dynamically populated words -->
-            </div>
-          </div>
+          <button onclick="flipCard()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold rounded-2xl shadow-md hover:shadow-indigo-200 transition flex items-center gap-2 text-sm">
+            <span>Flip Card</span>
+          </button>
 
-          <!-- RIGHT COLUMN: THE DEFINITIONS -->
-          <div class="space-y-3">
-            <div class="bg-indigo-100/70 border border-indigo-200 rounded-xl px-4 py-2.5 flex items-center justify-between">
-              <span class="font-heading font-extrabold text-indigo-950 text-sm flex items-center gap-2">
-                <span>📖</span> Column B: 4th-Grade Definitions
-              </span>
-              <span class="text-[11px] font-bold text-indigo-800">10 Definitions</span>
-            </div>
-            <div id="matchDefsColumn" class="space-y-2.5">
-              <!-- Dynamically populated definitions -->
-            </div>
-          </div>
-
+          <button onclick="nextCard()" class="p-3.5 bg-white border border-slate-200 hover:bg-slate-100 active:scale-95 text-slate-700 rounded-2xl shadow-sm transition flex items-center gap-2 font-bold text-sm">
+            <span>Next</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
         </div>
 
-        <!-- Victory Banner (Shown upon completing 10/10) -->
-        <div id="matchVictoryModal" class="hidden mt-6 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white text-center shadow-xl">
-          <div class="text-5xl mb-2">🎉 🏆 🌟</div>
-          <h3 class="text-2xl sm:text-3xl font-heading font-black">Magnificent! All 10 Matched!</h3>
-          <p id="matchVictoryStats" class="text-emerald-100 text-sm sm:text-base mt-2 max-w-lg mx-auto">
-            You accurately matched all 10 food vocabulary words to their internet dictionary definitions.
-          </p>
-          <div class="mt-5 flex flex-wrap justify-center gap-3">
-            <button onclick="startMatchGame()" class="px-6 py-2.5 bg-white text-emerald-900 font-extrabold rounded-xl shadow hover:bg-emerald-50 transition text-sm">
-              Play Match Game Again
-            </button>
-            <button onclick="switchTab('quiz')" class="px-6 py-2.5 bg-emerald-900/60 hover:bg-emerald-900 text-white font-extrabold rounded-xl shadow transition text-sm">
-              Take 4-Mode Tests &rarr;
-            </button>
-          </div>
+        <!-- Extra Flashcard Tools -->
+        <div class="flex items-center gap-3 mt-4 text-xs font-semibold text-slate-500">
+          <button onclick="shuffleCards()" class="hover:text-indigo-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs transition flex items-center gap-1">
+            🔀 Shuffle Deck
+          </button>
+          <button onclick="resetCards()" class="hover:text-indigo-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs transition flex items-center gap-1">
+            ⏮️ Start Over
+          </button>
+          <span class="text-slate-400 hidden sm:inline">Tip: Use ⬅️ and ➡️ keys on keyboard!</span>
         </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- SECTION 3: 4 MULTIPLE CHOICE VARIATIONS   -->
-    <!-- ========================================== -->
-    <section id="section-quiz" class="hidden space-y-6">
-      <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm">
+    <!-- TAB 2: MATCH GAME (Quizlet Style) -->
+    <section id="section-match" class="tab-content hidden transition-all duration-300">
+      <div class="max-w-4xl mx-auto">
         
-        <!-- Header & Reset -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
-          <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-800 mb-1">
-              <span>🎯</span> 4 Test Variations
+        <!-- Game Dashboard -->
+        <div class="bg-white p-4 rounded-3xl border border-amber-200 shadow-sm mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl font-bold font-fun">
+              ⏱️
             </div>
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900">Multiple Choice Test Hub</h2>
-            <p class="text-xs sm:text-sm text-slate-600">Select any of the 4 variations below to test your mastery in different formats.</p>
+            <div>
+              <div class="text-xs uppercase font-bold text-slate-400 tracking-wider">Elapsed Time</div>
+              <div id="match-timer" class="text-2xl sm:text-3xl font-black font-fun text-slate-800">
+                0.0s
+              </div>
+            </div>
           </div>
-          
+
+          <!-- Best Score & Round Status -->
+          <div class="flex items-center gap-4 text-xs sm:text-sm font-semibold">
+            <div class="bg-amber-50 text-amber-900 border border-amber-200 px-3.5 py-2 rounded-2xl flex items-center gap-2">
+              <span>🏆 Best Time:</span>
+              <span id="best-match-time" class="font-bold">--</span>
+            </div>
+            <div class="bg-slate-100 text-slate-700 px-3.5 py-2 rounded-2xl flex items-center gap-2">
+              <span>Pairs Left:</span>
+              <span id="pairs-left-badge" class="font-bold text-emerald-600">6</span>
+            </div>
+          </div>
+
           <div class="flex items-center gap-2">
-            <div class="bg-indigo-50 border border-indigo-200 px-3.5 py-1.5 rounded-xl text-xs font-bold text-indigo-900 flex items-center gap-1.5">
-              <span>Score:</span> <span id="quizScoreDisplay" class="text-indigo-600 font-extrabold text-sm">0 / 0</span>
-            </div>
-            <button onclick="resetQuizCurrentMode()" class="px-3.5 py-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition flex items-center gap-1">
-              <span>🔄</span> Restart
+            <button onclick="startNewMatchGame()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-2xl shadow transition text-sm flex items-center gap-1.5">
+              <span>🔄</span> <span>New Match Board</span>
             </button>
           </div>
         </div>
 
-        <!-- 4 VARIATION BUTTON SELECTOR -->
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          
-          <!-- Mode 1 -->
-          <button id="mode-btn-def2word" onclick="selectQuizMode('def2word')" 
-            class="quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-amber-500 text-white border-amber-600 shadow-sm">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase font-extrabold tracking-wider opacity-90">Variation 1</span>
-              <span class="text-base">📖 ➔ 🔤</span>
-            </div>
-            <div class="font-heading font-bold text-sm mt-1">Definition ➔ Word</div>
-            <p class="text-[11px] opacity-85 mt-0.5 leading-snug">Read definition, choose vocabulary word.</p>
-          </button>
+        <p class="text-center text-xs font-semibold text-slate-500 mb-4">
+          👉 Click a term, then click its matching definition as fast as you can! Make everything disappear!
+        </p>
 
-          <!-- Mode 2 -->
-          <button id="mode-btn-word2def" onclick="selectQuizMode('word2def')" 
-            class="quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-white border-slate-200 text-slate-700 hover:border-slate-300">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase font-extrabold tracking-wider text-slate-400">Variation 2</span>
-              <span class="text-base">🔤 ➔ 📖</span>
-            </div>
-            <div class="font-heading font-bold text-sm mt-1">Word ➔ Definition</div>
-            <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">Given the word, pick exact meaning.</p>
-          </button>
-
-          <!-- Mode 3 -->
-          <button id="mode-btn-context" onclick="selectQuizMode('context')" 
-            class="quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-white border-slate-200 text-slate-700 hover:border-slate-300">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase font-extrabold tracking-wider text-slate-400">Variation 3</span>
-              <span class="text-base">📚 ➔ ✏️</span>
-            </div>
-            <div class="font-heading font-bold text-sm mt-1">Book Sentence Fill-In</div>
-            <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">Fill blanks from Page 19 sentences.</p>
-          </button>
-
-          <!-- Mode 4 -->
-          <button id="mode-btn-scenario" onclick="selectQuizMode('scenario')" 
-            class="quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-white border-slate-200 text-slate-700 hover:border-slate-300">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase font-extrabold tracking-wider text-slate-400">Variation 4</span>
-              <span class="text-base">💡 ➔ 🧠</span>
-            </div>
-            <div class="font-heading font-bold text-sm mt-1">Real-World Scenarios</div>
-            <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">Applied situational comprehension.</p>
-          </button>
+        <!-- Match Grid Container -->
+        <div id="match-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 relative min-h-[360px]">
+          <!-- Dynamic Tiles Generated Here -->
         </div>
 
-        <!-- Quiz Progress Bar -->
-        <div class="mt-6">
-          <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-1.5">
-            <span id="questionCounter">Question 1 of 10</span>
-            <span id="progressPercent">10%</span>
-          </div>
-          <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-            <div id="quizProgressBar" class="bg-gradient-to-r from-amber-500 to-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
-          </div>
-        </div>
-
-        <!-- Quiz Question Box -->
-        <div id="quizContent" class="mt-6 bg-slate-50/70 border border-slate-200 rounded-2xl p-5 sm:p-7">
-          <div class="mb-5">
-            <span id="questionTypeBadge" class="inline-block text-[11px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-0.5 rounded-full mb-2">
-              Variation 1: Definition Detective
-            </span>
-            <div id="questionPrompt" class="text-base sm:text-lg font-heading font-extrabold text-slate-900 leading-snug">
-              Loading question...
-            </div>
-            <p id="questionSubtext" class="text-xs sm:text-sm text-slate-500 mt-1 italic hidden"></p>
-          </div>
-
-          <!-- Answer options grid -->
-          <div id="answersContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <!-- Answer buttons populated dynamically -->
-          </div>
-
-          <!-- Explanation Box -->
-          <div id="feedbackContainer" class="hidden mt-5 p-4 rounded-2xl border transition-all duration-200">
-            <div class="flex items-start gap-3">
-              <span id="feedbackIcon" class="text-2xl shrink-0">✅</span>
-              <div>
-                <h4 id="feedbackTitle" class="font-heading font-bold text-sm">Correct!</h4>
-                <p id="feedbackText" class="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed"></p>
+        <!-- Match Win Modal Overlay -->
+        <div id="match-win-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-4 border-emerald-400 transform animate-match">
+            <div class="text-5xl mb-3">🎉 🏆 🌟</div>
+            <h3 class="text-2xl font-black font-fun text-slate-800 mb-1">Incredible Job, Eli!</h3>
+            <p class="text-sm text-slate-600 mb-4">You cleared all vocabulary pairs!</p>
+            
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6">
+              <div class="text-xs text-emerald-800 font-bold uppercase tracking-wider mb-1">Your Time</div>
+              <div id="final-time-text" class="text-4xl font-black text-emerald-700 font-fun">12.4s</div>
+              <div id="new-record-badge" class="hidden mt-2 inline-block bg-amber-400 text-amber-950 text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                ⭐ NEW PERSONAL RECORD! ⭐
               </div>
             </div>
-            <div class="mt-3 flex justify-end">
-              <button id="nextQuestionBtn" onclick="nextQuestion()" class="px-5 py-2 text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white rounded-xl shadow transition flex items-center gap-1.5">
-                <span>Next Question</span> <span>&rarr;</span>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button onclick="startNewMatchGame()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow transition">
+                Play Again 🔄
+              </button>
+              <button onclick="closeWinModal(); switchTab('tests');" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow transition">
+                Take a Test 📝
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Quiz Completion Screen -->
-        <div id="quizResultModal" class="hidden mt-6 bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 text-center shadow-xl">
-          <div id="resultMedal" class="text-5xl mb-2">🌟</div>
-          <span class="text-xs uppercase tracking-widest font-extrabold text-amber-300">Test Complete!</span>
-          <h3 id="resultTitle" class="text-2xl sm:text-3xl font-heading font-black mt-1">Excellent Score!</h3>
-          <p id="resultSummary" class="text-indigo-200 text-sm max-w-md mx-auto mt-2">You demonstrated a strong grasp of the 10 food vocabulary words.</p>
-          
-          <div class="flex justify-center items-center gap-6 my-6">
-            <div class="bg-white/10 px-5 py-3 rounded-2xl border border-white/10">
-              <span class="text-xs text-indigo-300 block font-bold">Accuracy</span>
-              <span id="resultAccuracy" class="text-3xl font-heading font-extrabold text-amber-400">100%</span>
+      </div>
+    </section>
+
+    <!-- TAB 3: 4 VERSIONS OF PRACTICE TESTS -->
+    <section id="section-tests" class="tab-content hidden transition-all duration-300">
+      <div class="max-w-3xl mx-auto">
+
+        <!-- Test Selector Sub-Navigation -->
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm mb-6 no-print">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg font-bold font-fun text-slate-900">4 Multiple Choice Test Versions</h2>
+              <p class="text-xs text-slate-500 font-medium">Pick any test version to practice different question types!</p>
             </div>
-            <div class="bg-white/10 px-5 py-3 rounded-2xl border border-white/10">
-              <span class="text-xs text-indigo-300 block font-bold">Correct Answers</span>
-              <span id="resultCount" class="text-3xl font-heading font-extrabold text-white">10 / 10</span>
+            
+            <!-- Quick Actions -->
+            <div class="flex items-center gap-2">
+              <button onclick="window.print()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs">
+                <span>🖨️</span> <span>Print Test</span>
+              </button>
             </div>
           </div>
 
-          <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="resetQuizCurrentMode()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-extrabold rounded-xl shadow transition text-sm">
-              Retake This Mode
+          <!-- Version Tabs -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
+            <button onclick="loadTestVersion('A')" id="btn-ver-A" class="ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-indigo-600 text-white shadow-sm">
+              <span class="block text-xs font-semibold opacity-80">Version A</span>
+              <span>Definitions</span>
             </button>
-            <button onclick="tryNextQuizMode()" class="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white font-extrabold rounded-xl transition text-sm">
-              Try Next Variation &rarr;
+            <button onclick="loadTestVersion('B')" id="btn-ver-B" class="ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-xs font-semibold opacity-80">Version B</span>
+              <span>Context Clues</span>
+            </button>
+            <button onclick="loadTestVersion('C')" id="btn-ver-C" class="ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-xs font-semibold opacity-80">Version C</span>
+              <span>Speech & Synonyms</span>
+            </button>
+            <button onclick="loadTestVersion('D')" id="btn-ver-D" class="ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-xs font-semibold opacity-80">Version D</span>
+              <span>Master Challenge</span>
             </button>
           </div>
+        </div>
+
+        <!-- Printable Header (Visible only when printing) -->
+        <div class="print-only mb-6 pb-4 border-b-2 border-black">
+          <div class="flex justify-between items-center mb-2">
+            <h1 class="text-xl font-bold">5th Grade Vocabulary Test - <span id="print-test-ver-name">Version A</span></h1>
+            <div class="text-sm">Date: _________________</div>
+          </div>
+          <div class="flex justify-between text-sm">
+            <div>Student Name: <strong>Eli</strong> ____________________</div>
+            <div>Score: ______ / 15 (____%)</div>
+          </div>
+        </div>
+
+        <!-- Test Container -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm test-paper">
+          <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-6">
+            <div>
+              <span id="active-test-badge" class="text-xs font-extrabold px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full uppercase tracking-wider">
+                Test Version A
+              </span>
+              <h3 id="active-test-title" class="text-xl font-bold font-fun text-slate-900 mt-2">
+                Vocabulary Definitions Mastery
+              </h3>
+              <p id="active-test-desc" class="text-xs text-slate-500 mt-0.5">
+                Choose the best answer for each word or definition. (15 Questions)
+              </p>
+            </div>
+            
+            <div class="no-print text-right hidden sm:block">
+              <span class="text-xs text-slate-400 font-semibold">Multiple Choice</span>
+              <div id="test-answered-tracker" class="text-sm font-bold text-indigo-600">0/15 Answered</div>
+            </div>
+          </div>
+
+          <!-- Dynamic Questions List -->
+          <form id="test-form" onsubmit="event.preventDefault(); gradeActiveTest();">
+            <div id="test-questions-container" class="space-y-6">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Test Submission / Reset Bar -->
+            <div class="mt-8 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 no-print">
+              <button type="button" onclick="resetActiveTest()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-sm transition">
+                Reset Answers
+              </button>
+              
+              <button type="submit" id="submit-test-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-extrabold rounded-2xl shadow-lg hover:shadow-indigo-200 transition text-sm flex items-center gap-2">
+                <span>Check My Test! 🚀</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Test Results Panel -->
+          <div id="test-results-panel" class="hidden mt-8 p-6 bg-slate-50 border-2 border-indigo-200 rounded-3xl">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <div class="text-xs uppercase font-extrabold text-indigo-700 tracking-wider">Test Completed!</div>
+                <h4 id="test-grade-msg" class="text-2xl font-black font-fun text-slate-900 mt-1">Awesome Work, Eli!</h4>
+                <p id="test-breakdown" class="text-sm text-slate-600 mt-1">You got 14 out of 15 questions correct.</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="text-center px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                  <div class="text-xs text-slate-400 font-bold">SCORE</div>
+                  <div id="test-score-display" class="text-3xl font-black text-indigo-600 font-fun">93%</div>
+                </div>
+                <div class="text-center px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                  <div class="text-xs text-slate-400 font-bold">GRADE</div>
+                  <div id="test-letter-grade" class="text-3xl font-black text-emerald-600 font-fun">A</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Retake & Next Steps -->
+            <div class="mt-4 pt-4 border-t border-slate-200 flex flex-wrap gap-3">
+              <button onclick="resetActiveTest()" class="text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl border border-slate-300 transition">
+                Retake This Test 🔁
+              </button>
+              <button onclick="cycleNextTest()" class="text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl transition">
+                Try Next Test Version ➡️
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: COMPLETE WORD BANK & DICTIONARY -->
+    <section id="section-bank" class="tab-content hidden transition-all duration-300">
+      <div class="max-w-5xl mx-auto">
+        
+        <!-- Search and Filter Controls -->
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="relative w-full sm:w-72">
+            <input type="text" id="bank-search" oninput="filterWordBank()" placeholder="Search any word or definition..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-indigo-500 font-medium">
+            <span class="absolute left-3.5 top-2.5 text-slate-400 text-sm">🔍</span>
+          </div>
+
+          <!-- POS Filters -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="setBankFilter('all')" id="btn-filter-all" class="bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white">All (30)</button>
+            <button onclick="setBankFilter('noun')" id="btn-filter-noun" class="bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Nouns</button>
+            <button onclick="setBankFilter('verb')" id="btn-filter-verb" class="bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Verbs</button>
+            <button onclick="setBankFilter('adjective')" id="btn-filter-adjective" class="bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Adjectives</button>
+          </div>
+        </div>
+
+        <!-- Dictionary Cards Grid -->
+        <div id="word-bank-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated dynamically -->
         </div>
 
       </div>
@@ -542,883 +447,1512 @@
 
   </main>
 
-  <footer class="mt-auto border-t border-amber-200/80 bg-white/70 py-4 text-center text-xs text-slate-500">
+  <footer class="bg-white border-t border-amber-200 mt-12 py-6 text-center text-xs text-slate-500 no-print">
     <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Lesson 3 | Food UNIT 1 Vocabulary Master &bull; 10 Words (4th Grade Level)</p>
-      <p class="font-semibold text-amber-800">Flashcards &bull; Two-Column Match Game &bull; 4 Test Variations</p>
+      <p class="font-medium">Created for <strong>Eli's 5th Grade Vocabulary Success</strong> 🎓 • Good luck on the test!</p>
+      <div class="flex items-center gap-3">
+        <span>30 Words Included</span>
+        <span>•</span>
+        <span>Web Audio Enabled</span>
+      </div>
     </div>
   </footer>
 
+  <!-- Notification Toast Modal -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2 pointer-events-none">
+    <span id="toast-icon">✨</span>
+    <span id="toast-msg">Ready to study!</span>
+  </div>
+
   <script>
-    // 10 Vocabulary Words from Textbook Lesson 3: Food (Page 19)
-    // Simplified, kid-friendly definitions for 4th graders
-    const VOCABULARY_LIST = [
+    /* Complete Word List with kid-friendly 5th-grade definitions, POS, examples, and phonetic hints */
+    const VOCABULARY_DATA = [
       {
-        id: "disgusting",
+        word: "vegetarian",
+        pos: "noun / adjective",
+        category: "noun",
+        phonetic: "/ˌvedʒ.əˈter.i.ən/",
+        definition: "A person who does not eat meat; or food made without meat.",
+        example: "Maya is a vegetarian, so she ordered the veggie burger instead of the beef.",
+        funFact: "Vegetarians eat veggies, fruits, grains, nuts, and dairy products!"
+      },
+      {
+        word: "aroma",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/əˈroʊ.mə/",
+        definition: "A pleasant, sweet, or appetizing smell.",
+        example: "The warm aroma of fresh cinnamon rolls drifted from the kitchen.",
+        funFact: "Aroma usually describes delicious food smells, not smelly socks!"
+      },
+      {
+        word: "appetizer",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈæp.ə.taɪ.zɚ/",
+        definition: "A small dish of food served before the main meal to whet your appetite.",
+        example: "We ordered crispy mozzarella sticks as an appetizer before our spaghetti dinner.",
+        funFact: "It comes from the word 'appetite' because it gets your stomach ready to eat!"
+      },
+      {
+        word: "devour",
+        pos: "verb",
+        category: "verb",
+        phonetic: "/dɪˈvaʊ.ɚ/",
+        definition: "To eat food quickly, greedily, and hungrily.",
+        example: "After football practice, the boys devoured the entire box of pizza in five minutes.",
+        funFact: "You can also 'devour' a great book if you read it super fast!"
+      },
+      {
+        word: "entrée",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈɑːn.treɪ/",
+        definition: "The main dish or biggest course of a meal.",
+        example: "For my entrée, I ordered grilled chicken with mashed potatoes.",
+        funFact: "In French, 'entrée' originally meant the entrance or beginning of a grand feast!"
+      },
+      {
+        word: "abundant",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/əˈbʌn.dənt/",
+        definition: "Existing in large amounts; plentiful and more than enough.",
+        example: "The orchard had an abundant harvest of sweet red apples this fall.",
+        funFact: "Antonyms include scarce, rare, or limited."
+      },
+      {
+        word: "savor",
+        pos: "verb",
+        category: "verb",
+        phonetic: "/ˈseɪ.vɚ/",
+        definition: "To taste or enjoy something slowly and completely.",
+        example: "Eli closed his eyes to savor the delicious homemade chocolate ice cream.",
+        funFact: "Savoring is the exact opposite of devouring or wolfing down food!"
+      },
+      {
+        word: "flavorful",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈfleɪ.vɚ.fəl/",
+        definition: "Full of rich, enjoyable taste and seasoning.",
+        example: "The tacos were colorful and flavorful thanks to the fresh cilantro and lime.",
+        funFact: "Antonyms include bland, dull, or tasteless."
+      },
+      {
+        word: "nutritious",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/nuːˈtrɪʃ.əs/",
+        definition: "Healthy and nourishing; containing substances that help the body grow.",
+        example: "Spinach, carrots, and apples make a very nutritious afternoon snack.",
+        funFact: "Nutritious foods provide the fuel your brain needs to ace tests!"
+      },
+      {
+        word: "chef",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ʃef/",
+        definition: "A professional cook who manages a kitchen or restaurant.",
+        example: "The head chef prepared a special five-course dinner for the holiday party.",
+        funFact: "The tall white hat chefs traditionally wear is called a 'toque'!"
+      },
+      {
+        word: "herbivore",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈhɝː.bə.vɔːr/",
+        definition: "An animal that feeds only on plants, grass, and herbs.",
+        example: "A gentle deer is an herbivore that feeds on leaves, berries, and acorns.",
+        funFact: "Horses, cows, pandas, and elephants are all herbivores!"
+      },
+      {
+        word: "carnivore",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈkɑːr.nə.vɔːr/",
+        definition: "An animal that feeds only on other animals and meat.",
+        example: "The lion is a fierce carnivore hunting in the African plains.",
+        funFact: "The word comes from the Latin 'carn-' which means flesh or meat."
+      },
+      {
+        word: "insatiable",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ɪnˈseɪ.ʃə.bəl/",
+        definition: "Impossible to satisfy; always wanting more.",
+        example: "The young puppy had an insatiable desire to play fetch with his tennis ball.",
+        funFact: "The prefix 'in-' means NOT, and 'satiate' means satisfied!"
+      },
+      {
+        word: "voracious",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/vəˈreɪ.ʃəs/",
+        definition: "Having a huge appetite; eagerly devouring large amounts of food.",
+        example: "After swimming across the lake, Sarah had a voracious appetite.",
+        funFact: "A 'voracious reader' is someone who loves reading lots of books without stopping."
+      },
+      {
+        word: "satiate",
+        pos: "verb",
+        category: "verb",
+        phonetic: "/ˈseɪ.ʃi.eɪt/",
+        definition: "To satisfy a hunger or desire completely, often to fullness.",
+        example: "A hearty bowl of warm beef stew was enough to satiate the hiker's hunger.",
+        funFact: "When you feel full and totally content after Thanksgiving dinner, you are satiated."
+      },
+      {
+        word: "savory",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈseɪ.vɚ.i/",
+        definition: "Salty, spicy, or rich in flavor; not sweet.",
+        example: "Popcorn sprinkled with melted cheese is a great savory movie snack.",
+        funFact: "In cooking, flavors are often split into sweet vs. savory!"
+      },
+      {
+        word: "nourish",
+        pos: "verb",
+        category: "verb",
+        phonetic: "/ˈnɝː.ɪʃ/",
+        definition: "To provide with food and other things needed to grow healthy and strong.",
+        example: "Drinking milk and water helps nourish your bones and muscles.",
+        funFact: "Plants are nourished by healthy soil, rain, and bright sunlight."
+      },
+      {
+        word: "saturate",
+        pos: "verb",
+        category: "verb",
+        phonetic: "/ˈsætʃ.ə.reɪt/",
+        definition: "To soak thoroughly with liquid until completely filled.",
+        example: "A sudden rainstorm saturated the baseball field with mud and puddles.",
+        funFact: "When a kitchen sponge can't absorb a single drop more, it is saturated!"
+      },
+      {
+        word: "nutrient",
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈnuː.tri.ənt/",
+        definition: "A substance in food that gives living things energy to live and grow.",
+        example: "Vitamins and minerals are vital nutrients found in fresh fruit.",
+        funFact: "Proteins, fats, and carbohydrates are major nutrients your body uses daily."
+      },
+      {
+        word: "insipid",
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ɪnˈsɪp.ɪd/",
+        definition: "Bland, tasteless, or lacking interest and flavor.",
+        example: "Without any salt or seasoning, the boiled soup tasted totally insipid.",
+        funFact: "It can also describe a boring movie or dull conversation!"
+      },
+      {
         word: "disgusting",
-        partOfSpeech: "adjective",
-        definition: "Gross, sickening, or terrible to look at, smell, or taste.",
-        pronunciation: "dis-GUS-ting",
-        bookSentence: "The children thought the green noodles looked disgusting.",
-        rootTip: "Prefix 'dis-' (not) + 'gust' (taste). It means something looks or tastes awful!",
-        icon: "🤢",
-        scenario: "A bowl of slimy, moldy vegetables left in the sink that smells gross."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/dɪsˈɡʌs.tɪŋ/",
+        definition: "Extremely unpleasant, gross, or sickening to the senses.",
+        example: "Finding mold on the leftover cheese was completely disgusting.",
+        funFact: "The word combines 'dis-' (against) with 'gust' (taste)!"
       },
       {
-        id: "confection",
         word: "confection",
-        partOfSpeech: "noun",
-        definition: "A sweet treat, candy, or fancy dessert made with sugar.",
-        pronunciation: "kuhn-FEK-shuhn",
-        bookSentence: "The lovely confection was decorated with icing and flowers.",
-        rootTip: "Comes from a word meaning 'to prepare sweet things'.",
-        icon: "🧁",
-        scenario: "A colorful frosted cupcake covered in rainbow sprinkles and sweet icing."
+        pos: "noun",
+        category: "noun",
+        phonetic: "/kənˈfek.ʃən/",
+        definition: "A sweet food or dessert made with sugar, such as candy or pastry.",
+        example: "The candy shop window was filled with colorful confections like fudge and lollipops.",
+        funFact: "A person who creates fancy sweets is called a confectioner!"
       },
       {
-        id: "concoction",
         word: "concoction",
-        partOfSpeech: "noun",
-        definition: "A mixed-up creation made by stirring together different ingredients.",
-        pronunciation: "kuhn-KOK-shuhn",
-        bookSentence: "The concoction was made with walnuts and cream cheese.",
-        rootTip: "'Con-' means together, and 'coquere' means to cook. Cooking things together!",
-        icon: "🥣",
-        scenario: "Mixing peanut butter, honey, bananas, and oats together in a bowl."
+        pos: "noun",
+        category: "noun",
+        phonetic: "/kənˈkɑːk.ʃən/",
+        definition: "A strange or creative mixture made by combining different ingredients.",
+        example: "Eli mixed juice, soda, and crushed berries into a bubbling purple concoction.",
+        funFact: "Witches in stories are famous for stirring mysterious concoctions in their cauldrons!"
       },
       {
-        id: "distasteful",
         word: "distasteful",
-        partOfSpeech: "adjective",
-        definition: "Unpleasant, nasty, or something you really do not like or enjoy.",
-        pronunciation: "dis-TAYST-fuhl",
-        bookSentence: "Chopping onions can be a distasteful chore.",
-        rootTip: "'Dis-' (not) + 'taste' + '-ful'. Literally: something that is not pleasing!",
-        icon: "🧅",
-        scenario: "Taking out the slimy trash when your eyes sting and it smells bad."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/dɪsˈteɪst.fəl/",
+        definition: "Unpleasant to the taste; or offensive and disagreeable.",
+        example: "The bitter medicine was very distasteful, so Mom gave me water to wash it down.",
+        funFact: "Distasteful can describe bad food or rude, unkind behavior."
       },
       {
-        id: "palatable",
         word: "palatable",
-        partOfSpeech: "adjective",
-        definition: "Good enough to eat or drink; tasting pleasant and agreeable.",
-        pronunciation: "PAL-uh-tuh-buhl",
-        bookSentence: "Uncle Tony adjusted the recipe until the sauce was palatable.",
-        rootTip: "'Palate' is the roof of your mouth and sense of taste. '-able' means good!",
-        icon: "😋",
-        scenario: "Adding a pinch of salt to a soup until it finally tastes warm and yummy."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈpæl.ə.t̬ə.bəl/",
+        definition: "Pleasant enough to taste or eat; acceptable.",
+        example: "Adding a spoonful of honey made the bitter tea much more palatable.",
+        funFact: "The roof of your mouth is called your 'palate'!"
       },
       {
-        id: "putrid",
         word: "putrid",
-        partOfSpeech: "adjective",
-        definition: "Rotten, spoiled, and smelling terribly bad from decay.",
-        pronunciation: "PYOO-trid",
-        bookSentence: "After lying on the counter all night, the fish became putrid.",
-        rootTip: "Comes from a Latin word that means 'to rot'.",
-        icon: "🐟",
-        scenario: "Raw fish left out on the kitchen counter all night that starts to rot with a stinky odor."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈpjuː.trɪd/",
+        definition: "Rotten, decaying, and smelling horribly bad.",
+        example: "The garbage bin smelled putrid after sitting in the blazing sun for three days.",
+        funFact: "Never eat anything that smells putrid because bacteria has caused it to rot!"
       },
       {
-        id: "delicacy",
         word: "delicacy",
-        partOfSpeech: "noun",
-        definition: "A special, rare, or expensive food that is considered a treat.",
-        pronunciation: "DEL-i-kuh-see",
-        bookSentence: "Fish eggs are a delicacy served on special occasions.",
-        rootTip: "Related to 'delicious' and 'delicate' — something special and prized.",
-        icon: "🍣",
-        scenario: "A rare treat like chocolate truffles or caviar saved for a holiday feast."
+        pos: "noun",
+        category: "noun",
+        phonetic: "/ˈdel.ə.kə.si/",
+        definition: "A rare, special, or expensive food considered a treat.",
+        example: "Truffles and caviar are rare delicacies enjoyed at luxury restaurants.",
+        funFact: "What is a delicacy in one country might seem unusual to people in another!"
       },
       {
-        id: "sumptuous",
         word: "sumptuous",
-        partOfSpeech: "adjective",
-        definition: "Grand, fancy, and expensive, fit for a king or queen.",
-        pronunciation: "SUMP-choo-uhs",
-        bookSentence: "Ten chefs prepared the sumptuous feast for the king's wedding.",
-        rootTip: "Comes from a word meaning 'great cost or luxury'.",
-        icon: "👑",
-        scenario: "A giant banquet with roasted meats, silver plates, and huge crystal bowls."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈsʌmp.tʃu.əs/",
+        definition: "Luxurious, lavish, expensive, and splendid.",
+        example: "The wedding banquet featured a sumptuous feast of prime rib, lobster, and cakes.",
+        funFact: "Think of a royal banquet served in a palace when you hear 'sumptuous'!"
       },
       {
-        id: "rancid",
         word: "rancid",
-        partOfSpeech: "adjective",
-        definition: "Sour, stale, and spoiled from sitting out too long, especially fats or dairy.",
-        pronunciation: "RAN-sid",
-        bookSentence: "After a week, the milk became rancid and unfit to drink.",
-        rootTip: "From a Latin word meaning 'rank or stinky' when fats spoil.",
-        icon: "🥛",
-        scenario: "Milk left in a warm room for a week that turns lumpy and smells sour."
+        pos: "adjective",
+        category: "adjective",
+        phonetic: "/ˈræn.sɪd/",
+        definition: "Stale, spoiled, and having a bad smell or taste from old oils or fats.",
+        example: "The old butter in the back of the fridge had turned rancid and yellow.",
+        funFact: "Nuts, cooking oils, and butter can turn rancid if stored too long in warm places."
       },
       {
-        id: "contaminate",
         word: "contaminate",
-        partOfSpeech: "verb",
-        definition: "To make something dirty, polluted, or unsafe by adding harmful things.",
-        pronunciation: "kuhn-TAM-uh-nayt",
-        bookSentence: "Leaking oil and chemicals can contaminate drinking water.",
-        rootTip: "From Latin 'contaminare', meaning 'to make unclean or dirty'.",
-        icon: "🛢️",
-        scenario: "Muddy water and dirty trash leaking into a clean water well."
+        pos: "verb",
+        category: "verb",
+        phonetic: "/kənˈtæm.ə.neɪt/",
+        definition: "To make something dirty, impure, or unsafe by adding germs or poisons.",
+        example: "Always wash your hands before cooking so you don't contaminate the food.",
+        funFact: "Cross-contamination happens when raw meat touches fresh veggies!"
       }
     ];
 
-    // Sound Synthesizer via Web Audio API
+    /* Global Application State */
+    let currentDeck = [...VOCABULARY_DATA];
+    let currentCardIndex = 0;
+    let isFlipped = false;
     let audioEnabled = true;
-    let audioCtx = null;
 
-    function initAudio() {
+    // Web Audio Synthesizer for Fun Sound Effects (No external URLs needed!)
+    let audioCtx = null;
+    function getAudioContext() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
     }
 
-    function toggleAudio() {
-      audioEnabled = !audioEnabled;
-      document.getElementById('soundIcon').textContent = audioEnabled ? '🔊' : '🔇';
-    }
-
-    function playTone(type) {
+    function playTone(freq, type = 'sine', duration = 0.15, gainVal = 0.15) {
       if (!audioEnabled) return;
       try {
-        initAudio();
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        const now = audioCtx.currentTime;
-
-        if (type === 'click') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(500, now);
-          gain.gain.setValueAtTime(0.06, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-          osc.start(now);
-          osc.stop(now + 0.06);
-        } else if (type === 'flip') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(400, now);
-          osc.frequency.exponentialRampToValueAtTime(700, now + 0.08);
-          gain.gain.setValueAtTime(0.05, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-          osc.start(now);
-          osc.stop(now + 0.1);
-        } else if (type === 'correct') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, now);
-          osc.frequency.setValueAtTime(659.25, now + 0.09);
-          osc.frequency.setValueAtTime(783.99, now + 0.18);
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-          osc.start(now);
-          osc.stop(now + 0.35);
-        } else if (type === 'wrong') {
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(280, now);
-          osc.frequency.setValueAtTime(190, now + 0.12);
-          gain.gain.setValueAtTime(0.08, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-          osc.start(now);
-          osc.stop(now + 0.28);
-        } else if (type === 'victory') {
-          [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
-            const o = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            o.connect(g);
-            g.connect(audioCtx.destination);
-            o.frequency.setValueAtTime(freq, now + idx * 0.1);
-            g.gain.setValueAtTime(0.1, now + idx * 0.1);
-            g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-            o.start(now + idx * 0.1);
-            o.stop(now + 0.6);
-          });
-        }
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
       } catch (e) {
-        console.warn('Audio error:', e);
+        console.warn('Audio not allowed yet:', e);
       }
     }
 
-    // Text to Speech
+    function playSuccessChime() {
+      if (!audioEnabled) return;
+      setTimeout(() => playTone(523.25, 'triangle', 0.1, 0.2), 0);
+      setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 80);
+      setTimeout(() => playTone(783.99, 'triangle', 0.25, 0.25), 160);
+    }
+
+    function playWrongBuzzer() {
+      if (!audioEnabled) return;
+      setTimeout(() => playTone(220, 'sawtooth', 0.15, 0.15), 0);
+      setTimeout(() => playTone(180, 'sawtooth', 0.25, 0.15), 100);
+    }
+
+    function playCardFlipSound() {
+      playTone(400, 'sine', 0.05, 0.08);
+    }
+
+    function toggleAudioMute() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('mute-icon').textContent = audioEnabled ? '🔊' : '🔇';
+      document.getElementById('mute-label').textContent = audioEnabled ? 'Sound On' : 'Muted';
+      showToast(audioEnabled ? 'Sound effects enabled!' : 'Sound muted');
+    }
+
+    /* Web Speech API for Pronunciation */
     function speakText(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
+      if (!window.speechSynthesis) {
+        showToast('Speech not supported on this browser');
+        return;
       }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9; // Slightly slower for clear 5th grade comprehension
+      utterance.pitch = 1.0;
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
     }
 
     function speakCurrentWord() {
-      const cur = flashcardDeck[currentFcIndex];
-      if (cur) speakText(cur.word);
+      const wordObj = currentDeck[currentCardIndex];
+      if (wordObj) {
+        speakText(wordObj.word);
+      }
     }
 
-    function readAllWordsSummary() {
-      speakText("The ten food vocabulary words are: concoction, sumptuous, rancid, delicacy, palatable, confection, putrid, disgusting, contaminate, distasteful.");
+    function playCurrentAudio() {
+      speakCurrentWord();
     }
 
-    // Tab Navigation
     function switchTab(tabId) {
-      playTone('click');
-      const tabs = ['flashcards', 'match', 'quiz'];
-      tabs.forEach(t => {
-        const sec = document.getElementById(`section-${t}`);
-        const btn = document.getElementById(`nav-${t}`);
-        if (t === tabId) {
-          sec.classList.remove('hidden');
-          btn.className = 'nav-btn px-3.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 bg-white text-amber-700 shadow-sm';
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      // Remove active states from tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm', 'font-bold');
+        btn.classList.add('text-slate-600');
+      });
+
+      // Show selected tab
+      const targetSec = document.getElementById(`section-${tabId}`);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      const targetBtn = document.getElementById(`tab-${tabId}`);
+      if (targetBtn) {
+        targetBtn.classList.add('bg-white', 'text-indigo-700', 'shadow-sm', 'font-bold');
+        targetBtn.classList.remove('text-slate-600');
+      }
+
+      if (tabId === 'match' && matchCards.length === 0) {
+        startNewMatchGame();
+      }
+    }
+
+    function showToast(msg, icon = '✨') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      document.getElementById('toast-icon').textContent = icon;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    function updateCardUI() {
+      const card = currentDeck[currentCardIndex];
+      if (!card) return;
+
+      // Card Face (Front)
+      document.getElementById('card-word').textContent = card.word;
+      document.getElementById('card-phonetic').textContent = card.phonetic;
+      document.getElementById('card-pos-badge-front').textContent = card.pos;
+
+      // Card Face (Back)
+      document.getElementById('card-definition').textContent = card.definition;
+      document.getElementById('card-example').textContent = card.example;
+      document.getElementById('card-pos-badge-back').textContent = card.pos;
+
+      // Counter & Progress
+      const idx = currentCardIndex + 1;
+      const total = currentDeck.length;
+      document.getElementById('card-index-label').textContent = `Card ${idx} of ${total}`;
+      const pct = Math.round((idx / total) * 100);
+      document.getElementById('card-progress-pct').textContent = `${pct}%`;
+      document.getElementById('card-progress-bar').style.width = `${pct}%`;
+
+      // Reset flip state to front when moving cards
+      if (isFlipped) {
+        flipCard(false);
+      }
+    }
+
+    function flipCard(toggle = true) {
+      const inner = document.getElementById('flashcard-inner');
+      if (toggle) {
+        isFlipped = !isFlipped;
+        playCardFlipSound();
+      } else {
+        isFlipped = false;
+      }
+      if (isFlipped) {
+        inner.classList.add('rotate-y-180');
+      } else {
+        inner.classList.remove('rotate-y-180');
+      }
+    }
+
+    function nextCard() {
+      if (currentCardIndex < currentDeck.length - 1) {
+        currentCardIndex++;
+      } else {
+        currentCardIndex = 0; // Loop to start
+        showToast('Back to start of the deck!', '🔁');
+      }
+      updateCardUI();
+    }
+
+    function prevCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+      } else {
+        currentCardIndex = currentDeck.length - 1;
+      }
+      updateCardUI();
+    }
+
+    function shuffleCards() {
+      for (let i = currentDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
+      }
+      currentCardIndex = 0;
+      updateCardUI();
+      showToast('Deck shuffled randomly!', '🔀');
+    }
+
+    function resetCards() {
+      currentDeck = [...VOCABULARY_DATA];
+      currentCardIndex = 0;
+      updateCardUI();
+      showToast('Deck reset to original order!', '⏮️');
+    }
+
+    // Keyboard controls for Flashcards
+    window.addEventListener('keydown', (e) => {
+      const flashcardSec = document.getElementById('section-flashcards');
+      if (flashcardSec.classList.contains('hidden')) return;
+
+      if (e.key === 'ArrowRight') {
+        nextCard();
+      } else if (e.key === 'ArrowLeft') {
+        prevCard();
+      } else if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        flipCard();
+      }
+    });
+
+    /* Quizlet Match Game Variables */
+    let matchCards = [];
+    let selectedFirstTile = null;
+    let isProcessingMatch = false;
+    let matchTimerInterval = null;
+    let matchStartTime = 0;
+    let matchElapsedSeconds = 0;
+    let remainingPairs = 6;
+    let bestTime = localStorage.getItem('eli_vocab_best_time') || null;
+
+    if (bestTime) {
+      document.getElementById('best-match-time').textContent = `${parseFloat(bestTime).toFixed(1)}s`;
+    }
+
+    function startNewMatchGame() {
+      clearInterval(matchTimerInterval);
+      matchTimerInterval = null;
+      matchElapsedSeconds = 0;
+      document.getElementById('match-timer').textContent = "0.0s";
+      document.getElementById('match-win-modal').classList.add('hidden');
+      selectedFirstTile = null;
+      isProcessingMatch = false;
+
+      // Select 6 random vocabulary words for the match board
+      const shuffledVocab = [...VOCABULARY_DATA].sort(() => 0.5 - Math.random());
+      const selectedWords = shuffledVocab.slice(0, 6);
+      remainingPairs = selectedWords.length;
+      document.getElementById('pairs-left-badge').textContent = remainingPairs;
+
+      // Create 12 card items (6 words + 6 definitions)
+      const deckTiles = [];
+      selectedWords.forEach((item, index) => {
+        deckTiles.push({
+          id: `word-${index}`,
+          pairId: item.word,
+          type: 'word',
+          text: item.word,
+          pos: item.pos
+        });
+        deckTiles.push({
+          id: `def-${index}`,
+          pairId: item.word,
+          type: 'def',
+          text: item.definition,
+          pos: item.pos
+        });
+      });
+
+      // Shuffle tiles for the grid
+      deckTiles.sort(() => 0.5 - Math.random());
+      matchCards = deckTiles;
+
+      renderMatchGrid();
+    }
+
+    function renderMatchGrid() {
+      const grid = document.getElementById('match-grid');
+      grid.innerHTML = '';
+
+      matchCards.forEach((tile) => {
+        const cardEl = document.createElement('button');
+        cardEl.id = `tile-${tile.id}`;
+        cardEl.type = 'button';
+        cardEl.dataset.pairId = tile.pairId;
+        cardEl.dataset.tileId = tile.id;
+        cardEl.dataset.type = tile.type;
+        
+        // Base styling for match tiles
+        cardEl.className = `p-4 rounded-2xl border-2 text-left flex flex-col justify-between transition-all duration-200 select-none shadow-sm cursor-pointer relative min-h-[120px] sm:min-h-[140px] ${
+          tile.type === 'word' 
+            ? 'bg-amber-50/70 border-amber-200 hover:border-amber-400 hover:shadow-md' 
+            : 'bg-white border-slate-200 hover:border-slate-400 hover:shadow-md'
+        }`;
+
+        if (tile.type === 'word') {
+          cardEl.innerHTML = `
+            <div class="flex items-center justify-between w-full">
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-amber-200/60 text-amber-800 rounded-full">${tile.pos.split('/')[0]}</span>
+              <span class="text-xs">🔤</span>
+            </div>
+            <div class="font-fun font-bold text-lg sm:text-xl text-slate-900 my-auto">${tile.text}</div>
+            <div class="text-[10px] text-amber-700/60 font-semibold">Tap to match</div>
+          `;
         } else {
-          sec.classList.add('hidden');
-          btn.className = 'nav-btn px-3.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 text-slate-600 hover:text-slate-900';
+          cardEl.innerHTML = `
+            <div class="flex items-center justify-between w-full">
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full">Definition</span>
+              <span class="text-xs">💡</span>
+            </div>
+            <div class="text-xs sm:text-sm font-medium text-slate-700 leading-snug my-auto">${tile.text}</div>
+            <div class="text-[10px] text-slate-400 font-semibold">Tap to match</div>
+          `;
+        }
+
+        cardEl.addEventListener('click', () => handleTileClick(cardEl, tile));
+        grid.appendChild(cardEl);
+      });
+    }
+
+    function startTimerIfNeeded() {
+      if (!matchTimerInterval) {
+        matchStartTime = performance.now();
+        matchTimerInterval = setInterval(() => {
+          const now = performance.now();
+          matchElapsedSeconds = ((now - matchStartTime) / 1000).toFixed(1);
+          document.getElementById('match-timer').textContent = `${matchElapsedSeconds}s`;
+        }, 100);
+      }
+    }
+
+    function handleTileClick(cardEl, tile) {
+      if (isProcessingMatch) return;
+      if (cardEl.classList.contains('opacity-0') || cardEl.classList.contains('pointer-events-none')) return;
+
+      startTimerIfNeeded();
+      playTone(550, 'sine', 0.05, 0.08);
+
+      // If clicked the exact same tile again, deselect
+      if (selectedFirstTile && selectedFirstTile.el === cardEl) {
+        deselectTile(cardEl);
+        selectedFirstTile = null;
+        return;
+      }
+
+      // First tile selected
+      if (!selectedFirstTile) {
+        selectedFirstTile = { el: cardEl, tile: tile };
+        highlightSelectedTile(cardEl);
+        return;
+      }
+
+      // Second tile selected -> Check for Match!
+      const firstTile = selectedFirstTile;
+      highlightSelectedTile(cardEl);
+      isProcessingMatch = true;
+
+      // Are they from different types and have identical pairId?
+      const isMatch = (firstTile.tile.pairId === tile.pairId) && (firstTile.tile.type !== tile.type);
+
+      if (isMatch) {
+        // Correct Match!
+        playSuccessChime();
+        firstTile.el.classList.add('bg-emerald-100', 'border-emerald-500', 'animate-match');
+        cardEl.classList.add('bg-emerald-100', 'border-emerald-500', 'animate-match');
+
+        setTimeout(() => {
+          firstTile.el.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
+          cardEl.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
+          
+          remainingPairs--;
+          document.getElementById('pairs-left-badge').textContent = remainingPairs;
+          selectedFirstTile = null;
+          isProcessingMatch = false;
+
+          // Check Win Condition!
+          if (remainingPairs === 0) {
+            handleMatchWin();
+          }
+        }, 400);
+
+      } else {
+        // Wrong Match!
+        playWrongBuzzer();
+        firstTile.el.classList.add('bg-rose-100', 'border-rose-500', 'animate-shake');
+        cardEl.classList.add('bg-rose-100', 'border-rose-500', 'animate-shake');
+
+        // Penalty time display
+        showToast('Not a match! Try again!', '❌');
+
+        setTimeout(() => {
+          firstTile.el.classList.remove('bg-rose-100', 'border-rose-500', 'animate-shake');
+          cardEl.classList.remove('bg-rose-100', 'border-rose-500', 'animate-shake');
+          deselectTile(firstTile.el);
+          deselectTile(cardEl);
+          selectedFirstTile = null;
+          isProcessingMatch = false;
+        }, 650);
+      }
+    }
+
+    function highlightSelectedTile(el) {
+      el.classList.add('ring-4', 'ring-indigo-400', 'border-indigo-600', 'scale-[1.02]');
+    }
+
+    function deselectTile(el) {
+      el.classList.remove('ring-4', 'ring-indigo-400', 'border-indigo-600', 'scale-[1.02]');
+    }
+
+    function handleMatchWin() {
+      clearInterval(matchTimerInterval);
+      matchTimerInterval = null;
+      const finalTime = parseFloat(matchElapsedSeconds);
+      
+      document.getElementById('final-time-text').textContent = `${finalTime.toFixed(1)}s`;
+
+      let isNewRecord = false;
+      if (!bestTime || finalTime < parseFloat(bestTime)) {
+        bestTime = finalTime;
+        localStorage.setItem('eli_vocab_best_time', bestTime);
+        document.getElementById('best-match-time').textContent = `${bestTime.toFixed(1)}s`;
+        isNewRecord = true;
+      }
+
+      const recordBadge = document.getElementById('new-record-badge');
+      if (isNewRecord) {
+        recordBadge.classList.remove('hidden');
+      } else {
+        recordBadge.classList.add('hidden');
+      }
+
+      // Trigger Confetti!
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch(e) {}
+
+      document.getElementById('match-win-modal').classList.remove('hidden');
+    }
+
+    function closeWinModal() {
+      document.getElementById('match-win-modal').classList.add('hidden');
+    }
+
+    /* 4 Distinct Multiple Choice Tests Designed Specifically for 5th Graders */
+    const TEST_VERSIONS = {
+      'A': {
+        title: "Version A: Definitions & Word Meanings",
+        badge: "Test Version A",
+        description: "Choose the correct definition or vocabulary word for each question.",
+        questions: [
+          {
+            q: "1. What is an **appetizer**?",
+            options: [
+              "A small dish served before the main meal",
+              "A very sweet dessert with chocolate",
+              "A person who loves cooking in a kitchen",
+              "An animal that only eats plants"
+            ],
+            answer: 0,
+            explain: "An appetizer is served first to start your appetite before the main entrée!"
+          },
+          {
+            q: "2. If a dog is eager to **devour** its food, what is it doing?",
+            options: [
+              "Chewing slowly to enjoy the flavor",
+              "Eating quickly and hungrily",
+              "Sniffing the bowl without eating",
+              "Refusing to eat because it is full"
+            ],
+            answer: 1,
+            explain: "To devour means to eat rapidly and hungrily!"
+          },
+          {
+            q: "3. Which word describes having large quantities, with more than enough to go around?",
+            options: ["insipid", "abundant", "putrid", "rancid"],
+            answer: 1,
+            explain: "Abundant means plentiful or existing in great supply."
+          },
+          {
+            q: "4. What is a **confection**?",
+            options: [
+              "A sour medicine",
+              "A wild carnivorous animal",
+              "A sweet food or candy made with sugar",
+              "A dirty chemical in water"
+            ],
+            answer: 2,
+            explain: "Confections are sweet candies, pastries, and treats!"
+          },
+          {
+            q: "5. A soup described as **insipid** is most likely:",
+            options: [
+              "Extremely spicy and rich",
+              "Dull, bland, and lacking any taste",
+              "Full of sweet sugar",
+              "Rotten and spoiled"
+            ],
+            answer: 1,
+            explain: "Insipid food has no flavor or zing; it's completely bland."
+          },
+          {
+            q: "6. What is an **herbivore**?",
+            options: [
+              "An animal that only eats plants",
+              "An animal that only eats meat",
+              "A professional pastry chef",
+              "A medicine that cleans wounds"
+            ],
+            answer: 0,
+            explain: "Herbivores eat herbs, leaves, grass, and plants."
+          },
+          {
+            q: "7. If a meal is described as **palatable**, it means the food is:",
+            options: [
+              "Poisonous and contaminated",
+              "Pleasant to taste and acceptable to eat",
+              "Rotten and smelling like sulfur",
+              "Frozen solid"
+            ],
+            answer: 1,
+            explain: "Palatable means food tastes good or acceptable enough to eat."
+          },
+          {
+            q: "8. What is an **aroma**?",
+            options: [
+              "A sour taste on your tongue",
+              "A pleasant, sweet, or appetizing smell",
+              "A deep hole in the garden",
+              "A kitchen tool used for cutting meat"
+            ],
+            answer: 1,
+            explain: "Aroma refers to a wonderful, delicious smell, like fresh bread."
+          },
+          {
+            q: "9. When you make a **concoction**, you have created:",
+            options: [
+              "A single ingredient like plain salt",
+              "A mixture made by combining unusual or different things",
+              "A formal dinner invitation",
+              "A rare type of wild berry"
+            ],
+            answer: 1,
+            explain: "A concoction is a mix or blend of multiple things."
+          },
+          {
+            q: "10. Meat that has turned **putrid** is:",
+            options: [
+              "Delectable and savory",
+              "Rotten, decaying, and smelling horrible",
+              "Crispy and freshly grilled",
+              "Packed with healthy vitamins"
+            ],
+            answer: 1,
+            explain: "Putrid means rotten, decomposing, and smelling awful."
+          },
+          {
+            q: "11. To **contaminate** pure drinking water means to:",
+            options: [
+              "Boil it so it is clean",
+              "Make it dirty, impure, or unsafe",
+              "Freeze it into ice cubes",
+              "Add sweet fruit flavor"
+            ],
+            answer: 1,
+            explain: "Contaminate means introducing germs, dirt, or poisons."
+          },
+          {
+            q: "12. What does it mean to **savor** a slice of cake?",
+            options: [
+              "Gulp it down in one bite",
+              "Enjoy and taste it slowly and completely",
+              "Throw it away in the trash",
+              "Bake it in an oven"
+            ],
+            answer: 1,
+            explain: "To savor is to take your time and enjoy every delicious bite."
+          },
+          {
+            q: "13. What is a **delicacy**?",
+            options: [
+              "A common food everyone eats every day",
+              "A rare, special, or expensive food considered a treat",
+              "An animal that hunts other animals",
+              "A cooking mistake that ruins dinner"
+            ],
+            answer: 1,
+            explain: "Delicacies are rare, prized foods like caviar or truffles."
+          },
+          {
+            q: "14. A person who does not eat beef, chicken, or fish is a:",
+            options: ["carnivore", "confectioner", "vegetarian", "chef"],
+            answer: 2,
+            explain: "Vegetarians choose not to eat meat."
+          },
+          {
+            q: "15. A meal that is **sumptuous** is:",
+            options: [
+              "Tiny and poor",
+              "Lavish, magnificent, and looking fit for a king",
+              "Burnt and smoky",
+              "Stale and rancid"
+            ],
+            answer: 1,
+            explain: "Sumptuous means luxurious, grand, and splendid!"
+          }
+        ]
+      },
+      'B': {
+        title: "Version B: Fill-in-the-Blank Context Clues",
+        badge: "Test Version B",
+        description: "Read each sentence and pick the vocabulary word that fits best.",
+        questions: [
+          {
+            q: "1. The sweet _____ of freshly baked chocolate chip cookies filled the entire house.",
+            options: ["confection", "aroma", "herbivore", "nutrient"],
+            answer: 1,
+            explain: "Aroma is the delicious smell wafting through the house."
+          },
+          {
+            q: "2. Because cows and deer eat only grass and clover, they are classified as _____.",
+            options: ["carnivores", "chefs", "herbivores", "appetizers"],
+            answer: 2,
+            explain: "Animals that eat only vegetation are herbivores."
+          },
+          {
+            q: "3. Before the main pasta arrived, our waiter brought crispy garlic bread as an _____.",
+            options: ["entrée", "appetizer", "delicacy", "concoction"],
+            answer: 1,
+            explain: "Appetizers are served first before the entrée."
+          },
+          {
+            q: "4. The hungry football team proceeded to _____ two giant pizzas in under three minutes.",
+            options: ["devour", "nourish", "saturate", "contaminate"],
+            answer: 0,
+            explain: "Devour means to eat rapidly and eagerly."
+          },
+          {
+            q: "5. Old butter left in a hot garage will quickly spoil and turn _____.",
+            options: ["palatable", "abundant", "rancid", "sumptuous"],
+            answer: 2,
+            explain: "Rancid describes spoiled, sour fats and oils."
+          },
+          {
+            q: "6. Fruits and vegetables are rich in essential _____ that help our bodies grow healthy.",
+            options: ["nutrients", "confections", "carnivores", "entrées"],
+            answer: 0,
+            explain: "Nutrients are the vitamins and minerals needed for health."
+          },
+          {
+            q: "7. The garden produced an _____ harvest of tomatoes, giving us more than we could eat!",
+            options: ["insipid", "abundant", "putrid", "distasteful"],
+            answer: 1,
+            explain: "Abundant means plentiful or more than enough."
+          },
+          {
+            q: "8. The witch stirred a bubbling green _____ made of swamp water and toadstools.",
+            options: ["concoction", "aroma", "nutrient", "delicacy"],
+            answer: 0,
+            explain: "A concoction is an unusual mixture of ingredients."
+          },
+          {
+            q: "9. Eating healthy foods will _____ your body so you have energy for school.",
+            options: ["saturate", "nourish", "devour", "contaminate"],
+            answer: 1,
+            explain: "To nourish means to provide what is needed for health and growth."
+          },
+          {
+            q: "10. The heavy rainstorm began to _____ the soil until deep puddles formed on the lawn.",
+            options: ["savor", "saturate", "satiate", "devour"],
+            answer: 1,
+            explain: "To saturate means to soak completely with water."
+          },
+          {
+            q: "11. Raw chicken must be kept away from lettuce so germs don't _____ the salad.",
+            options: ["nourish", "contaminate", "savor", "satiate"],
+            answer: 1,
+            explain: "Contaminate means spreading bacteria or dirt."
+          },
+          {
+            q: "12. In France, rare black truffles are a prized _____ that costs hundreds of dollars.",
+            options: ["delicacy", "herbivore", "nutrient", "concoction"],
+            answer: 0,
+            explain: "A delicacy is a rare, expensive culinary treat."
+          },
+          {
+            q: "13. The king invited three hundred guests to a _____ feast with roasted turkey and pies.",
+            options: ["putrid", "insipid", "sumptuous", "distasteful"],
+            answer: 2,
+            explain: "Sumptuous means grand, luxurious, and splendid."
+          },
+          {
+            q: "14. A wolf is a fierce _____ that survives by hunting deer and rabbits.",
+            options: ["vegetarian", "carnivore", "confection", "appetizer"],
+            answer: 1,
+            explain: "A carnivore is an animal that eats other animals."
+          },
+          {
+            q: "15. Eli closed his eyes to slowly _____ the rich flavor of his birthday sundae.",
+            options: ["savor", "contaminate", "saturate", "insipid"],
+            answer: 0,
+            explain: "To savor means to enjoy every taste slowly."
+          }
+        ]
+      },
+      'C': {
+        title: "Version C: Parts of Speech & Word Relationships",
+        badge: "Test Version C",
+        description: "Identify parts of speech, synonyms (similar), and antonyms (opposites).",
+        questions: [
+          {
+            q: "1. In the sentence: 'The chef cooked a savory stew,' what part of speech is **savory**?",
+            options: ["Noun", "Adjective", "Verb", "Pronoun"],
+            answer: 1,
+            explain: "Savory describes the noun 'stew', so it is an adjective."
+          },
+          {
+            q: "2. What part of speech is the action word **devour**?",
+            options: ["Verb", "Noun", "Adjective", "Adverb"],
+            answer: 0,
+            explain: "Devour is an action (to eat hungrily), so it is a verb."
+          },
+          {
+            q: "3. What part of speech is **confection** (a sweet treat like fudge or candy)?",
+            options: ["Adjective", "Noun", "Verb", "Preposition"],
+            answer: 1,
+            explain: "Confection is a thing (food item), so it is a noun."
+          },
+          {
+            q: "4. Which word is an ANTONYM (opposite) of **insipid** (tasteless)?",
+            options: ["bland", "flavorful", "dull", "plain"],
+            answer: 1,
+            explain: "Flavorful means full of taste, the exact opposite of insipid!"
+          },
+          {
+            q: "5. Which word is a SYNONYM (similar meaning) for **putrid**?",
+            options: ["sweet", "rotten", "fresh", "crisp"],
+            answer: 1,
+            explain: "Putrid means decaying, spoiled, and rotten."
+          },
+          {
+            q: "6. Which word is an ANTONYM (opposite) of **abundant** (plentiful)?",
+            options: ["scarce", "endless", "heaping", "rich"],
+            answer: 0,
+            explain: "Scarce means very little or rare, the opposite of abundant."
+          },
+          {
+            q: "7. In the sentence: 'The dirty sponge will contaminate the clean table,' what part of speech is **contaminate**?",
+            options: ["Noun", "Verb", "Adjective", "Conjunction"],
+            answer: 1,
+            explain: "Contaminate is an action verb."
+          },
+          {
+            q: "8. A synonym for **voracious** (having an enormous appetite) is:",
+            options: ["ravenous", "satisfied", "sleepy", "tiny"],
+            answer: 0,
+            explain: "Ravenous also means desperately hungry and eager to eat."
+          },
+          {
+            q: "9. What part of speech is the word **delicacy**?",
+            options: ["Noun", "Adjective", "Verb", "Adverb"],
+            answer: 0,
+            explain: "A delicacy is a noun naming a special food."
+          },
+          {
+            q: "10. Which pair of words BOTH describe spoiled, unappealing food?",
+            options: [
+              "sumptuous and savory",
+              "putrid and rancid",
+              "palatable and nutritious",
+              "abundant and flavorful"
+            ],
+            answer: 1,
+            explain: "Both putrid (rotten) and rancid (spoiled oil/fat) mean bad food."
+          },
+          {
+            q: "11. An antonym for **palatable** (pleasant tasting) is:",
+            options: ["tasty", "distasteful", "delicious", "sweet"],
+            answer: 1,
+            explain: "Distasteful means unpleasant or gross to taste."
+          },
+          {
+            q: "12. What part of speech is **saturate** in 'The rain will saturate the towel'?",
+            options: ["Adjective", "Verb", "Noun", "Pronoun"],
+            answer: 1,
+            explain: "To saturate is an action verb meaning to soak completely."
+          },
+          {
+            q: "13. What is the main difference between an **herbivore** and a **carnivore**?",
+            options: [
+              "Herbivores eat plants; carnivores eat meat",
+              "Carnivores only eat grass; herbivores eat berries",
+              "Herbivores are always pets; carnivores live in water",
+              "There is no difference"
+            ],
+            answer: 0,
+            explain: "Herbivores eat plant foods; carnivores eat meat."
+          },
+          {
+            q: "14. If food is described as **savory**, it is usually:",
+            options: [
+              "Sweet and sugary like cotton candy",
+              "Salty, spiced, and rich, not sweet",
+              "Tasteless and like water",
+              "Completely frozen"
+            ],
+            answer: 1,
+            explain: "Savory means spiced, salted, and flavorful, like soup or pizza."
+          },
+          {
+            q: "15. The word **nutritious** is an:",
+            options: ["Adjective describing healthy food", "Action verb", "Person or place", "Adverb"],
+            answer: 0,
+            explain: "Nutritious is an adjective describing healthy food."
+          }
+        ]
+      },
+      'D': {
+        title: "Version D: The Master Vocabulary Challenge",
+        badge: "Test Version D",
+        description: "Advanced multiple choice questions testing nuances and deep comprehension.",
+        questions: [
+          {
+            q: "1. Both 'voracious' and 'insatiable' describe hunger, but **insatiable** specifically means:",
+            options: [
+              "Eating quickly with noisy bites",
+              "Impossible to satisfy or fill completely",
+              "Only eating plants and herbs",
+              "Feeling sleepy after eating dinner"
+            ],
+            answer: 1,
+            explain: "Insatiable comes from 'in-' (not) + 'satiable' (capable of being satisfied)."
+          },
+          {
+            q: "2. How is a **confection** different from a **concoction**?",
+            options: [
+              "A confection is always a sweet candy/dessert; a concoction is a mix of varied ingredients",
+              "A concoction is only made of plants; a confection has meat",
+              "They are the exact same word with different spellings",
+              "A confection is a bad smell; a concoction is a sweet smell"
+            ],
+            answer: 0,
+            explain: "Confections are sweet sugary treats; concoctions are mixtures (like potions)."
+          },
+          {
+            q: "3. What is the difference between an **appetizer** and an **entrée** at a restaurant?",
+            options: [
+              "The appetizer is the main course; the entrée is dessert",
+              "The appetizer comes first as a small starter; the entrée is the main dish",
+              "Appetizers are only drinks; entrées are bread",
+              "Entrées are eaten with hands; appetizers need spoons"
+            ],
+            answer: 1,
+            explain: "Appetizers start the meal; the entrée is the central main plate."
+          },
+          {
+            q: "4. When a sponge is completely full of water and cannot absorb another drop, it is:",
+            options: ["insipid", "saturated", "satiated", "contaminate"],
+            answer: 1,
+            explain: "Saturated means completely filled or soaked to capacity."
+          },
+          {
+            q: "5. When Eli ate three slices of pizza and a salad, his hunger was finally:",
+            options: ["satiated", "saturated", "rancid", "insipid"],
+            answer: 0,
+            explain: "To satiate hunger means to satisfy it completely."
+          },
+          {
+            q: "6. Which of the following animals is a true **carnivore**?",
+            options: ["A panda bear eating bamboo", "A hawk hunting field mice", "A rabbit eating clover", "A horse eating oats"],
+            answer: 1,
+            explain: "A hawk feeds on other animals, making it a carnivore."
+          },
+          {
+            q: "7. Why is it dangerous to eat food that is **contaminated**?",
+            options: [
+              "It contains harmful germs or poisons that can cause illness",
+              "It is too sweet and could ruin your teeth",
+              "It has too many vitamins and nutrients",
+              "It was cooked by a professional chef"
+            ],
+            answer: 0,
+            explain: "Contaminated foods carry harmful bacteria, viruses, or toxins."
+          },
+          {
+            q: "8. A food critic called a new restaurant's soup **insipid**. What should the chef do to fix it?",
+            options: [
+              "Throw it in the trash because it's rotten",
+              "Add spices, herbs, and salt to give it flavor",
+              "Soak it with more water",
+              "Freeze it into an ice cube"
+            ],
+            answer: 1,
+            explain: "Insipid means tasteless, so adding herbs and salt provides needed flavor."
+          },
+          {
+            q: "9. Which food would be considered a **delicacy** in the culinary world?",
+            options: [
+              "A peanut butter and jelly sandwich",
+              "A bowl of plain white rice",
+              "Rare imported caviar from the Caspian Sea",
+              "A slice of American cheese"
+            ],
+            answer: 2,
+            explain: "Caviar is an expensive, rare delicacy prized by food lovers."
+          },
+          {
+            q: "10. What does a **chef** do in a restaurant?",
+            options: [
+              "Takes orders at the front counter",
+              "Directs the kitchen and prepares professional meals",
+              "Drives the delivery truck",
+              "Cleans only the restaurant windows"
+            ],
+            answer: 1,
+            explain: "A chef is a master professional cook who runs the kitchen."
+          },
+          {
+            q: "11. If butter smells sour and has turned sharp and funky, it is:",
+            options: ["rancid", "sumptuous", "palatable", "nutritious"],
+            answer: 0,
+            explain: "Rancid describes spoiled, oxidized fats and oils."
+          },
+          {
+            q: "12. What does it mean to **nourish** a houseplant?",
+            options: [
+              "Put it in a dark closet without water",
+              "Give it sunlight, fresh water, and nutrient-rich soil",
+              "Eat all of its leaves",
+              "Cover it with thick paint"
+            ],
+            answer: 1,
+            explain: "Nourishing means giving it everything required to thrive and grow."
+          },
+          {
+            q: "13. Which of these is an example of a **confection**?",
+            options: [
+              "A piece of salty bacon",
+              "A chocolate caramel candy bar",
+              "A bowl of leafy green salad",
+              "A glass of cold milk"
+            ],
+            answer: 1,
+            explain: "Chocolate candy is a sweet sugary confection."
+          },
+          {
+            q: "14. When guests describe a feast as **sumptuous**, they are impressed by its:",
+            options: [
+              "Blandness and simplicity",
+              "Grandeur, luxury, and delicious abundance",
+              "Horrible smell and spoiled taste",
+              "Tiny portions"
+            ],
+            answer: 1,
+            explain: "Sumptuous emphasizes richness, elegance, and luxury."
+          },
+          {
+            q: "15. What is the best strategy when studying vocabulary terms like **savor** and **devour**?",
+            options: [
+              "Remember that they are exact synonyms",
+              "Notice they are opposites: devour is fast, savor is slow and thoughtful",
+              "Only memorize the first two letters",
+              "Ignore their parts of speech"
+            ],
+            answer: 1,
+            explain: "Savor and devour are opposite ways of eating food!"
+          }
+        ]
+      }
+    };
+
+    let currentTestVersion = 'A';
+    let userAnswers = {};
+
+    function loadTestVersion(verKey) {
+      currentTestVersion = verKey;
+      userAnswers = {};
+
+      // Update Sub-nav buttons
+      ['A', 'B', 'C', 'D'].forEach(v => {
+        const btn = document.getElementById(`btn-ver-${v}`);
+        if (v === verKey) {
+          btn.className = "ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-indigo-600 text-white shadow-sm";
+        } else {
+          btn.className = "ver-tab-btn py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200";
         }
       });
 
-      if (tabId === 'match' && matchWordsColumn.children.length === 0) {
-        startMatchGame();
-      }
+      const testData = TEST_VERSIONS[verKey];
+      document.getElementById('active-test-badge').textContent = testData.badge;
+      document.getElementById('active-test-title').textContent = testData.title;
+      document.getElementById('active-test-desc').textContent = testData.description;
+      document.getElementById('print-test-ver-name').textContent = testData.badge;
+
+      // Hide results panel if visible
+      document.getElementById('test-results-panel').classList.add('hidden');
+      document.getElementById('submit-test-btn').classList.remove('hidden');
+
+      renderTestQuestions(testData);
+      updateAnsweredTracker();
     }
-  </script>
 
-  <script>
-    /* ========================================================
-       FLASHCARDS LOGIC & REFERENCE TABLE
-       ======================================================== */
-    let flashcardDeck = [...VOCABULARY_LIST];
-    let currentFcIndex = 0;
-    let isFlipped = false;
-
-    function renderQuickWordPills() {
-      const container = document.getElementById('quickWordPills');
+    function renderTestQuestions(testData) {
+      const container = document.getElementById('test-questions-container');
       container.innerHTML = '';
-      VOCABULARY_LIST.forEach((item, idx) => {
-        const pill = document.createElement('button');
-        pill.id = `pill-${item.id}`;
-        pill.onclick = () => jumpToFlashcard(idx);
-        pill.className = "px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold transition flex items-center gap-1.5";
-        pill.innerHTML = `<span>${item.icon}</span> <span>${item.word}</span>`;
-        container.appendChild(pill);
+
+      testData.questions.forEach((qObj, qIdx) => {
+        const qCard = document.createElement('div');
+        qCard.id = `q-card-${qIdx}`;
+        qCard.className = "p-5 rounded-2xl border border-slate-200 bg-white transition hover:border-indigo-200";
+
+        // Convert markdown bold like **word** into <strong>word</strong>
+        const formattedQuestion = qObj.q.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-700">$1</strong>');
+
+        let optionsHtml = '';
+        const optionLetters = ['A', 'B', 'C', 'D'];
+
+        qObj.options.forEach((opt, optIdx) => {
+          optionsHtml += `
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-indigo-50/50 hover:border-indigo-200 cursor-pointer transition select-none group text-xs sm:text-sm">
+              <input type="radio" name="question_${qIdx}" value="${optIdx}" onchange="recordAnswer(${qIdx}, ${optIdx})" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+              <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition">
+                ${optionLetters[optIdx]}
+              </span>
+              <span class="font-medium text-slate-700">${opt}</span>
+            </label>
+          `;
+        });
+
+        qCard.innerHTML = `
+          <div class="font-bold text-slate-900 text-sm sm:text-base mb-3 leading-snug">
+            ${formattedQuestion}
+          </div>
+          <div class="space-y-2">
+            ${optionsHtml}
+          </div>
+          <div id="q-feedback-${qIdx}" class="hidden mt-3 p-3 rounded-xl text-xs font-semibold"></div>
+        `;
+
+        container.appendChild(qCard);
       });
     }
 
-    function renderReferenceCards() {
-      const container = document.getElementById('fullWordsTable');
-      container.innerHTML = '';
-      VOCABULARY_LIST.forEach((item, idx) => {
+    function recordAnswer(qIdx, optIdx) {
+      userAnswers[qIdx] = optIdx;
+      updateAnsweredTracker();
+      playTone(450, 'sine', 0.04, 0.05);
+    }
+
+    function updateAnsweredTracker() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const total = TEST_VERSIONS[currentTestVersion].questions.length;
+      document.getElementById('test-answered-tracker').textContent = `${answeredCount}/${total} Answered`;
+    }
+
+    function gradeActiveTest() {
+      const testData = TEST_VERSIONS[currentTestVersion];
+      const total = testData.questions.length;
+      let score = 0;
+
+      testData.questions.forEach((qObj, qIdx) => {
+        const userChoice = userAnswers[qIdx];
+        const card = document.getElementById(`q-card-${qIdx}`);
+        const feedback = document.getElementById(`q-feedback-${qIdx}`);
+
+        feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+        if (userChoice === qObj.answer) {
+          score++;
+          card.classList.remove('border-slate-200', 'border-rose-300');
+          card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+          feedback.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+          feedback.innerHTML = `✅ <strong>Correct!</strong> ${qObj.explain}`;
+        } else {
+          card.classList.remove('border-slate-200', 'border-emerald-300');
+          card.classList.add('border-rose-300', 'bg-rose-50/20');
+          feedback.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+          const correctLetter = ['A', 'B', 'C', 'D'][qObj.answer];
+          const correctText = qObj.options[qObj.answer];
+          feedback.innerHTML = `❌ <strong>Not quite!</strong> Correct answer is <strong>${correctLetter}: ${correctText}</strong>. ${qObj.explain}`;
+        }
+      });
+
+      // Show Results Summary
+      const pct = Math.round((score / total) * 100);
+      document.getElementById('test-score-display').textContent = `${pct}%`;
+      document.getElementById('test-breakdown').textContent = `Eli scored ${score} out of ${total} correct!`;
+
+      let letter = 'A+';
+      let msg = "Legendary Score! You're ready to ace this test!";
+      if (pct >= 90) { letter = 'A'; msg = "Outstanding job, Eli! Excellent mastery!"; }
+      else if (pct >= 80) { letter = 'B'; msg = "Great work! Just a couple to review!"; }
+      else if (pct >= 70) { letter = 'C'; msg = "Good effort! Take a quick flashcard review!"; }
+      else { letter = 'Keep Practicing'; msg = "You've got this! Practice with Flashcards and try again!"; }
+
+      document.getElementById('test-letter-grade').textContent = letter;
+      document.getElementById('test-grade-msg').textContent = msg;
+
+      const panel = document.getElementById('test-results-panel');
+      panel.classList.remove('hidden');
+      panel.scrollIntoView({ behavior: 'smooth' });
+
+      if (pct >= 80) {
+        playSuccessChime();
+        try {
+          confetti({ particleCount: 100, spread: 60, origin: { y: 0.7 } });
+        } catch(e) {}
+      } else {
+        playWrongBuzzer();
+      }
+    }
+
+    function resetActiveTest() {
+      userAnswers = {};
+      loadTestVersion(currentTestVersion);
+      showToast('Test cleared and reset!');
+    }
+
+    function cycleNextTest() {
+      const versions = ['A', 'B', 'C', 'D'];
+      const nextIdx = (versions.indexOf(currentTestVersion) + 1) % versions.length;
+      loadTestVersion(versions[nextIdx]);
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    let currentBankFilter = 'all';
+
+    function renderWordBank(filter = 'all', searchQuery = '') {
+      const grid = document.getElementById('word-bank-grid');
+      grid.innerHTML = '';
+
+      const query = searchQuery.trim().toLowerCase();
+
+      const filtered = VOCABULARY_DATA.filter(item => {
+        const matchesFilter = (filter === 'all') || (item.category.includes(filter));
+        const matchesSearch = !query || 
+          item.word.toLowerCase().includes(query) || 
+          item.definition.toLowerCase().includes(query) ||
+          item.example.toLowerCase().includes(query);
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <span class="text-4xl block mb-2">🔍</span>
+            <p class="font-bold">No vocabulary words match your search.</p>
+            <button onclick="resetBankFilter()" class="mt-2 text-xs text-indigo-600 font-bold hover:underline">Clear search filter</button>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
         const card = document.createElement('div');
-        card.className = "p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-amber-50/40 hover:border-amber-300 transition flex flex-col justify-between";
+        card.className = "bg-white p-5 rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition flex flex-col justify-between";
+
+        let badgeBg = "bg-slate-100 text-slate-700";
+        if (item.category === 'noun') badgeBg = "bg-blue-100 text-blue-800";
+        if (item.category === 'verb') badgeBg = "bg-emerald-100 text-emerald-800";
+        if (item.category === 'adjective') badgeBg = "bg-purple-100 text-purple-800";
+
         card.innerHTML = `
           <div>
             <div class="flex items-center justify-between gap-2 mb-2">
-              <div class="flex items-center gap-2">
-                <span class="text-xl p-1.5 bg-white rounded-lg border border-slate-200">${item.icon}</span>
-                <h4 class="font-heading font-black text-lg capitalize text-slate-900">${item.word}</h4>
-                <span class="text-[10px] font-bold uppercase tracking-wider bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">${item.partOfSpeech}</span>
-              </div>
-              <button onclick="speakText('${item.word}')" class="text-slate-400 hover:text-amber-600 p-1" title="Pronounce">🔊</button>
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${badgeBg}">
+                ${item.pos}
+              </span>
+              <button onclick="speakText('${item.word}')" class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition flex items-center gap-1 text-xs" title="Listen to word">
+                <span>🔊</span> <span class="text-[10px] font-mono">${item.phonetic}</span>
+              </button>
             </div>
             
-            <p class="text-xs sm:text-sm font-semibold text-slate-700 leading-snug mb-2.5">
-              ${item.definition}
-            </p>
+            <h4 class="text-2xl font-bold font-fun text-slate-900 mb-1.5">${item.word}</h4>
+            <p class="text-sm font-semibold text-slate-700 mb-3">${item.definition}</p>
+          </div>
 
-            <div class="bg-white border border-slate-200/90 rounded-xl p-2.5 text-xs text-slate-700">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 block mb-0.5">Page 19 Sentence:</span>
-              <p class="italic font-medium">"${item.bookSentence}"</p>
+          <div class="mt-2 pt-3 border-t border-slate-100">
+            <div class="text-xs text-slate-500 italic mb-1.5">
+              "${item.example}"
+            </div>
+            <div class="text-[11px] font-medium text-amber-800 bg-amber-50 p-2 rounded-xl border border-amber-100/60">
+              💡 <strong>Eli's Note:</strong> ${item.funFact}
             </div>
           </div>
-
-          <div class="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] font-bold">
-            <span class="text-slate-400 font-mono">/${item.pronunciation}/</span>
-            <button onclick="jumpToFlashcard(${idx})" class="text-amber-700 hover:underline">
-              View on Flashcard &rarr;
-            </button>
-          </div>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
       });
     }
 
-    function updateFlashcardUI() {
-      const card = flashcardDeck[currentFcIndex];
-      const cardEl = document.getElementById('flashcardElement');
+    function filterWordBank() {
+      const query = document.getElementById('bank-search').value;
+      renderWordBank(currentBankFilter, query);
+    }
 
-      // Reset flip state to front
-      isFlipped = false;
-      cardEl.classList.remove('card-flipped');
-
-      // Update counters
-      const total = flashcardDeck.length;
-      document.getElementById('fcCounter').textContent = `${currentFcIndex + 1} / ${total}`;
-      document.getElementById('fcProgressBar').style.width = `${((currentFcIndex + 1) / total) * 100}%`;
-      document.getElementById('fcFrontBadge').textContent = `Word ${currentFcIndex + 1} of ${total}`;
-
-      // Front Card elements
-      document.getElementById('fcFrontIcon').textContent = card.icon;
-      document.getElementById('fcFrontWord').textContent = card.word;
-      document.getElementById('fcFrontPos').textContent = card.partOfSpeech;
-      document.getElementById('fcFrontPronounce').textContent = `/${card.pronunciation}/`;
-
-      // Back Card elements
-      document.getElementById('fcBackIcon').textContent = card.icon;
-      document.getElementById('fcBackWord').textContent = card.word;
-      document.getElementById('fcBackPos').textContent = card.partOfSpeech;
-      document.getElementById('fcBackDefinition').textContent = card.definition;
-      
-      const sentenceRegex = new RegExp(`(${card.word})`, 'gi');
-      document.getElementById('fcBackSentence').innerHTML = `"${card.bookSentence.replace(sentenceRegex, '<strong class="text-amber-800 font-black">$1</strong>')}"`;
-      document.getElementById('fcBackRoot').textContent = card.rootTip;
-
-      // Highlight active pill
-      VOCABULARY_LIST.forEach((item, idx) => {
-        const p = document.getElementById(`pill-${item.id}`);
-        if (p) {
-          if (item.word === card.word) {
-            p.className = "px-3 py-1.5 rounded-xl border border-amber-500 bg-amber-500 text-white text-xs font-extrabold shadow-sm flex items-center gap-1.5";
-          } else {
-            p.className = "px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold transition flex items-center gap-1.5";
-          }
-        }
+    function setBankFilter(category) {
+      currentBankFilter = category;
+      document.querySelectorAll('.bank-filter-btn').forEach(btn => {
+        btn.className = "bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
       });
-    }
-
-    function flipFlashcard() {
-      playTone('flip');
-      isFlipped = !isFlipped;
-      const cardEl = document.getElementById('flashcardElement');
-      if (isFlipped) {
-        cardEl.classList.add('card-flipped');
-      } else {
-        cardEl.classList.remove('card-flipped');
+      const activeBtn = document.getElementById(`btn-filter-${category}`);
+      if (activeBtn) {
+        activeBtn.className = "bank-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white";
       }
+      filterWordBank();
     }
 
-    function nextFlashcard() {
-      playTone('click');
-      currentFcIndex = (currentFcIndex + 1) % flashcardDeck.length;
-      updateFlashcardUI();
+    function resetBankFilter() {
+      document.getElementById('bank-search').value = '';
+      setBankFilter('all');
     }
 
-    function prevFlashcard() {
-      playTone('click');
-      currentFcIndex = (currentFcIndex - 1 + flashcardDeck.length) % flashcardDeck.length;
-      updateFlashcardUI();
-    }
-
-    function shuffleFlashcards() {
-      playTone('click');
-      flashcardDeck.sort(() => 0.5 - Math.random());
-      currentFcIndex = 0;
-      updateFlashcardUI();
-    }
-
-    function jumpToFlashcard(index) {
-      playTone('click');
-      switchTab('flashcards');
-      flashcardDeck = [...VOCABULARY_LIST];
-      currentFcIndex = index;
-      updateFlashcardUI();
-      window.scrollTo({ top: 120, behavior: 'smooth' });
-    }
-  </script>
-
-  <script>
-    /* ========================================================
-       TWO-COLUMN DIRECT MATCH GAME LOGIC (NO FLIP GAME)
-       Column A: Words | Column B: Definitions
-       ======================================================== */
-    let selectedWordId = null;
-    let selectedDefId = null;
-    let matchedSet = new Set();
-    let matchAttempts = 0;
-    let matchSeconds = 0;
-    let matchTimerInterval = null;
-    let isMatchLocked = false;
-
-    function startMatchGame() {
-      matchedSet.clear();
-      selectedWordId = null;
-      selectedDefId = null;
-      matchAttempts = 0;
-      matchSeconds = 0;
-      isMatchLocked = false;
-
-      document.getElementById('matchScoreDisplay').textContent = '0 / 10';
-      document.getElementById('matchAttemptsDisplay').textContent = '0';
-      document.getElementById('matchTimerDisplay').textContent = '00:00';
-      document.getElementById('matchVictoryModal').classList.add('hidden');
-
-      clearInterval(matchTimerInterval);
-      matchTimerInterval = setInterval(() => {
-        matchSeconds++;
-        const mins = String(Math.floor(matchSeconds / 60)).padStart(2, '0');
-        const secs = String(matchSeconds % 60).padStart(2, '0');
-        document.getElementById('matchTimerDisplay').textContent = `${mins}:${secs}`;
-      }, 1000);
-
-      renderMatchColumns();
-    }
-
-    function renderMatchColumns() {
-      const wordsCol = document.getElementById('matchWordsColumn');
-      const defsCol = document.getElementById('matchDefsColumn');
-      wordsCol.innerHTML = '';
-      defsCol.innerHTML = '';
-
-      // Shuffle Words and Definitions independently
-      const shuffledWords = [...VOCABULARY_LIST].sort(() => 0.5 - Math.random());
-      const shuffledDefs = [...VOCABULARY_LIST].sort(() => 0.5 - Math.random());
-
-      // Render Words in Column A
-      shuffledWords.forEach(item => {
-        const btn = document.createElement('button');
-        btn.id = `btn-word-${item.id}`;
-        btn.onclick = () => selectWord(item.id);
-        btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/50 transition font-medium text-slate-800 flex items-center justify-between shadow-xs";
-        btn.innerHTML = `
-          <div class="flex items-center gap-2.5">
-            <span class="text-xl">${item.icon}</span>
-            <span class="font-heading font-extrabold text-base capitalize text-slate-900">${item.word}</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">${item.partOfSpeech}</span>
-          </div>
-          <span class="badge-status text-xs font-bold text-slate-400">Select</span>
-        `;
-        wordsCol.appendChild(btn);
-      });
-
-      // Render Definitions in Column B
-      shuffledDefs.forEach(item => {
-        const btn = document.createElement('button');
-        btn.id = `btn-def-${item.id}`;
-        btn.onclick = () => selectDefinition(item.id);
-        btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 transition text-slate-700 flex items-start gap-2.5 shadow-xs";
-        btn.innerHTML = `
-          <span class="text-base shrink-0 mt-0.5">📖</span>
-          <div class="flex-grow">
-            <p class="text-xs sm:text-sm font-semibold leading-snug">${item.definition}</p>
-          </div>
-          <span class="badge-status text-xs font-bold text-slate-400 shrink-0 mt-0.5">Select</span>
-        `;
-        defsCol.appendChild(btn);
-      });
-    }
-
-    function selectWord(wordId) {
-      if (isMatchLocked || matchedSet.has(wordId)) return;
-      playTone('click');
-
-      // If clicked the currently selected word, deselect
-      if (selectedWordId === wordId) {
-        clearWordSelection();
-        return;
-      }
-
-      if (selectedWordId) clearWordSelection();
-      selectedWordId = wordId;
-
-      const btn = document.getElementById(`btn-word-${wordId}`);
-      btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-amber-500 bg-amber-100 text-amber-950 font-bold flex items-center justify-between shadow-md ring-2 ring-amber-300";
-      btn.querySelector('.badge-status').innerHTML = '<span class="text-amber-800 font-extrabold">Active ➔</span>';
-
-      if (selectedDefId) {
-        verifyMatch();
-      }
-    }
-
-    function selectDefinition(defId) {
-      if (isMatchLocked || matchedSet.has(defId)) return;
-      playTone('click');
-
-      // If clicked the currently selected def, deselect
-      if (selectedDefId === defId) {
-        clearDefSelection();
-        return;
-      }
-
-      if (selectedDefId) clearDefSelection();
-      selectedDefId = defId;
-
-      const btn = document.getElementById(`btn-def-${defId}`);
-      btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-indigo-500 bg-indigo-100 text-indigo-950 flex items-start gap-2.5 shadow-md ring-2 ring-indigo-300";
-      btn.querySelector('.badge-status').innerHTML = '<span class="text-indigo-800 font-extrabold">Active ➔</span>';
-
-      if (selectedWordId) {
-        verifyMatch();
-      }
-    }
-
-    function clearWordSelection() {
-      if (!selectedWordId) return;
-      const btn = document.getElementById(`btn-word-${selectedWordId}`);
-      if (btn && !matchedSet.has(selectedWordId)) {
-        btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/50 transition font-medium text-slate-800 flex items-center justify-between shadow-xs";
-        btn.querySelector('.badge-status').textContent = 'Select';
-      }
-      selectedWordId = null;
-    }
-
-    function clearDefSelection() {
-      if (!selectedDefId) return;
-      const btn = document.getElementById(`btn-def-${selectedDefId}`);
-      if (btn && !matchedSet.has(selectedDefId)) {
-        btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 transition text-slate-700 flex items-start gap-2.5 shadow-xs";
-        btn.querySelector('.badge-status').textContent = 'Select';
-      }
-      selectedDefId = null;
-    }
-
-    function verifyMatch() {
-      isMatchLocked = true;
-      matchAttempts++;
-      document.getElementById('matchAttemptsDisplay').textContent = matchAttempts;
-
-      const wordBtn = document.getElementById(`btn-word-${selectedWordId}`);
-      const defBtn = document.getElementById(`btn-def-${selectedDefId}`);
-
-      if (selectedWordId === selectedDefId) {
-        // SUCCESSFUL MATCH
-        playTone('correct');
-        const matchedKey = selectedWordId;
-        matchedSet.add(matchedKey);
-
-        wordBtn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold flex items-center justify-between shadow-sm cursor-default opacity-90";
-        wordBtn.querySelector('.badge-status').innerHTML = '<span class="text-emerald-700 font-extrabold">✓ Matched</span>';
-
-        defBtn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-medium flex items-start gap-2.5 shadow-sm cursor-default opacity-90";
-        defBtn.querySelector('.badge-status').innerHTML = '<span class="text-emerald-700 font-extrabold">✓ Matched</span>';
-
-        selectedWordId = null;
-        selectedDefId = null;
-        isMatchLocked = false;
-
-        document.getElementById('matchScoreDisplay').textContent = `${matchedSet.size} / 10`;
-
-        if (matchedSet.size === 10) {
-          handleMatchVictory();
-        }
-      } else {
-        // MISMATCH
-        playTone('wrong');
-        wordBtn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-medium flex items-center justify-between shadow-sm animate-pulse";
-        defBtn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 flex items-start gap-2.5 shadow-sm animate-pulse";
-
-        setTimeout(() => {
-          clearWordSelection();
-          clearDefSelection();
-          isMatchLocked = false;
-        }, 900);
-      }
-    }
-
-    function handleMatchVictory() {
-      clearInterval(matchTimerInterval);
-      playTone('victory');
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-      }
-      const mins = Math.floor(matchSeconds / 60);
-      const secs = matchSeconds % 60;
-      const timeStr = mins > 0 ? `${mins} min ${secs} sec` : `${secs} seconds`;
-
-      document.getElementById('matchVictoryStats').textContent = 
-        `Outstanding! You matched all 10 vocabulary words to their exact internet definitions in ${timeStr} with ${matchAttempts} attempts.`;
-      document.getElementById('matchVictoryModal').classList.remove('hidden');
-    }
-  </script>
-
-  <script>
-    /* ========================================================
-       4 MULTIPLE CHOICE VARIATIONS TEST SUITE
-       1. def2word: Definition ➔ Word
-       2. word2def: Word ➔ Definition
-       3. context: Textbook Page 19 Sentence Blank Fill-in
-       4. scenario: Real-world applied situations
-       ======================================================== */
-    let currentQuizMode = 'def2word';
-    let quizQuestions = [];
-    let currentQuestionIdx = 0;
-    let quizScore = 0;
-    let isQuestionAnswered = false;
-
-    function getDistractorWords(correctWord, count = 3) {
-      const others = VOCABULARY_LIST.filter(v => v.word !== correctWord);
-      return others.sort(() => 0.5 - Math.random()).slice(0, count).map(v => v.word);
-    }
-
-    function getDistractorDefinitions(correctWord, count = 3) {
-      const others = VOCABULARY_LIST.filter(v => v.word !== correctWord);
-      return others.sort(() => 0.5 - Math.random()).slice(0, count).map(v => v.definition);
-    }
-
-    function buildQuestions(mode) {
-      const questions = [];
-      const shuffled = [...VOCABULARY_LIST].sort(() => 0.5 - Math.random());
-
-      shuffled.forEach(item => {
-        let q = {};
-
-        if (mode === 'def2word') {
-          // VARIATION 1: Definition -> Word
-          const options = [item.word, ...getDistractorWords(item.word, 3)].sort(() => 0.5 - Math.random());
-          q = {
-            badge: "Variation 1: Definition ➔ Word",
-            promptText: `Which vocabulary word matches this dictionary definition?`,
-            highlight: `"${item.definition}"`,
-            subtext: `Part of Speech: ${item.partOfSpeech}`,
-            options: options,
-            correctAnswer: item.word,
-            explanation: `"${item.word}" means: ${item.definition}`
-          };
-        } else if (mode === 'word2def') {
-          // VARIATION 2: Word -> Definition
-          const options = [item.definition, ...getDistractorDefinitions(item.word, 3)].sort(() => 0.5 - Math.random());
-          q = {
-            badge: "Variation 2: Word ➔ Definition",
-            promptText: `What is the accurate internet definition of:`,
-            highlight: `"${item.word.toUpperCase()}"`,
-            subtext: `Pronounced: /${item.pronunciation}/ &bull; (${item.partOfSpeech})`,
-            options: options,
-            correctAnswer: item.definition,
-            explanation: `The definition of "${item.word}" is: ${item.definition}`
-          };
-        } else if (mode === 'context') {
-          // VARIATION 3: Textbook Sentence Fill-In
-          const blankSentence = item.bookSentence.replace(new RegExp(item.word, 'i'), '__________');
-          const options = [item.word, ...getDistractorWords(item.word, 3)].sort(() => 0.5 - Math.random());
-          q = {
-            badge: "Variation 3: Textbook Context Fill-In",
-            promptText: `Fill in the blank from the Lesson 3 (Page 19) sentence:`,
-            highlight: `"${blankSentence}"`,
-            subtext: `Use context clues from the sentence to deduce the correct word!`,
-            options: options,
-            correctAnswer: item.word,
-            explanation: `The original sentence is: "${item.bookSentence}"`
-          };
-        } else if (mode === 'scenario') {
-          // VARIATION 4: Applied Real-World Scenario
-          const options = [item.word, ...getDistractorWords(item.word, 3)].sort(() => 0.5 - Math.random());
-          q = {
-            badge: "Variation 4: Real-World Scenario",
-            promptText: `Read this situation and select the matching vocabulary concept:`,
-            highlight: `"${item.scenario}"`,
-            subtext: `Which vocabulary word directly describes this situation?`,
-            options: options,
-            correctAnswer: item.word,
-            explanation: `This situation exemplifies "${item.word}", which is defined as: ${item.definition}`
-          };
-        }
-
-        questions.push(q);
-      });
-
-      return questions;
-    }
-
-    function selectQuizMode(mode) {
-      playTone('click');
-      currentQuizMode = mode;
-
-      const modes = ['def2word', 'word2def', 'context', 'scenario'];
-      modes.forEach(m => {
-        const btn = document.getElementById(`mode-btn-${m}`);
-        if (m === mode) {
-          btn.className = "quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-amber-500 text-white border-amber-600 shadow-sm";
-          btn.querySelector('span:first-child').className = "text-[10px] uppercase font-extrabold tracking-wider opacity-90";
-          btn.querySelector('p').className = "text-[11px] opacity-85 mt-0.5 leading-snug";
-        } else {
-          btn.className = "quiz-mode-btn p-3.5 rounded-2xl border text-left transition-all duration-200 bg-white border-slate-200 text-slate-700 hover:border-slate-300";
-          btn.querySelector('span:first-child').className = "text-[10px] uppercase font-extrabold tracking-wider text-slate-400";
-          btn.querySelector('p').className = "text-[11px] text-slate-500 mt-0.5 leading-snug";
-        }
-      });
-
-      resetQuizCurrentMode();
-    }
-
-    function resetQuizCurrentMode() {
-      quizQuestions = buildQuestions(currentQuizMode);
-      currentQuestionIdx = 0;
-      quizScore = 0;
-      isQuestionAnswered = false;
-
-      document.getElementById('quizResultModal').classList.add('hidden');
-      document.getElementById('quizContent').classList.remove('hidden');
-      updateQuizScoreDisplay();
-      renderCurrentQuestion();
-    }
-
-    function updateQuizScoreDisplay() {
-      document.getElementById('quizScoreDisplay').textContent = `${quizScore} / ${currentQuestionIdx}`;
-    }
-
-    function renderCurrentQuestion() {
-      isQuestionAnswered = false;
-      const q = quizQuestions[currentQuestionIdx];
-      const total = quizQuestions.length;
-
-      document.getElementById('questionCounter').textContent = `Question ${currentQuestionIdx + 1} of ${total}`;
-      const pct = Math.round(((currentQuestionIdx + 1) / total) * 100);
-      document.getElementById('progressPercent').textContent = `${pct}%`;
-      document.getElementById('quizProgressBar').style.width = `${pct}%`;
-
-      document.getElementById('questionTypeBadge').textContent = q.badge;
-      document.getElementById('questionPrompt').innerHTML = `
-        ${q.promptText}
-        <div class="mt-2 text-base sm:text-lg font-extrabold text-amber-950 bg-amber-100/80 border border-amber-300/80 p-3.5 rounded-2xl">${q.highlight}</div>
-      `;
-
-      const sub = document.getElementById('questionSubtext');
-      if (q.subtext) {
-        sub.innerHTML = q.subtext;
-        sub.classList.remove('hidden');
-      } else {
-        sub.classList.add('hidden');
-      }
-
-      document.getElementById('feedbackContainer').classList.add('hidden');
-
-      const ansContainer = document.getElementById('answersContainer');
-      ansContainer.innerHTML = '';
-
-      q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        const letter = String.fromCharCode(65 + idx);
-        btn.id = `opt-btn-${idx}`;
-        btn.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/50 transition font-medium text-slate-800 flex items-start gap-3 shadow-xs group";
-        btn.onclick = () => handleAnswerSelect(opt, idx);
-
-        btn.innerHTML = `
-          <span class="w-7 h-7 rounded-xl bg-slate-100 group-hover:bg-amber-500 group-hover:text-white text-slate-700 font-extrabold text-xs flex items-center justify-center shrink-0 transition">
-            ${letter}
-          </span>
-          <span class="text-sm font-semibold capitalize leading-snug mt-0.5">${opt}</span>
-        `;
-        ansContainer.appendChild(btn);
-      });
-    }
-
-    function handleAnswerSelect(selectedOpt, selectedIdx) {
-      if (isQuestionAnswered) return;
-      isQuestionAnswered = true;
-
-      const q = quizQuestions[currentQuestionIdx];
-      const isCorrect = (selectedOpt.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim());
-      const chosenBtn = document.getElementById(`opt-btn-${selectedIdx}`);
-
-      if (isCorrect) {
-        playTone('correct');
-        quizScore++;
-        chosenBtn.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold flex items-start gap-3 shadow-sm";
-        chosenBtn.querySelector('span:first-child').className = "w-7 h-7 rounded-xl bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0";
-      } else {
-        playTone('wrong');
-        chosenBtn.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-medium flex items-start gap-3 shadow-sm";
-        chosenBtn.querySelector('span:first-child').className = "w-7 h-7 rounded-xl bg-rose-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0";
-
-        // Highlight the correct option
-        q.options.forEach((opt, idx) => {
-          if (opt.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim()) {
-            const correctBtn = document.getElementById(`opt-btn-${idx}`);
-            correctBtn.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/70 text-emerald-950 font-bold flex items-start gap-3 shadow-sm";
-            correctBtn.querySelector('span:first-child').className = "w-7 h-7 rounded-xl bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0";
-          }
-        });
-      }
-
-      updateQuizScoreDisplay();
-      showFeedback(isCorrect, q);
-    }
-
-    function showFeedback(isCorrect, question) {
-      const fb = document.getElementById('feedbackContainer');
-      const title = document.getElementById('feedbackTitle');
-      const text = document.getElementById('feedbackText');
-      const icon = document.getElementById('feedbackIcon');
-
-      if (isCorrect) {
-        fb.className = "mt-5 p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-900 transition-all";
-        icon.textContent = "🌟";
-        title.textContent = "Superb! Correct answer.";
-      } else {
-        fb.className = "mt-5 p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 transition-all";
-        icon.textContent = "💡";
-        title.textContent = `Correct Answer: "${question.correctAnswer}"`;
-      }
-
-      text.textContent = question.explanation;
-      fb.classList.remove('hidden');
-    }
-
-    function nextQuestion() {
-      playTone('click');
-      currentQuestionIdx++;
-      if (currentQuestionIdx < quizQuestions.length) {
-        renderCurrentQuestion();
-      } else {
-        finishQuiz();
-      }
-    }
-
-    function finishQuiz() {
-      playTone('victory');
-      document.getElementById('quizContent').classList.add('hidden');
-      const modal = document.getElementById('quizResultModal');
-      modal.classList.remove('hidden');
-
-      const total = quizQuestions.length;
-      const pct = Math.round((quizScore / total) * 100);
-
-      document.getElementById('resultAccuracy').textContent = `${pct}%`;
-      document.getElementById('resultCount').textContent = `${quizScore} / ${total}`;
-
-      const title = document.getElementById('resultTitle');
-      const summary = document.getElementById('resultSummary');
-      const medal = document.getElementById('resultMedal');
-
-      if (pct === 100) {
-        medal.textContent = "👑 🏆 🌟";
-        title.textContent = "Flawless Mastery!";
-        summary.textContent = `You scored 10 out of 10 in ${getModeName(currentQuizMode)}!`;
-        if (typeof confetti === 'function') {
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        }
-      } else if (pct >= 80) {
-        medal.textContent = "🎉 👏";
-        title.textContent = "Terrific Performance!";
-        summary.textContent = `Great work! You scored ${quizScore} out of ${total} points.`;
-      } else {
-        medal.textContent = "📚 💪";
-        title.textContent = "Good Effort! Review & Try Again!";
-        summary.textContent = `Review the flashcards and retake the test to aim for 100%.`;
-      }
-    }
-
-    function getModeName(mode) {
-      if (mode === 'def2word') return "Variation 1 (Definition ➔ Word)";
-      if (mode === 'word2def') return "Variation 2 (Word ➔ Definition)";
-      if (mode === 'context') return "Variation 3 (Book Sentence Fill-In)";
-      if (mode === 'scenario') return "Variation 4 (Real-World Scenarios)";
-      return mode;
-    }
-
-    function tryNextQuizMode() {
-      const modeKeys = ['def2word', 'word2def', 'context', 'scenario'];
-      const nextIdx = (modeKeys.indexOf(currentQuizMode) + 1) % modeKeys.length;
-      selectQuizMode(modeKeys[nextIdx]);
-    }
-
-    // Initialize on window load
-    window.onload = function() {
-      renderQuickWordPills();
-      renderReferenceCards();
-      updateFlashcardUI();
-      quizQuestions = buildQuestions(currentQuizMode);
-      renderCurrentQuestion();
-    };
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCardUI();
+      loadTestVersion('A');
+      renderWordBank();
+    });
   </script>
 </body>
 </html>
