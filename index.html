@@ -87,7 +87,7 @@
           <span>⏱️</span> <span>Match</span>
         </button>
         <button onclick="switchTab('tests')" id="tab-tests" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
-          <span>📝</span> <span>Tests (10)</span>
+          <span>📝</span> <span>Tests (15)</span>
         </button>
         <button onclick="switchTab('bank')" id="tab-bank" class="tab-btn px-3 sm:px-4 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
           <span>📖</span> <span>Word Bank</span>
@@ -298,8 +298,8 @@
         <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm mb-6 no-print">
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h2 class="text-lg font-bold font-fun text-slate-900">10 Multiple Choice Test Versions</h2>
-              <p class="text-xs text-slate-500 font-medium">Pick any of the 10 test versions to practice definitions, clues, analogies, and stories!</p>
+              <h2 class="text-lg font-bold font-fun text-slate-900">15 Mixed Multiple Choice Practice Tests</h2>
+              <p class="text-xs text-slate-500 font-medium">Each test mixes definitions, sentence clues, analogies, scenarios, antonyms &amp; parts of speech!</p>
             </div>
             
             <!-- Quick Actions -->
@@ -307,6 +307,104 @@
               <button onclick="window.print()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs">
                 <span>🖨️</span> <span>Print Test</span>
               </button>
+            </div>
+          </div>
+
+          <!-- Version Tabs (15 Mixed Practice Tests) -->
+          <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 gap-2 mt-4">
+            <button onclick="loadTestVersion('1')" id="btn-ver-1" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-indigo-600 text-white shadow-sm">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 1</span>
+            </button>
+            <button onclick="loadTestVersion('2')" id="btn-ver-2" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 2</span>
+            </button>
+            <button onclick="loadTestVersion('3')" id="btn-ver-3" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 3</span>
+            </button>
+            <button onclick="loadTestVersion('4')" id="btn-ver-4" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 4</span>
+            </button>
+            <button onclick="loadTestVersion('5')" id="btn-ver-5" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 5</span>
+            </button>
+            <button onclick="loadTestVersion('6')" id="btn-ver-6" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 6</span>
+            </button>
+            <button onclick="loadTestVersion('7')" id="btn-ver-7" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 7</span>
+            </button>
+            <button onclick="loadTestVersion('8')" id="btn-ver-8" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 8</span>
+            </button>
+            <button onclick="loadTestVersion('9')" id="btn-ver-9" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 9</span>
+            </button>
+            <button onclick="loadTestVersion('10')" id="btn-ver-10" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 10</span>
+            </button>
+            <button onclick="loadTestVersion('11')" id="btn-ver-11" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 11</span>
+            </button>
+            <button onclick="loadTestVersion('12')" id="btn-ver-12" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 12</span>
+            </button>
+            <button onclick="loadTestVersion('13')" id="btn-ver-13" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 13</span>
+            </button>
+            <button onclick="loadTestVersion('14')" id="btn-ver-14" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 14</span>
+            </button>
+            <button onclick="loadTestVersion('15')" id="btn-ver-15" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <span class="block text-[10px] font-semibold opacity-80">Practice</span>
+              <span>Test 15</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Printable Header (Visible only when printing) -->
+        <div class="print-only mb-6 pb-4 border-b-2 border-black">
+          <div class="flex justify-between items-center mb-2">
+            <h1 class="text-xl font-bold">5th Grade Vocabulary Test - <span id="print-test-ver-name">Practice Test 1</span></h1>
+            <div class="text-sm">Date: _________________</div>
+          </div>
+          <div class="flex justify-between text-sm">
+            <div>Student Name: <strong>Eli</strong> ____________________</div>
+            <div>Score: ______ / 10 (____%)</div>
+          </div>
+        </div>
+
+        <!-- Test Container -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm test-paper">
+          <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-6">
+            <div>
+              <span id="active-test-badge" class="text-xs font-extrabold px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full uppercase tracking-wider">
+                Practice Test 1
+              </span>
+              <h3 id="active-test-title" class="text-xl font-bold font-fun text-slate-900 mt-2">
+                Vocabulary Mastery Test 1
+              </h3>
+              <p id="active-test-desc" class="text-xs text-slate-500 mt-0.5">
+                Mixed question formats: definitions, analogies, context clues, scenarios, and parts of speech. (10 Questions)
+              </p>
+            </div>
+            
+            <div class="no-print text-right hidden sm:block">
+              <span class="text-xs text-slate-400 font-semibold">Multiple Choice</span>
+              <div id="test-answered-tracker" class="text-sm font-bold text-indigo-600">0/10 Answered</div>
             </div>
           </div>
 
@@ -1204,1139 +1302,1164 @@
       document.getElementById('match-win-modal').classList.add('hidden');
     }
 
-    /* 10 Distinct Multiple Choice Tests Designed Specifically for 5th Graders */
+    /* 15 Mixed Practice Tests (No standalone categories; every test blends analogies, context, definitions, scenarios, antonyms/synonyms, and grammar) */
     const TEST_VERSIONS = {
-      'A': {
-        title: "Version A: Definitions & Word Meanings",
-        badge: "Test Version A",
-        description: "Choose the correct definition or vocabulary word for each question.",
+      '1': {
+        title: "Practice Test 1 (Mixed Formats)",
+        badge: "Practice Test 1",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
         questions: [
           {
-            q: "1. What is an **appetizer**?",
+            q: "1. [Context Clue] The tantalizing _____ of freshly baked apple pie floated from the kitchen into the hallway.",
+            options: ["aroma", "confection", "herbivore", "nutrient"],
+            answer: 0,
+            explain: "An aroma is a sweet, pleasant, and appetizing food smell."
+          },
+          {
+            q: "2. [Analogy] **Carnivore** is to **meat** as **herbivore** is to _____.",
+            options: ["ice cream", "plants", "fish", "spices"],
+            answer: 1,
+            explain: "Carnivores eat meat; herbivores feed exclusively on plants."
+          },
+          {
+            q: "3. [Definition] What is an **appetizer**?",
             options: [
-              "A small dish served before the main meal",
-              "A very sweet dessert with chocolate",
-              "A person who loves cooking in a kitchen",
-              "An animal that only eats plants"
+              "A small dish served before the main meal to stimulate appetite",
+              "A very sweet dessert topped with chocolate syrup",
+              "A person who works as a head cook in a restaurant",
+              "An animal that hunts other animals for meat"
             ],
             answer: 0,
-            explain: "An appetizer is served first to start your appetite before the main entrée!"
+            explain: "Appetizers are small starter dishes enjoyed before the main entrée."
           },
           {
-            q: "2. If a dog is eager to **devour** its food, what is it doing?",
-            options: [
-              "Chewing slowly to enjoy the flavor",
-              "Eating quickly and hungrily",
-              "Sniffing the bowl without eating",
-              "Refusing to eat because it is full"
-            ],
+            q: "4. [Antonym] Which word is the direct OPPOSITE of **insipid** (bland and lacking taste)?",
+            options: ["dull", "flavorful", "plain", "watery"],
             answer: 1,
-            explain: "To devour means to eat rapidly and hungrily!"
+            explain: "Flavorful means rich and full of taste, the opposite of tasteless insipid food."
           },
           {
-            q: "3. Which word describes having large quantities, with more than enough to go around?",
-            options: ["insipid", "abundant", "putrid", "rancid"],
-            answer: 1,
-            explain: "Abundant means plentiful or existing in great supply."
-          },
-          {
-            q: "4. What is a **confection**?",
-            options: [
-              "A sour medicine",
-              "A wild carnivorous animal",
-              "A sweet food or candy made with sugar",
-              "A dirty chemical in water"
-            ],
-            answer: 2,
-            explain: "Confections are sweet candies, pastries, and treats!"
-          },
-          {
-            q: "5. A soup described as **insipid** is most likely:",
-            options: [
-              "Extremely spicy and rich",
-              "Dull, bland, and lacking any taste",
-              "Full of sweet sugar",
-              "Rotten and spoiled"
-            ],
-            answer: 1,
-            explain: "Insipid food has no flavor or zing; it's completely bland."
-          },
-          {
-            q: "6. What is an **herbivore**?",
-            options: [
-              "An animal that only eats plants",
-              "An animal that only eats meat",
-              "A professional pastry chef",
-              "A medicine that cleans wounds"
-            ],
-            answer: 0,
-            explain: "Herbivores eat herbs, leaves, grass, and plants."
-          },
-          {
-            q: "7. If a meal is described as **palatable**, it means the food is:",
-            options: [
-              "Poisonous and contaminated",
-              "Pleasant to taste and acceptable to eat",
-              "Rotten and smelling like sulfur",
-              "Frozen solid"
-            ],
-            answer: 1,
-            explain: "Palatable means food tastes good or acceptable enough to eat."
-          },
-          {
-            q: "8. What is an **aroma**?",
-            options: [
-              "A sour taste on your tongue",
-              "A pleasant, sweet, or appetizing smell",
-              "A deep hole in the garden",
-              "A kitchen tool used for cutting meat"
-            ],
-            answer: 1,
-            explain: "Aroma refers to a wonderful, delicious smell, like fresh bread."
-          },
-          {
-            q: "9. When you make a **concoction**, you have created:",
-            options: [
-              "A single ingredient like plain salt",
-              "A mixture made by combining unusual or different things",
-              "A formal dinner invitation",
-              "A rare type of wild berry"
-            ],
-            answer: 1,
-            explain: "A concoction is a mix or blend of multiple things."
-          },
-          {
-            q: "10. Meat that has turned **putrid** is:",
-            options: [
-              "Delectable and savory",
-              "Rotten, decaying, and smelling horrible",
-              "Crispy and freshly grilled",
-              "Packed with healthy vitamins"
-            ],
-            answer: 1,
-            explain: "Putrid means rotten, decomposing, and smelling awful."
-          },
-          {
-            q: "11. To **contaminate** pure drinking water means to:",
-            options: [
-              "Boil it so it is clean",
-              "Make it dirty, impure, or unsafe",
-              "Freeze it into ice cubes",
-              "Add sweet fruit flavor"
-            ],
-            answer: 1,
-            explain: "Contaminate means introducing germs, dirt, or poisons."
-          },
-          {
-            q: "12. What does it mean to **savor** a slice of cake?",
-            options: [
-              "Gulp it down in one bite",
-              "Enjoy and taste it slowly and completely",
-              "Throw it away in the trash",
-              "Bake it in an oven"
-            ],
-            answer: 1,
-            explain: "To savor is to take your time and enjoy every delicious bite."
-          },
-          {
-            q: "13. What is a **delicacy**?",
-            options: [
-              "A common food everyone eats every day",
-              "A rare, special, or expensive food considered a treat",
-              "An animal that hunts other animals",
-              "A cooking mistake that ruins dinner"
-            ],
-            answer: 1,
-            explain: "Delicacies are rare, prized foods like caviar or truffles."
-          },
-          {
-            q: "14. A person who does not eat beef, chicken, or fish is a:",
-            options: ["carnivore", "confectioner", "vegetarian", "chef"],
-            answer: 2,
-            explain: "Vegetarians choose not to eat meat."
-          },
-          {
-            q: "15. A meal that is **sumptuous** is:",
-            options: [
-              "Tiny and poor",
-              "Lavish, magnificent, and looking fit for a king",
-              "Burnt and smoky",
-              "Stale and rancid"
-            ],
-            answer: 1,
-            explain: "Sumptuous means luxurious, grand, and splendid!"
-          }
-        ]
-      },
-      'B': {
-        title: "Version B: Fill-in-the-Blank Context Clues",
-        badge: "Test Version B",
-        description: "Read each sentence and pick the vocabulary word that fits best.",
-        questions: [
-          {
-            q: "1. The sweet _____ of freshly baked chocolate chip cookies filled the entire house.",
-            options: ["confection", "aroma", "herbivore", "nutrient"],
-            answer: 1,
-            explain: "Aroma is the delicious smell wafting through the house."
-          },
-          {
-            q: "2. Because cows and deer eat only grass and clover, they are classified as _____.",
-            options: ["carnivores", "chefs", "herbivores", "appetizers"],
-            answer: 2,
-            explain: "Animals that eat only vegetation are herbivores."
-          },
-          {
-            q: "3. Before the main pasta arrived, our waiter brought crispy garlic bread as an _____.",
-            options: ["entrée", "appetizer", "delicacy", "concoction"],
-            answer: 1,
-            explain: "Appetizers are served first before the entrée."
-          },
-          {
-            q: "4. The hungry football team proceeded to _____ two giant pizzas in under three minutes.",
-            options: ["devour", "nourish", "saturate", "contaminate"],
-            answer: 0,
-            explain: "Devour means to eat rapidly and eagerly."
-          },
-          {
-            q: "5. Old butter left in a hot garage will quickly spoil and turn _____.",
-            options: ["palatable", "abundant", "rancid", "sumptuous"],
-            answer: 2,
-            explain: "Rancid describes spoiled, sour fats and oils."
-          },
-          {
-            q: "6. Fruits and vegetables are rich in essential _____ that help our bodies grow healthy.",
-            options: ["nutrients", "confections", "carnivores", "entrées"],
-            answer: 0,
-            explain: "Nutrients are the vitamins and minerals needed for health."
-          },
-          {
-            q: "7. The garden produced an _____ harvest of tomatoes, giving us more than we could eat!",
-            options: ["insipid", "abundant", "putrid", "distasteful"],
-            answer: 1,
-            explain: "Abundant means plentiful or more than enough."
-          },
-          {
-            q: "8. The witch stirred a bubbling green _____ made of swamp water and toadstools.",
-            options: ["concoction", "aroma", "nutrient", "delicacy"],
-            answer: 0,
-            explain: "A concoction is an unusual mixture of ingredients."
-          },
-          {
-            q: "9. Eating healthy foods will _____ your body so you have energy for school.",
-            options: ["saturate", "nourish", "devour", "contaminate"],
-            answer: 1,
-            explain: "To nourish means to provide what is needed for health and growth."
-          },
-          {
-            q: "10. The heavy rainstorm began to _____ the soil until deep puddles formed on the lawn.",
-            options: ["savor", "saturate", "satiate", "devour"],
-            answer: 1,
-            explain: "To saturate means to soak completely with water."
-          },
-          {
-            q: "11. Raw chicken must be kept away from lettuce so germs don't _____ the salad.",
-            options: ["nourish", "contaminate", "savor", "satiate"],
-            answer: 1,
-            explain: "Contaminate means spreading bacteria or dirt."
-          },
-          {
-            q: "12. In France, rare black truffles are a prized _____ that costs hundreds of dollars.",
-            options: ["delicacy", "herbivore", "nutrient", "concoction"],
-            answer: 0,
-            explain: "A delicacy is a rare, expensive culinary treat."
-          },
-          {
-            q: "13. The king invited three hundred guests to a _____ feast with roasted turkey and pies.",
-            options: ["putrid", "insipid", "sumptuous", "distasteful"],
-            answer: 2,
-            explain: "Sumptuous means grand, luxurious, and splendid."
-          },
-          {
-            q: "14. A wolf is a fierce _____ that survives by hunting deer and rabbits.",
-            options: ["vegetarian", "carnivore", "confection", "appetizer"],
-            answer: 1,
-            explain: "A carnivore is an animal that eats other animals."
-          },
-          {
-            q: "15. Eli closed his eyes to slowly _____ the rich flavor of his birthday sundae.",
-            options: ["savor", "contaminate", "saturate", "insipid"],
-            answer: 0,
-            explain: "To savor means to enjoy every taste slowly."
-          }
-        ]
-      },
-      'C': {
-        title: "Version C: Parts of Speech & Word Relationships",
-        badge: "Test Version C",
-        description: "Identify parts of speech, synonyms (similar), and antonyms (opposites).",
-        questions: [
-          {
-            q: "1. In the sentence: 'The chef cooked a savory stew,' what part of speech is **savory**?",
-            options: ["Noun", "Adjective", "Verb", "Pronoun"],
-            answer: 1,
-            explain: "Savory describes the noun 'stew', so it is an adjective."
-          },
-          {
-            q: "2. What part of speech is the action word **devour**?",
-            options: ["Verb", "Noun", "Adjective", "Adverb"],
-            answer: 0,
-            explain: "Devour is an action (to eat hungrily), so it is a verb."
-          },
-          {
-            q: "3. What part of speech is **confection** (a sweet treat like fudge or candy)?",
-            options: ["Adjective", "Noun", "Verb", "Preposition"],
-            answer: 1,
-            explain: "Confection is a thing (food item), so it is a noun."
-          },
-          {
-            q: "4. Which word is an ANTONYM (opposite) of **insipid** (tasteless)?",
-            options: ["bland", "flavorful", "dull", "plain"],
-            answer: 1,
-            explain: "Flavorful means full of taste, the exact opposite of insipid!"
-          },
-          {
-            q: "5. Which word is a SYNONYM (similar meaning) for **putrid**?",
-            options: ["sweet", "rotten", "fresh", "crisp"],
-            answer: 1,
-            explain: "Putrid means decaying, spoiled, and rotten."
-          },
-          {
-            q: "6. Which word is an ANTONYM (opposite) of **abundant** (plentiful)?",
-            options: ["scarce", "endless", "heaping", "rich"],
-            answer: 0,
-            explain: "Scarce means very little or rare, the opposite of abundant."
-          },
-          {
-            q: "7. In the sentence: 'The dirty sponge will contaminate the clean table,' what part of speech is **contaminate**?",
-            options: ["Noun", "Verb", "Adjective", "Conjunction"],
-            answer: 1,
-            explain: "Contaminate is an action verb."
-          },
-          {
-            q: "8. A synonym for **voracious** (having an enormous appetite) is:",
-            options: ["ravenous", "satisfied", "sleepy", "tiny"],
-            answer: 0,
-            explain: "Ravenous also means desperately hungry and eager to eat."
-          },
-          {
-            q: "9. What part of speech is the word **delicacy**?",
-            options: ["Noun", "Adjective", "Verb", "Adverb"],
-            answer: 0,
-            explain: "A delicacy is a noun naming a special food."
-          },
-          {
-            q: "10. Which pair of words BOTH describe spoiled, unappealing food?",
-            options: [
-              "sumptuous and savory",
-              "putrid and rancid",
-              "palatable and nutritious",
-              "abundant and flavorful"
-            ],
-            answer: 1,
-            explain: "Both putrid (rotten) and rancid (spoiled oil/fat) mean bad food."
-          },
-          {
-            q: "11. An antonym for **palatable** (pleasant tasting) is:",
-            options: ["tasty", "distasteful", "delicious", "sweet"],
-            answer: 1,
-            explain: "Distasteful means unpleasant or gross to taste."
-          },
-          {
-            q: "12. What part of speech is **saturate** in 'The rain will saturate the towel'?",
-            options: ["Adjective", "Verb", "Noun", "Pronoun"],
-            answer: 1,
-            explain: "To saturate is an action verb meaning to soak completely."
-          },
-          {
-            q: "13. What is the main difference between an **herbivore** and a **carnivore**?",
-            options: [
-              "Herbivores eat plants; carnivores eat meat",
-              "Carnivores only eat grass; herbivores eat berries",
-              "Herbivores are always pets; carnivores live in water",
-              "There is no difference"
-            ],
-            answer: 0,
-            explain: "Herbivores eat plant foods; carnivores eat meat."
-          },
-          {
-            q: "14. If food is described as **savory**, it is usually:",
-            options: [
-              "Sweet and sugary like cotton candy",
-              "Salty, spiced, and rich, not sweet",
-              "Tasteless and like water",
-              "Completely frozen"
-            ],
-            answer: 1,
-            explain: "Savory means spiced, salted, and flavorful, like soup or pizza."
-          },
-          {
-            q: "15. The word **nutritious** is an:",
-            options: ["Adjective describing healthy food", "Action verb", "Person or place", "Adverb"],
-            answer: 0,
-            explain: "Nutritious is an adjective describing healthy food."
-          }
-        ]
-      },
-      'D': {
-        title: "Version D: The Master Vocabulary Challenge",
-        badge: "Test Version D",
-        description: "Advanced multiple choice questions testing nuances and deep comprehension.",
-        questions: [
-          {
-            q: "1. Both 'voracious' and 'insatiable' describe hunger, but **insatiable** specifically means:",
-            options: [
-              "Eating quickly with noisy bites",
-              "Impossible to satisfy or fill completely",
-              "Only eating plants and herbs",
-              "Feeling sleepy after eating dinner"
-            ],
-            answer: 1,
-            explain: "Insatiable comes from 'in-' (not) + 'satiable' (capable of being satisfied)."
-          },
-          {
-            q: "2. How is a **confection** different from a **concoction**?",
-            options: [
-              "A confection is always a sweet candy/dessert; a concoction is a mix of varied ingredients",
-              "A concoction is only made of plants; a confection has meat",
-              "They are the exact same word with different spellings",
-              "A confection is a bad smell; a concoction is a sweet smell"
-            ],
-            answer: 0,
-            explain: "Confections are sweet sugary treats; concoctions are mixtures (like potions)."
-          },
-          {
-            q: "3. What is the difference between an **appetizer** and an **entrée** at a restaurant?",
-            options: [
-              "The appetizer is the main course; the entrée is dessert",
-              "The appetizer comes first as a small starter; the entrée is the main dish",
-              "Appetizers are only drinks; entrées are bread",
-              "Entrées are eaten with hands; appetizers need spoons"
-            ],
-            answer: 1,
-            explain: "Appetizers start the meal; the entrée is the central main plate."
-          },
-          {
-            q: "4. When a sponge is completely full of water and cannot absorb another drop, it is:",
-            options: ["insipid", "saturated", "satiated", "contaminate"],
-            answer: 1,
-            explain: "Saturated means completely filled or soaked to capacity."
-          },
-          {
-            q: "5. When Eli ate three slices of pizza and a salad, his hunger was finally:",
-            options: ["satiated", "saturated", "rancid", "insipid"],
-            answer: 0,
-            explain: "To satiate hunger means to satisfy it completely."
-          },
-          {
-            q: "6. Which of the following animals is a true **carnivore**?",
-            options: ["A panda bear eating bamboo", "A hawk hunting field mice", "A rabbit eating clover", "A horse eating oats"],
-            answer: 1,
-            explain: "A hawk feeds on other animals, making it a carnivore."
-          },
-          {
-            q: "7. Why is it dangerous to eat food that is **contaminated**?",
-            options: [
-              "It contains harmful germs or poisons that can cause illness",
-              "It is too sweet and could ruin your teeth",
-              "It has too many vitamins and nutrients",
-              "It was cooked by a professional chef"
-            ],
-            answer: 0,
-            explain: "Contaminated foods carry harmful bacteria, viruses, or toxins."
-          },
-          {
-            q: "8. A food critic called a new restaurant's soup **insipid**. What should the chef do to fix it?",
-            options: [
-              "Throw it in the trash because it's rotten",
-              "Add spices, herbs, and salt to give it flavor",
-              "Soak it with more water",
-              "Freeze it into an ice cube"
-            ],
-            answer: 1,
-            explain: "Insipid means tasteless, so adding herbs and salt provides needed flavor."
-          },
-          {
-            q: "9. Which food would be considered a **delicacy** in the culinary world?",
-            options: [
-              "A peanut butter and jelly sandwich",
-              "A bowl of plain white rice",
-              "Rare imported caviar from the Caspian Sea",
-              "A slice of American cheese"
-            ],
-            answer: 2,
-            explain: "Caviar is an expensive, rare delicacy prized by food lovers."
-          },
-          {
-            q: "10. What does a **chef** do in a restaurant?",
-            options: [
-              "Takes orders at the front counter",
-              "Directs the kitchen and prepares professional meals",
-              "Drives the delivery truck",
-              "Cleans only the restaurant windows"
-            ],
-            answer: 1,
-            explain: "A chef is a master professional cook who runs the kitchen."
-          },
-          {
-            q: "11. If butter smells sour and has turned sharp and funky, it is:",
-            options: ["rancid", "sumptuous", "palatable", "nutritious"],
-            answer: 0,
-            explain: "Rancid describes spoiled, oxidized fats and oils."
-          },
-          {
-            q: "12. What does it mean to **nourish** a houseplant?",
-            options: [
-              "Put it in a dark closet without water",
-              "Give it sunlight, fresh water, and nutrient-rich soil",
-              "Eat all of its leaves",
-              "Cover it with thick paint"
-            ],
-            answer: 1,
-            explain: "Nourishing means giving it everything required to thrive and grow."
-          },
-          {
-            q: "13. Which of these is an example of a **confection**?",
-            options: [
-              "A piece of salty bacon",
-              "A chocolate caramel candy bar",
-              "A bowl of leafy green salad",
-              "A glass of cold milk"
-            ],
-            answer: 1,
-            explain: "Chocolate candy is a sweet sugary confection."
-          },
-          {
-            q: "14. When guests describe a feast as **sumptuous**, they are impressed by its:",
-            options: [
-              "Blandness and simplicity",
-              "Grandeur, luxury, and delicious abundance",
-              "Horrible smell and spoiled taste",
-              "Tiny portions"
-            ],
-            answer: 1,
-            explain: "Sumptuous emphasizes richness, elegance, and luxury."
-          },
-          {
-            q: "15. What is the best strategy when studying vocabulary terms like **savor** and **devour**?",
-            options: [
-              "Remember that they are exact synonyms",
-              "Notice they are opposites: devour is fast, savor is slow and thoughtful",
-              "Only memorize the first two letters",
-              "Ignore their parts of speech"
-            ],
-            answer: 1,
-            explain: "Savor and devour are opposite ways of eating food!"
-          }
-        ]
-      },
-      'E': {
-        title: "Version E: Synonyms & Antonyms Showdown",
-        badge: "Test Version E",
-        description: "Choose the word with the same meaning (synonym) or opposite meaning (antonym).",
-        questions: [
-          {
-            q: "1. Which word is a SYNONYM for **sumptuous** (lavish and grand)?",
-            options: ["luxurious", "simple", "putrid", "tasteless"],
-            answer: 0,
-            explain: "Sumptuous means luxurious, magnificent, and splendid."
-          },
-          {
-            q: "2. Which word is an ANTONYM for **voracious** (extremely hungry)?",
-            options: ["famished", "satisfied", "greedy", "insatiable"],
-            answer: 1,
-            explain: "Voracious means ravenously hungry, so satisfied or full is the opposite!"
-          },
-          {
-            q: "3. Which word is a SYNONYM for **aroma**?",
-            options: ["stench", "fragrance", "flavor", "potion"],
-            answer: 1,
-            explain: "Aroma and fragrance both refer to sweet, enjoyable smells."
-          },
-          {
-            q: "4. Which word is an ANTONYM for **contaminate** (make dirty or unsafe)?",
-            options: ["infect", "spoil", "purify", "saturate"],
-            answer: 2,
-            explain: "To purify means to clean completely, the opposite of contaminate."
-          },
-          {
-            q: "5. Which word is a SYNONYM for **devour**?",
-            options: ["nibble", "gobble", "savor", "cook"],
-            answer: 1,
-            explain: "To devour or gobble means to eat very quickly and hungrily."
-          },
-          {
-            q: "6. Which word is an ANTONYM for **distasteful** (gross or unpleasant)?",
-            options: ["delightful", "bitter", "rancid", "nasty"],
-            answer: 0,
-            explain: "Delightful is pleasant and enjoyable, the opposite of distasteful."
-          },
-          {
-            q: "7. Which word is a SYNONYM for **delicacy**?",
-            options: ["ordinary meal", "special treat", "dirty sponge", "spicy herb"],
-            answer: 1,
-            explain: "A delicacy is a prized, rare special treat."
-          },
-          {
-            q: "8. Which word is an ANTONYM for **rancid** (stale and spoiled)?",
-            options: ["rotten", "fresh", "sour", "old"],
-            answer: 1,
-            explain: "Fresh food is crisp and clean, the opposite of rancid."
-          },
-          {
-            q: "9. Which word is a SYNONYM for **confection**?",
-            options: ["pastry/candy", "vegetable", "soup", "entree"],
-            answer: 0,
-            explain: "Confections are sweet pastries, fudges, or candies."
-          },
-          {
-            q: "10. Which word is an ANTONYM for **insatiable** (impossible to satisfy)?",
-            options: ["greedy", "easily satisfied", "voracious", "endless"],
-            answer: 1,
-            explain: "Easily satisfied means you can be filled, opposite of insatiable."
-          },
-          {
-            q: "11. Which word is a SYNONYM for **nourish**?",
-            options: ["starve", "feed and support", "harm", "soak"],
-            answer: 1,
-            explain: "To nourish is to feed and supply with what is needed to grow."
-          },
-          {
-            q: "12. Which word is an ANTONYM for **putrid** (decaying and rotten)?",
-            options: ["foul", "stinking", "wholesome and clean", "spoiled"],
-            answer: 2,
-            explain: "Wholesome and clean is the antonym of rotten putrid matter."
-          },
-          {
-            q: "13. Which word is a SYNONYM for **palatable**?",
-            options: ["appetizing", "horrendous", "inedible", "poisonous"],
-            answer: 0,
-            explain: "Palatable means pleasant or acceptable to the taste."
-          },
-          {
-            q: "14. Which word is an ANTONYM for **abundant** (plentiful)?",
-            options: ["copious", "scarce", "overflowing", "rich"],
-            answer: 1,
-            explain: "Scarce means very limited in amount, the antonym of abundant."
-          },
-          {
-            q: "15. Which word is a SYNONYM for **savor**?",
-            options: ["relish and enjoy", "rush", "swallow whole", "ignore"],
-            answer: 0,
-            explain: "To savor something means to relish and enjoy every moment."
-          }
-        ]
-      },
-      'F': {
-        title: "Version F: Kitchen & Feast Scenarios",
-        badge: "Test Version F",
-        description: "Apply your vocabulary skills to real kitchen and dining scenarios.",
-        questions: [
-          {
-            q: "1. Head chef Marco works ten hours a day crafting gourmet dishes. His role is best described as:",
-            options: [
-              "A professional manager and creator in a kitchen",
-              "A customer waiting for dessert",
-              "A person who only cleans pots",
-              "A farmer harvesting wheat"
-            ],
-            answer: 0,
-            explain: "A chef is a professional trained cook who runs a kitchen."
-          },
-          {
-            q: "2. Before Thanksgiving dinner, Grandma set out chips, dips, and cheese cubes. These foods are:",
-            options: ["entrées", "appetizers", "concoctions", "delicacies"],
-            answer: 1,
-            explain: "Appetizers are the finger foods and small bites before dinner."
-          },
-          {
-            q: "3. If spilled olive oil sat in an open bottle for two hot summers, it would smell:",
+            q: "5. [Kitchen Scenario] Chef Leo accidentally left a carton of heavy cream in the trunk of his car on a hot summer afternoon. When he opened it two days later, it had spoiled and turned _____.",
             options: ["sumptuous", "palatable", "rancid", "nutritious"],
             answer: 2,
-            explain: "Old oxidized oils and butter turn rancid."
+            explain: "Rancid describes spoiled, stale, and smelly fats or dairy oils."
           },
           {
-            q: "4. Eli baked a tray of gooey chocolate brownies and powdered sugar donuts. These sweet items are:",
-            options: ["confections", "herbivores", "nutrients", "carnivores"],
+            q: "6. [Part of Speech] In the sentence: 'Eli paused to **savor** every bite of his birthday sundae,' what part of speech is **savor**?",
+            options: ["Noun", "Verb", "Adjective", "Pronoun"],
+            answer: 1,
+            explain: "Savor is an action verb meaning to enjoy slowly and completely."
+          },
+          {
+            q: "7. [Definition] What does it mean if an orchard has an **abundant** harvest of peaches?",
+            options: [
+              "The fruit is completely rotten and spoiled",
+              "There is a plentiful supply, more than enough for everyone",
+              "Only two or three peaches grew all summer",
+              "The fruit has no taste or flavor"
+            ],
+            answer: 1,
+            explain: "Abundant means plentiful and existing in large quantities."
+          },
+          {
+            q: "8. [Analogy] Hungry is to **voracious** as grand and luxurious is to _____.",
+            options: ["insipid", "sumptuous", "distasteful", "herbivore"],
+            answer: 1,
+            explain: "Voracious means intensely hungry; sumptuous means intensely grand and luxurious."
+          },
+          {
+            q: "9. [Health Scenario] You should never cut raw poultry and fresh salad greens on the same unwashed cutting board because germs will _____ the salad.",
+            options: ["nourish", "contaminate", "satiate", "savor"],
+            answer: 1,
+            explain: "To contaminate means to make impure, dirty, or unsafe with bacteria."
+          },
+          {
+            q: "10. [Synonym] Which word is a synonym for **confection**?",
+            options: ["sweet candy or pastry", "raw meat", "spicy soup", "green vegetable"],
             answer: 0,
-            explain: "Sweet treats and sugary desserts are confections."
-          },
+            explain: "Confections are sweet sugar-based treats like candy and pastries."
+          }
+        ]
+      },
+      '2': {
+        title: "Practice Test 2 (Mixed Formats)",
+        badge: "Practice Test 2",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
           {
-            q: "5. When cleaning up tomato sauce, Mom dipped the dry dishcloth in water until it was entirely:",
-            options: ["satiated", "saturated", "insipid", "putrid"],
+            q: "1. [Definition] What is a **delicacy** in the culinary world?",
+            options: [
+              "A very cheap snack everyone eats daily",
+              "A rare, special, or expensive food considered a prized treat",
+              "An animal that strictly eats grass and leaves",
+              "A bad odor caused by decaying food"
+            ],
             answer: 1,
-            explain: "Saturated means completely drenched and soaked through."
+            explain: "Delicacies are rare, prized foods like caviar or black truffles."
           },
           {
-            q: "6. A food reviewer described the roast chicken as having 'golden crisp skin with rich rosemary.' This chicken was:",
-            options: ["insipid", "flavorful", "distasteful", "putrid"],
+            q: "2. [Context Clue] The yellow kitchen sponge was soaked with so much soapy water that it was completely _____.",
+            options: ["insipid", "saturated", "satiated", "distasteful"],
             answer: 1,
-            explain: "Flavorful means loaded with delicious, rich tastes."
+            explain: "Saturated means completely filled or soaked to capacity with liquid."
           },
           {
-            q: "7. Cutting raw meat and then cutting fresh apples with the same unwashed knife can:",
-            options: ["nourish the apples", "contaminate the apples", "saturate the knife", "savor the meat"],
+            q: "3. [Analogy] **Devour** is to **eat rapidly** as **savor** is to _____.",
+            options: ["throw away", "enjoy slowly", "boil quickly", "spoil completely"],
             answer: 1,
-            explain: "Unwashed knives spread bacteria, which contaminates other food."
+            explain: "Devouring is fast eating; savoring is tasting and enjoying slowly."
           },
           {
-            q: "8. After fasting all day for a religious ceremony, the family sat down to _____ a huge dinner.",
-            options: ["saturate", "devour", "contaminate", "insipid"],
+            q: "4. [Dining Scenario] Maya's older sister does not eat beef, chicken, pork, or seafood. When taking her out for dinner, we should find a restaurant with _____ choices.",
+            options: ["carnivore", "vegetarian", "rancid", "concoction"],
             answer: 1,
-            explain: "To devour is to eat hungrily and eagerly."
+            explain: "Vegetarians do not eat meat or flesh from animals."
           },
           {
-            q: "9. Aunt Clara does not eat any animal meat, fish, or poultry. When invited over, we should prepare a _____ dish.",
-            options: ["carnivorous", "vegetarian", "putrid", "rancid"],
+            q: "5. [Antonym] What is an ANTONYM (opposite) for **palatable** (tasty and pleasant to eat)?",
+            options: ["delicious", "distasteful", "sumptuous", "nutritious"],
             answer: 1,
-            explain: "Vegetarian meals contain no meat products."
+            explain: "Distasteful means unpleasant or gross to taste, the opposite of palatable."
           },
           {
-            q: "10. At the royal banquet, guests were stunned by ice sculptures and platters of lobster. The feast was:",
-            options: ["sumptuous", "insipid", "distasteful", "scarce"],
+            q: "6. [Part of Speech] In the sentence: 'Fresh fruits provide essential **nutrients** for growing athletes,' what part of speech is **nutrients**?",
+            options: ["Noun", "Verb", "Adjective", "Adverb"],
             answer: 0,
-            explain: "Sumptuous means lavish, expensive, and breathtaking."
+            explain: "Nutrients is a noun naming the healthy substances found in food."
           },
           {
-            q: "11. The mashed potatoes were made without any milk, butter, or salt. They tasted completely:",
-            options: ["savory", "insipid", "sumptuous", "abundant"],
+            q: "7. [Context Clue] The warm broth was cooked with plain water and no salt or herbs; as a result, it tasted completely _____.",
+            options: ["flavorful", "insipid", "savory", "abundant"],
             answer: 1,
-            explain: "Without seasonings or salt, food tastes plain and insipid."
+            explain: "Insipid means dull, bland, and lacking flavor."
           },
           {
-            q: "12. In the woods, a deer grazes quietly on leaves and sweet berries. That deer is an:",
-            options: ["herbivore", "carnivore", "entrée", "chef"],
+            q: "8. [Definition] What does it mean to **devour** a plate of pasta?",
+            options: [
+              "To eat it hungrily, eagerly, and quickly",
+              "To look at it without taking a bite",
+              "To save it in the refrigerator for next week",
+              "To season it with extra cheese and basil"
+            ],
             answer: 0,
-            explain: "An animal that strictly eats plants is an herbivore."
+            explain: "Devour means to consume food rapidly and greedily."
           },
           {
-            q: "13. When you take small bites and close your eyes to enjoy every hint of vanilla, you are choosing to:",
-            options: ["devour it", "savor it", "contaminate it", "saturate it"],
-            answer: 1,
-            explain: "Savoring is taking time to enjoy and appreciate flavors."
+            q: "9. [Scenario] After running laps on a humid day, Eli drank four cups of water, but his urge to drink felt _____ because he was still thirsty!",
+            options: ["insatiable", "palatable", "savory", "rancid"],
+            answer: 0,
+            explain: "Insatiable means impossible to satisfy or quench."
           },
           {
-            q: "14. A scientist discovered an ancient cheese in a tomb that broke down into green mold and foul sludge. The cheese was:",
-            options: ["palatable", "putrid", "nutritious", "savory"],
+            q: "10. [Analogy] **Dirt** is to **contaminate** as **healthy food** is to _____.",
+            options: ["spoil", "nourish", "devour", "saturate"],
             answer: 1,
+            explain: "Dirt contaminates; wholesome food nourishes the body."
+          }
+        ]
+      },
+      '3': {
+        title: "Practice Test 3 (Mixed Formats)",
+        badge: "Practice Test 3",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Analogy] Starter dish is to **appetizer** as main centerpiece dish is to _____.",
+            options: ["confection", "entrée", "nutrient", "herbivore"],
+            answer: 1,
+            explain: "Appetizers start the meal; the entrée is the main course."
+          },
+          {
+            q: "2. [Definition] What does the verb **satiate** mean?",
+            options: [
+              "To soak a towel completely with water",
+              "To satisfy a hunger or desire completely to fullness",
+              "To burn food in a hot frying pan",
+              "To make dirty by adding bacteria"
+            ],
+            answer: 1,
+            explain: "To satiate means to satisfy hunger or thirst completely."
+          },
+          {
+            q: "3. [Context Clue] In the story, the eccentric wizard stirred glitter, pond water, and toadstool juice into a fizzy green _____.",
+            options: ["confection", "concoction", "delicacy", "carnivore"],
+            answer: 1,
+            explain: "A concoction is a curious or creative mixture made from varied ingredients."
+          },
+          {
+            q: "4. [Synonym] Which word is a direct SYNONYM for **putrid**?",
+            options: ["fresh", "rotten and decaying", "savory", "nutritious"],
+            answer: 1,
+            explain: "Putrid means decomposing, rotten, and having a foul stench."
+          },
+          {
+            q: "5. [Scenario] The royal wedding featured tables overflowing with roasted turkey, glazed fruits, and towers of frosted cakes. The feast was truly _____.",
+            options: ["sumptuous", "insipid", "scarce", "distasteful"],
+            answer: 0,
+            explain: "Sumptuous means magnificent, lavish, and expensive."
+          },
+          {
+            q: "6. [Part of Speech] In the phrase: 'a **voracious** reader who finishes two thick chapter books every weekend,' what part of speech is **voracious**?",
+            options: ["Adjective", "Verb", "Noun", "Preposition"],
+            answer: 0,
+            explain: "Voracious is an adjective describing having an enormous appetite."
+          },
+          {
+            q: "7. [Antonym] What is the OPPOSITE of **abundant** (having plenty)?",
+            options: ["scarce", "overflowing", "palatable", "flavorful"],
+            answer: 0,
+            explain: "Scarce means in short supply or rare, the opposite of abundant."
+          },
+          {
+            q: "8. [Context Clue] A gentle deer that feeds exclusively on wild acorns, grasses, and green leaves is classified as an _____.",
+            options: ["carnivore", "herbivore", "appetizer", "chef"],
+            answer: 1,
+            explain: "Herbivores are animals that feed only on plants."
+          },
+          {
+            q: "9. [Definition] A **chef** is best defined as someone who:",
+            options: [
+              "Only washes dishes after dinner",
+              "Professionally cooks, designs recipes, and directs a kitchen",
+              "Delivers food in a van to homes",
+              "Grows wheat on a large family farm"
+            ],
+            answer: 1,
+            explain: "A chef is a master professional cook who runs a kitchen."
+          },
+          {
+            q: "10. [Scenario] Eli bit into an unwashed, moldy lime and found the sour, funky taste extremely _____.",
+            options: ["distasteful", "sumptuous", "palatable", "abundant"],
+            answer: 0,
+            explain: "Distasteful means unpleasant, disagreeable, or offensive to the taste."
+          }
+        ]
+      },
+      '4': {
+        title: "Practice Test 4 (Mixed Formats)",
+        badge: "Practice Test 4",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] Eating crisp carrots and drinking fresh milk will _____ your bones and muscles with the fuel they need to grow.",
+            options: ["saturate", "nourish", "contaminate", "insipid"],
+            answer: 1,
+            explain: "To nourish means to provide food and substances necessary for health and growth."
+          },
+          {
+            q: "2. [Analogy] Sweet dessert is to **confection** as salty, spiced food is to _____.",
+            options: ["savory", "putrid", "insipid", "rancid"],
+            answer: 0,
+            explain: "Confections are sweet; savory dishes are salted, spiced, and rich."
+          },
+          {
+            q: "3. [Definition] What is an **entrée**?",
+            options: [
+              "A small bowl of soup served at the start of lunch",
+              "The principal or main dish of a meal",
+              "A sweet piece of chocolate candy",
+              "A person who does not eat meat"
+            ],
+            answer: 1,
+            explain: "The entrée is the central main dish of a meal."
+          },
+          {
+            q: "4. [Scenario] A bag of raw meat was left behind the warm radiator for two weeks. When discovered, the sickening smell was completely _____.",
+            options: ["putrid", "savory", "sumptuous", "palatable"],
+            answer: 0,
             explain: "Putrid means decaying, rotting, and foul-smelling."
           },
           {
-            q: "15. The main plate of grilled salmon with wild rice served at dinner is called the:",
-            options: ["appetizer", "confection", "entrée", "delicacy"],
-            answer: 2,
-            explain: "The entrée is the principal dish of a meal."
+            q: "5. [Antonym] What is an ANTONYM for **rancid** (stale, sour oils/fats)?",
+            options: ["fresh", "spoiled", "rotten", "distasteful"],
+            answer: 0,
+            explain: "Fresh food is sweet and unspoiled, the opposite of rancid."
+          },
+          {
+            q: "6. [Part of Speech] What part of speech is **concoction** in 'Eli created a strange **concoction**'?",
+            options: ["Noun", "Verb", "Adjective", "Adverb"],
+            answer: 0,
+            explain: "Concoction is a noun naming a mixture of ingredients."
+          },
+          {
+            q: "7. [Context Clue] After swimming across the lake, the campers were so hungry they were ready to _____ a whole stack of grilled burgers.",
+            options: ["devour", "saturate", "contaminate", "insipid"],
+            answer: 0,
+            explain: "To devour means to eat hungrily and quickly."
+          },
+          {
+            q: "8. [Analogy] **Wolf** is to **carnivore** as **horse** is to _____.",
+            options: ["carnivore", "herbivore", "vegetarian", "chef"],
+            answer: 1,
+            explain: "Wolves eat meat (carnivores); horses eat grass and grains (herbivores)."
+          },
+          {
+            q: "9. [Definition] Food that is described as **flavorful** is:",
+            options: [
+              "Completely lacking in taste and boring",
+              "Packed with rich, enjoyable seasonings and great taste",
+              "Spoiled and covered with fuzzy mold",
+              "Frozen solid into ice"
+            ],
+            answer: 1,
+            explain: "Flavorful means full of pleasing taste and seasoning."
+          },
+          {
+            q: "10. [Scenario] The bitter herbal tea was hard to drink, but adding a spoonful of wildflower honey made it warm and _____.",
+            options: ["palatable", "putrid", "rancid", "insipid"],
+            answer: 0,
+            explain: "Palatable means pleasant or acceptable enough to drink or eat."
           }
         ]
       },
-      'G': {
-        title: "Version G: Odd Word Out & Category Match",
-        badge: "Test Version G",
-        description: "Spot which word doesn't belong or matches the unique category.",
+      '5': {
+        title: "Practice Test 5 (Mixed Formats)",
+        badge: "Practice Test 5",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
         questions: [
           {
-            q: "1. Which word does NOT belong in this group of positive tastes?",
-            options: ["flavorful", "palatable", "savory", "distasteful"],
-            answer: 3,
-            explain: "Distasteful means unpleasant or gross; the other three are good tastes."
-          },
-          {
-            q: "2. Which word is NOT an adjective (describing word)?",
-            options: ["abundant", "devour", "nutritious", "rancid"],
+            q: "1. [Definition] What does it mean to **saturate** a cloth?",
+            options: [
+              "To dry it completely under the sun",
+              "To soak it thoroughly until it can hold no more liquid",
+              "To rip it into tiny pieces",
+              "To clean it with soap"
+            ],
             answer: 1,
-            explain: "Devour is an action verb; the others are all adjectives."
+            explain: "To saturate means to soak completely with liquid."
           },
           {
-            q: "3. Which word does NOT belong with pleasant scents?",
-            options: ["aroma", "fragrance", "perfume", "putrid"],
-            answer: 3,
-            explain: "Putrid describes foul rotting stench, not a pleasant aroma."
-          },
-          {
-            q: "4. Which word is a NOUN that refers to an animal's dietary lifestyle?",
-            options: ["carnivore", "devour", "satiate", "sumptuous"],
+            q: "2. [Analogy] **Tasteless** is to **insipid** as **plentiful** is to _____.",
+            options: ["abundant", "distasteful", "scarce", "putrid"],
             answer: 0,
-            explain: "Carnivore (meat eater) is a noun naming a kind of animal."
+            explain: "Insipid means tasteless; abundant means plentiful."
           },
           {
-            q: "5. Which word does NOT belong in a sweet dessert shop?",
-            options: ["confection", "fudge", "savory roast", "caramel"],
-            answer: 2,
-            explain: "Savory roast is salty and spiced meat, not a sweet confection."
+            q: "3. [Context Clue] Great white sharks and hawks are classified as _____ because they hunt and feed on other animals.",
+            options: ["herbivores", "carnivores", "vegetarians", "confections"],
+            answer: 1,
+            explain: "Carnivores eat meat from other animals."
           },
           {
-            q: "6. Which word means 'to soak completely', unlike the others?",
-            options: ["saturate", "satiate", "savor", "concoct"],
-            answer: 0,
-            explain: "Saturate specifically means to soak through with liquid."
+            q: "4. [Synonym] Which word is closest in meaning to **savory**?",
+            options: ["sweet like honey", "salted, spiced, and rich", "sour like lemons", "stale and spoiled"],
+            answer: 1,
+            explain: "Savory describes salty, spiced, non-sweet foods like soups and pizza."
           },
           {
-            q: "7. Which of these is NOT something you want in clean food?",
-            options: ["nutrients", "flavor", "contaminants", "aroma"],
-            answer: 2,
-            explain: "Contaminants are germs or pollutants you never want in food!"
-          },
-          {
-            q: "8. Which animal does NOT belong in the herbivore category?",
-            options: ["rabbit", "cow", "lion", "koala"],
-            answer: 2,
-            explain: "A lion is a carnivore that hunts other animals for meat."
-          },
-          {
-            q: "9. Which word is an action VERB meaning to satisfy hunger fully?",
-            options: ["satiate", "insatiable", "nutrient", "delicacy"],
-            answer: 0,
-            explain: "Satiate is the verb meaning to fill or satisfy completely."
-          },
-          {
-            q: "10. Which word does NOT describe spoiled food?",
-            options: ["rancid", "putrid", "sumptuous", "rotten"],
-            answer: 2,
-            explain: "Sumptuous means luxurious and grand; the others mean spoiled."
-          },
-          {
-            q: "11. Which term describes a rare, expensive food item?",
+            q: "5. [Scenario] While traveling in Italy, Eli tasted white truffles shaved over fresh handmade pasta. His teacher explained that truffles are an expensive _____ prized by gourmets.",
             options: ["delicacy", "appetizer", "concoction", "herbivore"],
             answer: 0,
-            explain: "A delicacy is a prized, rare food like truffles or caviar."
+            explain: "A delicacy is a rare, treasured culinary treat."
           },
           {
-            q: "12. Which word means 'impossible to satisfy'?",
-            options: ["insatiable", "palatable", "satiate", "nutritious"],
+            q: "6. [Antonym] What is an ANTONYM for **voracious** (extremely ravenous)?",
+            options: ["satisfied and full", "hungry", "greedy", "insatiable"],
             answer: 0,
-            explain: "Insatiable means hunger or desire that can never be filled."
+            explain: "Voracious means desperately hungry; satisfied or full is the opposite."
           },
           {
-            q: "13. Which word is NOT related to nutrition and health?",
-            options: ["nutritious", "nourish", "nutrient", "rancid"],
-            answer: 3,
-            explain: "Rancid means rotten old fat, which is definitely not healthy!"
-          },
-          {
-            q: "14. Which word is a noun naming a professional kitchen expert?",
-            options: ["chef", "concoction", "vegetarian", "delicacy"],
+            q: "7. [Part of Speech] In the sentence: 'The heavy thunderstorm will **saturate** the garden beds,' what part of speech is **saturate**?",
+            options: ["Verb", "Noun", "Adjective", "Pronoun"],
             answer: 0,
-            explain: "A chef is the professional kitchen cook and boss."
+            explain: "To saturate is an action verb meaning to soak."
           },
           {
-            q: "15. Which word means a strange, creative mixture of different ingredients?",
-            options: ["concoction", "entrée", "nutrient", "aroma"],
+            q: "8. [Context Clue] A warm, buttery _____ of freshly baked garlic knots filled the pizzeria dining room.",
+            options: ["aroma", "nutrient", "herbivore", "confection"],
             answer: 0,
-            explain: "A concoction is a blended mixture created from various items."
+            explain: "Aroma refers to a delicious, appetizing smell."
+          },
+          {
+            q: "9. [Definition] What is a **nutrient**?",
+            options: [
+              "A harmful poison found in dirty water",
+              "A substance in food that gives living things energy and helps them grow",
+              "A chef's tall white cooking hat",
+              "A small dish eaten before the main meal"
+            ],
+            answer: 1,
+            explain: "Nutrients are the essential vitamins, minerals, and proteins our bodies need."
+          },
+          {
+            q: "10. [Health Scenario] If pond water seeps into a clean town water reservoir, dangerous bacteria could _____ the town's drinking supply.",
+            options: ["contaminate", "nourish", "savor", "satiate"],
+            answer: 0,
+            explain: "Contaminate means to make dirty, impure, or hazardous."
           }
         ]
       },
-      'H': {
-        title: "Version H: Story Cloze Reading Challenge",
-        badge: "Test Version H",
-        description: "Choose the vocabulary word that fits the context of each story sentence.",
+      '6': {
+        title: "Practice Test 6 (Mixed Formats)",
+        badge: "Practice Test 6",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
         questions: [
           {
-            q: "1. Eli's team was starving after four quarters of basketball, so they were ready to _____ the pasta.",
-            options: ["contaminate", "devour", "saturate", "insipid"],
+            q: "1. [Context Clue] When visiting the burger restaurant, Leo ordered a black bean and avocado burger because he is a dedicated _____.",
+            options: ["carnivore", "vegetarian", "confection", "chef"],
             answer: 1,
-            explain: "Devour means to eat hungrily and quickly."
+            explain: "Vegetarians do not eat meat or poultry."
           },
           {
-            q: "2. Mom cooked garlic, rosemary, and roast beef until a heavenly _____ reached the bedroom.",
-            options: ["concoction", "aroma", "herbivore", "nutrient"],
-            answer: 1,
-            explain: "Aroma is a wonderful, appetizing food smell."
-          },
-          {
-            q: "3. The castle hosted a _____ feast with twelve roast birds, pyramids of fruit, and silver bowls.",
-            options: ["putrid", "sumptuous", "insipid", "rancid"],
-            answer: 1,
-            explain: "Sumptuous means grand, magnificent, and expensive."
-          },
-          {
-            q: "4. Before eating fresh strawberries, Maya washed them under running water so dirt wouldn't _____ them.",
-            options: ["nourish", "contaminate", "savor", "satiate"],
-            answer: 1,
-            explain: "To contaminate means to make impure or germy."
-          },
-          {
-            q: "5. When baby cows drink milk, they absorb calcium and vitamins that _____ their muscles.",
-            options: ["saturate", "nourish", "devour", "contaminate"],
-            answer: 1,
-            explain: "To nourish is to provide fuel and health for growth."
-          },
-          {
-            q: "6. Without any dressing or herbs, the cold boiled lettuce was watery and completely _____.",
-            options: ["insipid", "flavorful", "abundant", "savory"],
-            answer: 0,
-            explain: "Insipid means tasteless and dull."
-          },
-          {
-            q: "7. In Japan, fugu (blowfish) must be carefully prepared by a licensed master because it is a rare _____.",
-            options: ["delicacy", "appetizer", "confection", "herbivore"],
-            answer: 0,
-            explain: "Delicacy is a rare, treasured food."
-          },
-          {
-            q: "8. Old potato chips forgotten in the back of the pantry smelled sour and _____.",
-            options: ["rancid", "sumptuous", "palatable", "abundant"],
-            answer: 0,
-            explain: "Old fats and oils in chips turn rancid over time."
-          },
-          {
-            q: "9. During autumn, the apple orchard had an _____ harvest that filled hundreds of wooden crates.",
-            options: ["scarce", "abundant", "insipid", "putrid"],
-            answer: 1,
-            explain: "Abundant means huge in amount, more than enough."
-          },
-          {
-            q: "10. In science class, Eli learned that pandas only eat bamboo shoots, making them an _____.",
-            options: ["carnivore", "herbivore", "appetizer", "chef"],
-            answer: 1,
-            explain: "Herbivores eat strictly plants."
-          },
-          {
-            q: "11. The curious little boy stirred mud, dish soap, and flower petals into a weird garden _____.",
-            options: ["confection", "concoction", "delicacy", "entrée"],
-            answer: 1,
-            explain: "A concoction is a mix of varied or strange things."
-          },
-          {
-            q: "12. After running three miles in the desert, Liam's thirst seemed _____ as he drank four bottles.",
-            options: ["insatiable", "palatable", "savory", "nutritious"],
-            answer: 0,
-            explain: "Insatiable means unable to be satisfied."
-          },
-          {
-            q: "13. Grandma told Eli to slow down and _____ every single bite of his birthday cake.",
-            options: ["savor", "saturate", "contaminate", "insipid"],
-            answer: 0,
-            explain: "To savor is to enjoy slowly with deep appreciation."
-          },
-          {
-            q: "14. The restaurant served crispy calamari as an _____ before our big pasta dinner.",
-            options: ["entrée", "appetizer", "confection", "herbivore"],
-            answer: 1,
-            explain: "Appetizers come before the main meal."
-          },
-          {
-            q: "15. The dumpster in the hot sun smelled so _____ that passersby plugged their noses.",
-            options: ["putrid", "sumptuous", "palatable", "savory"],
-            answer: 0,
-            explain: "Putrid means horribly rotten and smelly."
-          }
-        ]
-      },
-      'I': {
-        title: "Version I: Vocabulary Analogies & Relationships",
-        badge: "Test Version I",
-        description: "Complete the analogies by finding the matching word connection.",
-        questions: [
-          {
-            q: "1. **Fast** is to **devour** as **slow** is to _____.",
-            options: ["savor", "swallow", "contaminate", "saturate"],
-            answer: 0,
-            explain: "Devouring is eating fast; savoring is eating slow and thoughtfully."
-          },
-          {
-            q: "2. **Plant** is to **herbivore** as **meat** is to _____.",
-            options: ["vegetarian", "carnivore", "chef", "confection"],
-            answer: 1,
-            explain: "An herbivore eats plants; a carnivore eats meat."
-          },
-          {
-            q: "3. **Beginning** is to **appetizer** as **main dish** is to _____.",
-            options: ["entrée", "confection", "delicacy", "snack"],
-            answer: 0,
-            explain: "An appetizer begins the dinner; the entrée is the main dish."
-          },
-          {
-            q: "4. **Sweet** is to **confection** as **salty and spiced** is to _____.",
-            options: ["savory", "insipid", "putrid", "rancid"],
-            answer: 0,
-            explain: "Confections are sweet; savory foods are spiced and salty."
-          },
-          {
-            q: "5. **Pleasant smell** is to **aroma** as **rotten smell** is to _____.",
-            options: ["flavor", "putrid", "palatable", "nutrient"],
-            answer: 1,
-            explain: "Aroma describes a good smell; putrid describes a rotting foul odor."
-          },
-          {
-            q: "6. **Clean** is to **purify** as **dirty** is to _____.",
-            options: ["saturate", "contaminate", "nourish", "satiate"],
+            q: "2. [Analogy] **Clean** is to **purify** as **dirty** is to _____.",
+            options: ["nourish", "contaminate", "satiate", "savor"],
             answer: 1,
             explain: "Purifying makes clean; contaminating makes dirty."
           },
           {
-            q: "7. **Dry** is to **parched** as **soaked** is to _____.",
-            options: ["saturated", "insipid", "voracious", "palatable"],
-            answer: 0,
-            explain: "Parched means very dry; saturated means completely soaked."
-          },
-          {
-            q: "8. **Tasteless** is to **insipid** as **full of taste** is to _____.",
-            options: ["bland", "flavorful", "rancid", "distasteful"],
+            q: "3. [Definition] What does the adjective **insatiable** mean?",
+            options: [
+              "Easily filled with a light snack",
+              "Impossible to satisfy or quench; always wanting more",
+              "Soaked completely through with water",
+              "Tasting very sweet and sugary"
+            ],
             answer: 1,
-            explain: "Insipid is lacking flavor; flavorful is bursting with it."
+            explain: "Insatiable means incapable of being satisfied."
           },
           {
-            q: "9. **Limited** is to **scarce** as **plentiful** is to _____.",
-            options: ["abundant", "putrid", "insatiable", "palatable"],
+            q: "4. [Scenario] The display case at the holiday festival was packed with peppermint bark, caramel apples, and sugar bonbons. Every sweet treat is a _____.",
+            options: ["confection", "carnivore", "nutrient", "herbivore"],
             answer: 0,
-            explain: "Scarce means limited; abundant means plentiful."
+            explain: "Sweet desserts and candies are confections."
           },
           {
-            q: "10. **Recipe master** is to **chef** as **mixed potion** is to _____.",
-            options: ["delicacy", "concoction", "herbivore", "aroma"],
+            q: "5. [Antonym] Which word is an ANTONYM for **sumptuous** (lavish, splendid, and grand)?",
+            options: ["simple and plain", "expensive", "luxurious", "flavorful"],
+            answer: 0,
+            explain: "Simple and plain is the opposite of sumptuous."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'The chicken noodle soup was warm and **flavorful**,' what part of speech is **flavorful**?",
+            options: ["Adjective", "Noun", "Verb", "Adverb"],
+            answer: 0,
+            explain: "Flavorful is an adjective describing the noun 'soup'."
+          },
+          {
+            q: "7. [Context Clue] A hearty bowl of warm chili and cornbread was more than enough to _____ Eli's hunger after sledding in the snow.",
+            options: ["satiate", "contaminate", "saturate", "distasteful"],
+            answer: 0,
+            explain: "To satiate means to satisfy hunger completely."
+          },
+          {
+            q: "8. [Analogy] **Beginning** is to **appetizer** as **conclusion** is to _____.",
+            options: ["starter", "dessert", "concoction", "herbivore"],
             answer: 1,
-            explain: "A chef cooks meals; a concoction is a blended mixture."
+            explain: "An appetizer begins the meal; dessert concludes it."
           },
           {
-            q: "11. **Fresh butter** is to **sweet** as **spoiled butter** is to _____.",
-            options: ["sumptuous", "rancid", "nutritious", "flavorful"],
+            q: "9. [Definition] What is a **concoction**?",
+            options: [
+              "A single grain of white salt",
+              "A strange or creative mixture created by combining different ingredients",
+              "A wild predatory cat that eats meat",
+              "A formal dinner invitation"
+            ],
             answer: 1,
-            explain: "Old oxidized butter turns rancid."
+            explain: "A concoction is a blended or mixed creation."
           },
           {
-            q: "12. **Full** is to **satiated** as **cannot be filled** is to _____.",
-            options: ["insatiable", "savory", "abundant", "saturated"],
+            q: "10. [Kitchen Scenario] An old tub of margarine sat in a warm kitchen cabinet for eighteen months. The fat broke down and smelled sharp, sour, and _____.",
+            options: ["rancid", "sumptuous", "palatable", "nutritious"],
             answer: 0,
-            explain: "Satiated means full; insatiable means impossible to satisfy."
-          },
-          {
-            q: "13. **Everyday snack** is to **pretzel** as **rare luxury treat** is to _____.",
-            options: ["delicacy", "concoction", "appetizer", "nutrient"],
-            answer: 0,
-            explain: "A delicacy is a rare, expensive food treasure."
-          },
-          {
-            q: "14. **Harm** is to **poison** as **healthy growth** is to _____.",
-            options: ["nourish", "contaminate", "saturate", "devour"],
-            answer: 0,
-            explain: "Poisons harm; good food nourishes."
-          },
-          {
-            q: "15. **Adjective** is to **nutritious** as **noun** is to _____.",
-            options: ["nutrient", "nourish", "saturate", "devour"],
-            answer: 0,
-            explain: "Nutritious is an adjective; nutrient is the noun naming the vitamin."
+            explain: "Rancid describes spoiled, sour fats and oils."
           }
         ]
       },
-      'J': {
-        title: "Version J: The Ultimate Vocab Champion Exam",
-        badge: "Test Version J",
-        description: "The complete 5th grade vocabulary test covering all skills. Good luck Eli!",
+      '7': {
+        title: "Practice Test 7 (Mixed Formats)",
+        badge: "Practice Test 7",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
         questions: [
           {
-            q: "1. A person who orders a spinach and mushroom pizza because they don't eat meat is a:",
-            options: ["carnivore", "vegetarian", "confectioner", "delicacy"],
+            q: "1. [Analogy] **Fast** is to **devour** as **slow** is to _____.",
+            options: ["gulp", "savor", "saturate", "contaminate"],
             answer: 1,
-            explain: "Vegetarians do not eat meat from animals."
+            explain: "Devouring is fast eating; savoring is enjoying slowly."
           },
           {
-            q: "2. When bread comes out of the oven, the wonderful smell drifting into the room is an:",
-            options: ["entrée", "aroma", "nutrient", "herbivore"],
+            q: "2. [Definition] What makes a food item **nutritious**?",
+            options: [
+              "It contains unhealthy fats and excess sugar",
+              "It supplies the essential nutrients needed for healthy growth and energy",
+              "It was cooked in a microwave",
+              "It is very rare and costs a fortune"
+            ],
             answer: 1,
-            explain: "Aroma refers to a delicious, appetizing smell."
+            explain: "Nutritious foods promote health, strength, and bodily growth."
           },
           {
-            q: "3. If someone wolfs down four hot dogs in two minutes, they _____ them.",
-            options: ["devoured", "savored", "contaminated", "saturated"],
+            q: "3. [Context Clue] Head _____ Marcus checked each gourmet plate before the servers carried them into the dining hall.",
+            options: ["chef", "herbivore", "confection", "nutrient"],
             answer: 0,
-            explain: "To devour means to eat greedily and fast."
+            explain: "A chef is the professional kitchen boss and cook."
           },
           {
-            q: "4. Vitamins A, C, and D found in fresh oranges and milk are essential:",
-            options: ["nutrients", "concoctions", "confections", "appetizers"],
+            q: "4. [Antonym] What is an ANTONYM for **delicacy** (a rare, prized treat)?",
+            options: ["common everyday food", "expensive food", "treat", "truffle"],
             answer: 0,
-            explain: "Nutrients give living things the chemicals to grow."
+            explain: "Common everyday food is the opposite of an exotic, prized delicacy."
           },
           {
-            q: "5. When a sponge has soaked up all the water it can possibly hold, it is:",
+            q: "5. [Scenario] The mashed potatoes were whipped with plain water and no butter or salt. Eli thought they were completely _____ and had no zing.",
+            options: ["insipid", "savory", "sumptuous", "flavorful"],
+            answer: 0,
+            explain: "Insipid means tasteless and dull."
+          },
+          {
+            q: "6. [Part of Speech] What part of speech is **herbivore**?",
+            options: ["Noun", "Verb", "Adjective", "Pronoun"],
+            answer: 0,
+            explain: "Herbivore is a noun naming an animal that eats plants."
+          },
+          {
+            q: "7. [Context Clue] The farm had such an _____ supply of sweet corn that they donated ten truckloads to local food banks.",
+            options: ["abundant", "insipid", "putrid", "scarce"],
+            answer: 0,
+            explain: "Abundant means plentiful or existing in great quantity."
+          },
+          {
+            q: "8. [Definition] An animal that survives only by preying upon and eating other animals is a:",
+            options: ["carnivore", "herbivore", "vegetarian", "confectioner"],
+            answer: 0,
+            explain: "Carnivores feed exclusively on animal meat."
+          },
+          {
+            q: "9. [Scenario] The dumpster behind the seafood cannery was sitting in direct heat for four days. The rotting waste gave off a _____ stench.",
+            options: ["putrid", "savory", "palatable", "sumptuous"],
+            answer: 0,
+            explain: "Putrid means rotten, decomposing, and smelling awful."
+          },
+          {
+            q: "10. [Analogy] **Food** is to **nourish** as **medicine** is to _____.",
+            options: ["harm", "heal", "devour", "saturate"],
+            answer: 1,
+            explain: "Food nourishes the body; medicine heals it."
+          }
+        ]
+      },
+      '8': {
+        title: "Practice Test 8 (Mixed Formats)",
+        badge: "Practice Test 8",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] To begin our celebration dinner, the waiter brought mozzarella sticks and bruschetta as an _____.",
+            options: ["appetizer", "entrée", "confection", "herbivore"],
+            answer: 0,
+            explain: "Appetizers are starter courses served before the entrée."
+          },
+          {
+            q: "2. [Definition] What does it mean to **savor** your food?",
+            options: [
+              "To swallow it without chewing",
+              "To take your time to appreciate and enjoy every flavor slowly",
+              "To complain that the food is cold",
+              "To leave half the plate uneaten"
+            ],
+            answer: 1,
+            explain: "To savor means to enjoy and taste thoughtfully and slowly."
+          },
+          {
+            q: "3. [Analogy] **Satisfied** is to **satiated** as **ravenous** is to _____.",
+            options: ["voracious", "insipid", "palatable", "rancid"],
+            answer: 0,
+            explain: "Satiated means fully satisfied; voracious means intensely ravenous."
+          },
+          {
+            q: "4. [Scenario] Eli took a sip of spoiled sour milk and spit it into the sink because of its _____ taste.",
+            options: ["distasteful", "sumptuous", "palatable", "flavorful"],
+            answer: 0,
+            explain: "Distasteful means unpleasant or gross to the taste."
+          },
+          {
+            q: "5. [Synonym] Which word is a SYNONYM for **aroma**?",
+            options: ["foul stench", "pleasant fragrance", "sour taste", "strange potion"],
+            answer: 1,
+            explain: "Aroma and fragrance both mean a sweet, pleasant scent."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'The school lunch was surprisingly **palatable** today,' what part of speech is **palatable**?",
+            options: ["Adjective", "Noun", "Verb", "Preposition"],
+            answer: 0,
+            explain: "Palatable is an adjective meaning acceptable and pleasant to eat."
+          },
+          {
+            q: "7. [Context Clue] If cooking oil is left exposed to light and warm temperatures for a year, it will spoil and turn _____.",
+            options: ["sumptuous", "rancid", "nutritious", "palatable"],
+            answer: 1,
+            explain: "Rancid describes stale, decomposed fats and oils."
+          },
+          {
+            q: "8. [Definition] What is a **confection**?",
+            options: [
+              "A sweet candy, pastry, or sugar-based food item",
+              "A meat-eating animal in the jungle",
+              "A deep cleaning chemical for floors",
+              "A bitter herbal medicine"
+            ],
+            answer: 0,
+            explain: "Confections are sweet sugary confections like fudge, candy, or cake."
+          },
+          {
+            q: "9. [Scenario] A mountain lion hunting wild elk in the Rocky Mountains is an example of a _____.",
+            options: ["carnivore", "herbivore", "vegetarian", "confection"],
+            answer: 0,
+            explain: "Mountain lions eat other animals, making them carnivores."
+          },
+          {
+            q: "10. [Antonym] What is an ANTONYM for **saturate** (soak completely)?",
+            options: ["drench", "dry out", "flood", "soak"],
+            answer: 1,
+            explain: "Dry out is the opposite of saturate."
+          }
+        ]
+      },
+      '9': {
+        title: "Practice Test 9 (Mixed Formats)",
+        badge: "Practice Test 9",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Definition] What is the **entrée** of a restaurant meal?",
+            options: [
+              "The small cup of dipping sauce",
+              "The main course or principal plate",
+              "The after-dinner dessert",
+              "The printed receipt"
+            ],
+            answer: 1,
+            explain: "The entrée is the centerpiece or main course."
+          },
+          {
+            q: "2. [Analogy] **Plant eater** is to **herbivore** as **meat eater** is to _____.",
+            options: ["chef", "carnivore", "vegetarian", "confection"],
+            answer: 1,
+            explain: "Plant eaters are herbivores; meat eaters are carnivores."
+          },
+          {
+            q: "3. [Context Clue] The marathon runner felt a _____ hunger after crossing the finish line and ate three sandwiches.",
+            options: ["voracious", "insipid", "distasteful", "rancid"],
+            answer: 0,
+            explain: "Voracious means having an enormous, eager appetite."
+          },
+          {
+            q: "4. [Scenario] The children mixed baking soda, food coloring, and vinegar into a bubbling purple _____ that erupted on the sidewalk.",
+            options: ["concoction", "delicacy", "confection", "nutrient"],
+            answer: 0,
+            explain: "A concoction is a blended mixture of varied items."
+          },
+          {
+            q: "5. [Antonym] What is an ANTONYM for **putrid**?",
+            options: ["fresh and clean", "rotting", "smelly", "decaying"],
+            answer: 0,
+            explain: "Fresh and clean is the direct opposite of putrid."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'A balanced diet will **nourish** your growing muscles,' what part of speech is **nourish**?",
+            options: ["Verb", "Noun", "Adjective", "Pronoun"],
+            answer: 0,
+            explain: "Nourish is an action verb meaning to supply with nutrients."
+          },
+          {
+            q: "7. [Context Clue] Japanese Kobe beef is so rare and tender that it is treated worldwide as a luxury _____.",
+            options: ["delicacy", "appetizer", "confection", "herbivore"],
+            answer: 0,
+            explain: "A delicacy is a prized, rare food specialty."
+          },
+          {
+            q: "8. [Analogy] **Water** is to **quench** as **food** is to _____.",
+            options: ["satiate", "saturate", "contaminate", "insipid"],
+            answer: 0,
+            explain: "Water quenches thirst; food satiates hunger."
+          },
+          {
+            q: "9. [Definition] What does it mean to **contaminate** food?",
+            options: [
+              "To make it clean and ready to eat",
+              "To make it dirty, impure, or unsafe by introducing bacteria or poisons",
+              "To freeze it for three months",
+              "To add cinnamon and sugar"
+            ],
+            answer: 1,
+            explain: "To contaminate means introducing germs or dirt."
+          },
+          {
+            q: "10. [Scenario] The palace banquet hall gleamed with crystal chandeliers and silver platters of prime rib and lobster. The dinner was utterly _____.",
+            options: ["sumptuous", "insipid", "scarce", "distasteful"],
+            answer: 0,
+            explain: "Sumptuous means lavish, splendid, and grand."
+          }
+        ]
+      },
+      '10': {
+        title: "Practice Test 10 (Mixed Formats)",
+        badge: "Practice Test 10",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] A hot bowl of tomato soup with herbs and roasted garlic is warm, rich, and _____.",
+            options: ["savory", "insipid", "rancid", "putrid"],
+            answer: 0,
+            explain: "Savory describes spiced, salted, and flavorful food."
+          },
+          {
+            q: "2. [Analogy] **Bland** is to **insipid** as **offensive to taste** is to _____.",
+            options: ["distasteful", "sumptuous", "savory", "palatable"],
+            answer: 0,
+            explain: "Insipid means bland; distasteful means unpleasant to taste."
+          },
+          {
+            q: "3. [Definition] What is an **herbivore**?",
+            options: [
+              "An animal that feeds strictly on plants and vegetation",
+              "An animal that hunts for other animals",
+              "A kitchen cook who makes desserts",
+              "A sweet candy made of sugar"
+            ],
+            answer: 0,
+            explain: "Herbivores eat plant-based foods."
+          },
+          {
+            q: "4. [Scenario] Eli was nervous about trying grilled asparagus, but with a squeeze of fresh lemon juice, he found it surprisingly _____.",
+            options: ["palatable", "putrid", "rancid", "distasteful"],
+            answer: 0,
+            explain: "Palatable means pleasant or acceptable to eat."
+          },
+          {
+            q: "5. [Synonym] Which phrase is a SYNONYM for **devour**?",
+            options: ["wolf down hungrily", "chew very slowly", "throw into the trash", "smell carefully"],
+            answer: 0,
+            explain: "Devour means to consume or wolf down quickly and greedily."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'The king held a **sumptuous** celebration,' what part of speech is **sumptuous**?",
+            options: ["Adjective", "Noun", "Verb", "Adverb"],
+            answer: 0,
+            explain: "Sumptuous is an adjective describing the celebration."
+          },
+          {
+            q: "7. [Context Clue] The steady rainfall began to _____ the lawn until puddles formed on the grass.",
+            options: ["saturate", "devour", "contaminate", "insipid"],
+            answer: 0,
+            explain: "To saturate means to soak completely with moisture."
+          },
+          {
+            q: "8. [Antonym] What is an ANTONYM for **insatiable** (impossible to satisfy)?",
+            options: ["easily satisfied", "voracious", "greedy", "bottomless"],
+            answer: 0,
+            explain: "Easily satisfied is the opposite of insatiable."
+          },
+          {
+            q: "9. [Definition] A **vegetarian** is someone who:",
+            options: [
+              "Eats only red meat",
+              "Chooses not to eat meat, poultry, or fish",
+              "Cooks professionally in restaurants",
+              "Has a sweet candy store"
+            ],
+            answer: 1,
+            explain: "Vegetarians do not eat animal meat."
+          },
+          {
+            q: "10. [Health Scenario] Iron, calcium, and vitamins are vital _____ that support the immune system.",
+            options: ["nutrients", "confections", "concoctions", "appetizers"],
+            answer: 0,
+            explain: "Nutrients provide the chemicals needed to stay healthy and grow."
+          }
+        ]
+      },
+      '11': {
+        title: "Practice Test 11 (Mixed Formats)",
+        badge: "Practice Test 11",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] As soon as the bakery oven opened, a delightful cinnamon _____ wafted through the morning air.",
+            options: ["aroma", "herbivore", "nutrient", "carnivore"],
+            answer: 0,
+            explain: "Aroma is a pleasant, enticing scent."
+          },
+          {
+            q: "2. [Analogy] **Scarce** is to **rare** as **plentiful** is to _____.",
+            options: ["abundant", "putrid", "insipid", "rancid"],
+            answer: 0,
+            explain: "Scarce means rare; abundant means plentiful."
+          },
+          {
+            q: "3. [Definition] What does the adjective **rancid** mean?",
+            options: [
+              "Sweet and sugary",
+              "Stale, spoiled, and having a bad smell or taste from old oils or fats",
+              "Filled with lots of vitamins",
+              "Extremely expensive and rare"
+            ],
+            answer: 1,
+            explain: "Rancid describes spoiled, stale oils or butter."
+          },
+          {
+            q: "4. [Scenario] The golden retriever puppy had an _____ desire to play fetch, bringing the tennis ball back for two straight hours without resting!",
+            options: ["insatiable", "palatable", "insipid", "rancid"],
+            answer: 0,
+            explain: "Insatiable means unable to be satisfied."
+          },
+          {
+            q: "5. [Antonym] What is an ANTONYM for **contaminate**?",
+            options: ["purify and clean", "infect", "spoil", "pollute"],
+            answer: 0,
+            explain: "Purify means to clean completely, the opposite of contaminate."
+          },
+          {
+            q: "6. [Part of Speech] What part of speech is **appetizer**?",
+            options: ["Noun", "Verb", "Adjective", "Pronoun"],
+            answer: 0,
+            explain: "Appetizer is a noun naming a food dish."
+          },
+          {
+            q: "7. [Context Clue] Eli took his time to slowly _____ every spoonful of the rich homemade vanilla gelato.",
+            options: ["savor", "contaminate", "saturate", "insipid"],
+            answer: 0,
+            explain: "To savor means to enjoy and taste slowly."
+          },
+          {
+            q: "8. [Analogy] **Canvas** is to **painter** as **recipe** is to _____.",
+            options: ["chef", "carnivore", "confection", "delicacy"],
+            answer: 0,
+            explain: "A painter uses a canvas; a chef uses recipes to create dishes."
+          },
+          {
+            q: "9. [Definition] If something is described as **disgusting**, it is:",
+            options: [
+              "Gross, sickening, and highly offensive to taste or smell",
+              "Pleasantly scented and sweet",
+              "Crispy and freshly baked",
+              "Made entirely out of vegetables"
+            ],
+            answer: 0,
+            explain: "Disgusting means sickening and repulsive."
+          },
+          {
+            q: "10. [Kitchen Scenario] Leaving raw ground beef in a warm sink will breed germs that could _____ other food on the counter.",
+            options: ["contaminate", "nourish", "savor", "satiate"],
+            answer: 0,
+            explain: "Contaminate means spreading bacteria or germs."
+          }
+        ]
+      },
+      '12': {
+        title: "Practice Test 12 (Mixed Formats)",
+        badge: "Practice Test 12",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Definition] What is a **concoction**?",
+            options: [
+              "A rare bird in South America",
+              "A strange or creative mixture formed by blending different ingredients",
+              "A dessert made only of powdered sugar",
+              "An animal that hunts other animals"
+            ],
+            answer: 1,
+            explain: "A concoction is an unusual mixture or blend of ingredients."
+          },
+          {
+            q: "2. [Analogy] **Beginning** is to **appetizer** as **main course** is to _____.",
+            options: ["entrée", "confection", "nutrient", "delicacy"],
+            answer: 0,
+            explain: "An appetizer begins the dinner; the entrée is the main course."
+          },
+          {
+            q: "3. [Context Clue] Eating protein, vitamins, and minerals helps _____ your body so you have boundless energy for sports.",
+            options: ["nourish", "saturate", "contaminate", "insipid"],
+            answer: 0,
+            explain: "To nourish is to provide what is required for health and growth."
+          },
+          {
+            q: "4. [Scenario] A piece of raw fish slipped beneath the stove and rotted in the heat. Two weeks later, the stench was completely _____.",
+            options: ["putrid", "sumptuous", "palatable", "savory"],
+            answer: 0,
+            explain: "Putrid means decaying, rotten, and foul-smelling."
+          },
+          {
+            q: "5. [Antonym] What is an ANTONYM of **flavorful**?",
+            options: ["insipid", "savory", "tasty", "sweet"],
+            answer: 0,
+            explain: "Insipid means tasteless and bland, the antonym of flavorful."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'Maya is a proud **vegetarian**,' what part of speech is **vegetarian**?",
+            options: ["Noun", "Verb", "Adverb", "Conjunction"],
+            answer: 0,
+            explain: "Vegetarian is a noun identifying a person who avoids eating meat."
+          },
+          {
+            q: "7. [Context Clue] The glass candy case was filled with chocolate truffles, gummy drops, and peppermint sticks—a wonderful display of _____.",
+            options: ["confections", "carnivores", "nutrients", "herbivores"],
+            answer: 0,
+            explain: "Confections are sweet sugar-based candies and treats."
+          },
+          {
+            q: "8. [Analogy] **Panda** is to **herbivore** as **lion** is to _____.",
+            options: ["carnivore", "chef", "vegetarian", "appetizer"],
+            answer: 0,
+            explain: "Pandas eat plants (herbivore); lions eat meat (carnivore)."
+          },
+          {
+            q: "9. [Definition] What does it mean to **satiate** your hunger?",
+            options: [
+              "To satisfy it fully so you feel content and full",
+              "To eat only raw vegetables",
+              "To let food spoil in the heat",
+              "To cook food on an outdoor grill"
+            ],
+            answer: 0,
+            explain: "To satiate means to satisfy hunger or desire completely."
+          },
+          {
+            q: "10. [Dining Scenario] The President attended a _____ state banquet served on gold china with gourmet steaks and decadent chocolate towers.",
+            options: ["sumptuous", "insipid", "scarce", "distasteful"],
+            answer: 0,
+            explain: "Sumptuous means lavish, luxurious, and splendid."
+          }
+        ]
+      },
+      '13': {
+        title: "Practice Test 13 (Mixed Formats)",
+        badge: "Practice Test 13",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] With lots of cinnamon, brown sugar, and toasted pecans, the homemade waffles were rich and _____.",
+            options: ["flavorful", "insipid", "distasteful", "putrid"],
+            answer: 0,
+            explain: "Flavorful means rich and full of pleasant taste."
+          },
+          {
+            q: "2. [Analogy] **Hurried** is to **devour** as **unhurried** is to _____.",
+            options: ["savor", "swallow", "contaminate", "saturate"],
+            answer: 0,
+            explain: "Devouring is hurried eating; savoring is unhurried and thoughtful."
+          },
+          {
+            q: "3. [Definition] What is a **delicacy**?",
+            options: [
+              "A rare, special, or expensive food considered a prized treat",
+              "A common food served in school cafeterias daily",
+              "A large carnivorous wild animal",
+              "A bad smell that comes from rotten eggs"
+            ],
+            answer: 0,
+            explain: "A delicacy is a prized, rare food like truffles or caviar."
+          },
+          {
+            q: "4. [Scenario] Eli dipped a thick cloth towel into a bucket of water until it was completely dripping and _____.",
             options: ["saturated", "insipid", "satiated", "palatable"],
             answer: 0,
-            explain: "Saturated means completely filled or soaked with liquid."
+            explain: "Saturated means completely filled or soaked through with water."
           },
           {
-            q: "6. A lion hunting zebras in the wild is a classic example of a:",
-            options: ["herbivore", "vegetarian", "carnivore", "chef"],
-            answer: 2,
-            explain: "Carnivores eat meat from other animals."
-          },
-          {
-            q: "7. Cotton candy, fudge, and chocolate truffles all belong in the category of:",
-            options: ["confections", "appetizers", "entrées", "nutrients"],
+            q: "5. [Antonym] What is the OPPOSITE of **savory** (salty, rich, and spiced)?",
+            options: ["sweet and sugary", "salted", "herbal", "flavorful"],
             answer: 0,
-            explain: "Confections are sweet sugar-based candies and desserts."
+            explain: "In culinary arts, sweet is considered the opposite of savory."
           },
           {
-            q: "8. The soup had zero salt, no pepper, and tasted like plain hot tap water. It was completely:",
-            options: ["insipid", "savory", "flavorful", "sumptuous"],
+            q: "6. [Part of Speech] In the sentence: 'The old cooking oil turned **rancid**,' what part of speech is **rancid**?",
+            options: ["Adjective", "Noun", "Verb", "Pronoun"],
             answer: 0,
-            explain: "Insipid means lacking flavor, dull, and bland."
+            explain: "Rancid is an adjective describing the state of the oil."
           },
           {
-            q: "9. An antonym for **palatable** (tastes good and acceptable) is:",
-            options: ["delicious", "distasteful", "savory", "abundant"],
-            answer: 1,
-            explain: "Distasteful means unpleasant or gross to taste."
-          },
-          {
-            q: "10. In luxury restaurants, caviar and white truffles are prized as a:",
-            options: ["delicacy", "concoction", "carnivore", "nutrient"],
+            q: "7. [Context Clue] A wild koala bear that eats only eucalyptus leaves is an example of an _____.",
+            options: ["herbivore", "carnivore", "appetizer", "chef"],
             answer: 0,
-            explain: "A delicacy is a rare, prized culinary treat."
+            explain: "Animals that feed only on plants are herbivores."
           },
           {
-            q: "11. If old vegetable oil turns dark, smelly, and sour in a warm pantry, it has turned:",
-            options: ["rancid", "sumptuous", "palatable", "nutritious"],
+            q: "8. [Analogy] **Poison** is to **illness** as **nutrient** is to _____.",
+            options: ["good health", "decay", "bad odor", "hunger"],
             answer: 0,
-            explain: "Rancid describes spoiled, stale oils or fats."
+            explain: "Poisons cause illness; nutrients promote good health and growth."
           },
           {
-            q: "12. Dirt and bacteria from dirty sneakers can _____ the clean kitchen floor.",
-            options: ["nourish", "contaminate", "satiate", "savor"],
-            answer: 1,
-            explain: "To contaminate means to make impure, dirty, or unsafe."
-          },
-          {
-            q: "13. What is the difference between an **appetizer** and an **entrée**?",
+            q: "9. [Definition] If a meal is described as **palatable**, it is:",
             options: [
-              "Appetizer is the starter dish; entrée is the main course",
-              "Appetizer is dessert; entrée is soup",
-              "They are the exact same dish",
-              "Appetizer is only for drinks"
+              "Acceptable and pleasant enough to eat",
+              "Poisonous and contaminated",
+              "Rotten and covered in mold",
+              "Extremely expensive and served to kings"
             ],
             answer: 0,
-            explain: "The appetizer precedes the main entrée dish."
+            explain: "Palatable means food tastes good or acceptable enough to eat."
           },
           {
-            q: "14. A king's wedding feast with gold goblets and roasted meats is:",
-            options: ["insipid", "sumptuous", "putrid", "scarce"],
-            answer: 1,
-            explain: "Sumptuous means luxurious, lavish, and magnificent."
-          },
+            q: "10. [Scenario] After a three-hour soccer tournament in the cold rain, the team had a _____ appetite and ate four pizzas in ten minutes.",
+            options: ["voracious", "insipid", "distasteful", "scarce"],
+            answer: 0,
+            explain: "Voracious means having an enormous, ravenous appetite."
+          }
+        ]
+      },
+      '14': {
+        title: "Practice Test 14 (Mixed Formats)",
+        badge: "Practice Test 14",
+        description: "Mixed test featuring definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
           {
-            q: "15. To **savor** a meal means to:",
+            q: "1. [Definition] What does it mean to **contaminate** something?",
             options: [
-              "Gulp it down as fast as possible",
-              "Taste and enjoy it slowly and completely",
-              "Throw it away in the trash",
-              "Add too much salt until it's ruined"
+              "To make it clean and ready for use",
+              "To make it impure, dirty, or unsafe by adding germs or pollutants",
+              "To cook it on high heat",
+              "To freeze it in an ice chest"
             ],
             answer: 1,
-            explain: "To savor means to enjoy every bite slowly and with pleasure."
+            explain: "To contaminate means to pollute or spoil with germs."
+          },
+          {
+            q: "2. [Analogy] **Bland** is to **insipid** as **spoiled fat** is to _____.",
+            options: ["rancid", "sumptuous", "palatable", "savory"],
+            answer: 0,
+            explain: "Insipid means bland; rancid describes spoiled fats or oils."
+          },
+          {
+            q: "3. [Context Clue] For his birthday entrée, Eli ordered a grilled steak with roasted potatoes as his centerpiece _____.",
+            options: ["entrée", "appetizer", "confection", "herbivore"],
+            answer: 0,
+            explain: "The entrée is the main dish of a dinner."
+          },
+          {
+            q: "4. [Scenario] The medicine had a bitter, chalky flavor that left a _____ aftertaste in Eli's mouth.",
+            options: ["distasteful", "sumptuous", "palatable", "abundant"],
+            answer: 0,
+            explain: "Distasteful means unpleasant or disagreeable to taste."
+          },
+          {
+            q: "5. [Antonym] What is an ANTONYM for **abundant** (plentiful)?",
+            options: ["scarce", "overflowing", "rich", "bountiful"],
+            answer: 0,
+            explain: "Scarce means very rare or limited, the antonym of abundant."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'The famous **chef** prepared a six-course dinner,' what part of speech is **chef**?",
+            options: ["Noun", "Verb", "Adjective", "Pronoun"],
+            answer: 0,
+            explain: "Chef is a noun identifying a professional cook."
+          },
+          {
+            q: "7. [Context Clue] The fresh cinnamon bread gave off a wonderful _____ that could be smelled from the driveway.",
+            options: ["aroma", "carnivore", "confection", "nutrient"],
+            answer: 0,
+            explain: "Aroma refers to a pleasant, delicious smell."
+          },
+          {
+            q: "8. [Analogy] **Sponge** is to **saturate** as **appetite** is to _____.",
+            options: ["satiate", "contaminate", "insipid", "devour"],
+            answer: 0,
+            explain: "A sponge is saturated with liquid; an appetite is satiated with food."
+          },
+          {
+            q: "9. [Definition] An animal that hunts and eats only other animals is called a:",
+            options: ["carnivore", "herbivore", "vegetarian", "confectioner"],
+            answer: 0,
+            explain: "Carnivores eat meat exclusively."
+          },
+          {
+            q: "10. [Scenario] Grandma mixed warm cocoa, vanilla, crushed candy canes, and whipped cream into a festive winter _____.",
+            options: ["concoction", "delicacy", "carnivore", "nutrient"],
+            answer: 0,
+            explain: "A concoction is a mixed beverage or dish made from varied ingredients."
+          }
+        ]
+      },
+      '15': {
+        title: "Practice Test 15 (Ultimate Mixed Review)",
+        badge: "Practice Test 15",
+        description: "Ultimate mixed review test blending definitions, analogies, context clues, scenarios, and parts of speech.",
+        questions: [
+          {
+            q: "1. [Context Clue] To stay energetic and strong for baseball, Eli eats a _____ lunch packed with turkey, spinach, and fresh berries.",
+            options: ["nutritious", "insipid", "putrid", "rancid"],
+            answer: 0,
+            explain: "Nutritious food supplies health-promoting vitamins and energy."
+          },
+          {
+            q: "2. [Analogy] **Fudge** is to **confection** as **pepperoni pizza** is to _____.",
+            options: ["savory", "putrid", "insipid", "rancid"],
+            answer: 0,
+            explain: "Fudge is a sweet confection; pizza is a salted, spiced savory dish."
+          },
+          {
+            q: "3. [Definition] What does it mean to **devour** food?",
+            options: [
+              "To eat hungrily, eagerly, and quickly",
+              "To chew very slowly for five minutes",
+              "To season food with salt and pepper",
+              "To leave food on the table untouched"
+            ],
+            answer: 0,
+            explain: "To devour means to consume food rapidly and greedily."
+          },
+          {
+            q: "4. [Scenario] Meat left on the warm kitchen counter for two weeks turned moldy, green, and completely _____.",
+            options: ["putrid", "sumptuous", "palatable", "savory"],
+            answer: 0,
+            explain: "Putrid means rotting, decomposing, and smelling terrible."
+          },
+          {
+            q: "5. [Antonym] What is an ANTONYM for **palatable** (tastes good and acceptable)?",
+            options: ["distasteful", "tasty", "delicious", "savory"],
+            answer: 0,
+            explain: "Distasteful means unpleasant or gross to taste, the opposite of palatable."
+          },
+          {
+            q: "6. [Part of Speech] In the sentence: 'Eli made sure to **savor** his warm slice of peach cobbler,' what part of speech is **savor**?",
+            options: ["Verb", "Noun", "Adjective", "Pronoun"],
+            answer: 0,
+            explain: "Savor is an action verb meaning to enjoy slowly and completely."
+          },
+          {
+            q: "7. [Context Clue] The villain in the story had an _____ thirst for power that no amount of gold could ever satisfy.",
+            options: ["insatiable", "palatable", "insipid", "rancid"],
+            answer: 0,
+            explain: "Insatiable means impossible to satisfy or fulfill."
+          },
+          {
+            q: "8. [Analogy] **Rare culinary treat** is to **delicacy** as **grand lavish banquet** is to _____.",
+            options: ["sumptuous", "insipid", "distasteful", "scarce"],
+            answer: 0,
+            explain: "A rare treat is a delicacy; a grand lavish banquet is sumptuous."
+          },
+          {
+            q: "9. [Definition] What is an **appetizer**?",
+            options: [
+              "A small dish served before the main entrée to start the meal",
+              "A sweet dessert served at the very end of dinner",
+              "A person who avoids eating all animal meats",
+              "A medicine used to clean kitchen knives"
+            ],
+            answer: 0,
+            explain: "Appetizers are starter courses served first."
+          },
+          {
+            q: "10. [Dietary Scenario] A person who chooses not to eat meat, poultry, or fish is known as a _____.",
+            options: ["vegetarian", "carnivore", "confectioner", "nutrient"],
+            answer: 0,
+            explain: "Vegetarians avoid eating meat from animals."
           }
         ]
       }
     };
 
-    let currentTestVersion = 'A';
+    let currentTestVersion = '1';
     let userAnswers = {};
 
     function loadTestVersion(verKey) {
       currentTestVersion = verKey;
       userAnswers = {};
 
-      // Update Sub-nav buttons for all 10 versions (A through J)
-      const allVersions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+      // Update Sub-nav buttons for all 15 versions (1 through 15)
+      const allVersions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
       allVersions.forEach(v => {
         const btn = document.getElementById(`btn-ver-${v}`);
         if (btn) {
@@ -2479,7 +2602,7 @@
     }
 
     function cycleNextTest() {
-      const versions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+      const versions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
       const nextIdx = (versions.indexOf(currentTestVersion) + 1) % versions.length;
       loadTestVersion(versions[nextIdx]);
       window.scrollTo({ top: 120, behavior: 'smooth' });
@@ -2574,7 +2697,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       updateCardUI();
-      loadTestVersion('A');
+      loadTestVersion('1');
       renderWordBank();
     });
   </script>
