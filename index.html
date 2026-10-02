@@ -395,7 +395,7 @@
                 Practice Test 1
               </span>
               <h3 id="active-test-title" class="text-xl font-bold font-fun text-slate-900 mt-2">
-                Vocabulary Mastery Test 1
+                Practice Test 1 (Mixed Formats)
               </h3>
               <p id="active-test-desc" class="text-xs text-slate-500 mt-0.5">
                 Mixed question formats: definitions, analogies, context clues, scenarios, and parts of speech. (10 Questions)
@@ -405,84 +405,6 @@
             <div class="no-print text-right hidden sm:block">
               <span class="text-xs text-slate-400 font-semibold">Multiple Choice</span>
               <div id="test-answered-tracker" class="text-sm font-bold text-indigo-600">0/10 Answered</div>
-            </div>
-          </div>
-
-          <!-- Version Tabs (10 Versions) -->
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4">
-            <button onclick="loadTestVersion('A')" id="btn-ver-A" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-indigo-600 text-white shadow-sm">
-              <span class="block text-[10px] font-semibold opacity-80">Test A</span>
-              <span>Definitions</span>
-            </button>
-            <button onclick="loadTestVersion('B')" id="btn-ver-B" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test B</span>
-              <span>Context Clues</span>
-            </button>
-            <button onclick="loadTestVersion('C')" id="btn-ver-C" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test C</span>
-              <span>Speech & Rel.</span>
-            </button>
-            <button onclick="loadTestVersion('D')" id="btn-ver-D" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test D</span>
-              <span>Mastery</span>
-            </button>
-            <button onclick="loadTestVersion('E')" id="btn-ver-E" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test E</span>
-              <span>Syn & Antonyms</span>
-            </button>
-            <button onclick="loadTestVersion('F')" id="btn-ver-F" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test F</span>
-              <span>Feast Scenarios</span>
-            </button>
-            <button onclick="loadTestVersion('G')" id="btn-ver-G" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test G</span>
-              <span>Odd Word Out</span>
-            </button>
-            <button onclick="loadTestVersion('H')" id="btn-ver-H" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test H</span>
-              <span>Story Cloze</span>
-            </button>
-            <button onclick="loadTestVersion('I')" id="btn-ver-I" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test I</span>
-              <span>Analogies</span>
-            </button>
-            <button onclick="loadTestVersion('J')" id="btn-ver-J" class="ver-tab-btn py-2 px-2.5 rounded-2xl font-bold text-xs text-center transition bg-slate-100 text-slate-700 hover:bg-slate-200">
-              <span class="block text-[10px] font-semibold opacity-80">Test J</span>
-              <span>Final Exam 🏆</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Printable Header (Visible only when printing) -->
-        <div class="print-only mb-6 pb-4 border-b-2 border-black">
-          <div class="flex justify-between items-center mb-2">
-            <h1 class="text-xl font-bold">5th Grade Vocabulary Test - <span id="print-test-ver-name">Version A</span></h1>
-            <div class="text-sm">Date: _________________</div>
-          </div>
-          <div class="flex justify-between text-sm">
-            <div>Student Name: <strong>Eli</strong> ____________________</div>
-            <div>Score: ______ / 15 (____%)</div>
-          </div>
-        </div>
-
-        <!-- Test Container -->
-        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm test-paper">
-          <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-6">
-            <div>
-              <span id="active-test-badge" class="text-xs font-extrabold px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full uppercase tracking-wider">
-                Test Version A
-              </span>
-              <h3 id="active-test-title" class="text-xl font-bold font-fun text-slate-900 mt-2">
-                Vocabulary Definitions Mastery
-              </h3>
-              <p id="active-test-desc" class="text-xs text-slate-500 mt-0.5">
-                Choose the best answer for each word or definition. (15 Questions)
-              </p>
-            </div>
-            
-            <div class="no-print text-right hidden sm:block">
-              <span class="text-xs text-slate-400 font-semibold">Multiple Choice</span>
-              <div id="test-answered-tracker" class="text-sm font-bold text-indigo-600">0/15 Answered</div>
             </div>
           </div>
 
@@ -510,16 +432,16 @@
               <div>
                 <div class="text-xs uppercase font-extrabold text-indigo-700 tracking-wider">Test Completed!</div>
                 <h4 id="test-grade-msg" class="text-2xl font-black font-fun text-slate-900 mt-1">Awesome Work, Eli!</h4>
-                <p id="test-breakdown" class="text-sm text-slate-600 mt-1">You got 14 out of 15 questions correct.</p>
+                <p id="test-breakdown" class="text-sm text-slate-600 mt-1">You got 10 out of 10 questions correct.</p>
               </div>
               <div class="flex items-center gap-3">
                 <div class="text-center px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
                   <div class="text-xs text-slate-400 font-bold">SCORE</div>
-                  <div id="test-score-display" class="text-3xl font-black text-indigo-600 font-fun">93%</div>
+                  <div id="test-score-display" class="text-3xl font-black text-indigo-600 font-fun">100%</div>
                 </div>
                 <div class="text-center px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
                   <div class="text-xs text-slate-400 font-bold">GRADE</div>
-                  <div id="test-letter-grade" class="text-3xl font-black text-emerald-600 font-fun">A</div>
+                  <div id="test-letter-grade" class="text-3xl font-black text-emerald-600 font-fun">A+</div>
                 </div>
               </div>
             </div>
@@ -2455,6 +2377,7 @@
     let userAnswers = {};
 
     function loadTestVersion(verKey) {
+      if (!TEST_VERSIONS[verKey]) return;
       currentTestVersion = verKey;
       userAnswers = {};
 
@@ -2472,14 +2395,21 @@
       });
 
       const testData = TEST_VERSIONS[verKey];
-      document.getElementById('active-test-badge').textContent = testData.badge;
-      document.getElementById('active-test-title').textContent = testData.title;
-      document.getElementById('active-test-desc').textContent = testData.description;
-      document.getElementById('print-test-ver-name').textContent = testData.badge;
+      const badge = document.getElementById('active-test-badge');
+      const title = document.getElementById('active-test-title');
+      const desc = document.getElementById('active-test-desc');
+      const printName = document.getElementById('print-test-ver-name');
+
+      if (badge) badge.textContent = testData.badge;
+      if (title) title.textContent = testData.title;
+      if (desc) desc.textContent = testData.description;
+      if (printName) printName.textContent = testData.badge;
 
       // Hide results panel if visible
-      document.getElementById('test-results-panel').classList.add('hidden');
-      document.getElementById('submit-test-btn').classList.remove('hidden');
+      const resultsPanel = document.getElementById('test-results-panel');
+      if (resultsPanel) resultsPanel.classList.add('hidden');
+      const submitBtn = document.getElementById('submit-test-btn');
+      if (submitBtn) submitBtn.classList.remove('hidden');
 
       renderTestQuestions(testData);
       updateAnsweredTracker();
@@ -2487,6 +2417,7 @@
 
     function renderTestQuestions(testData) {
       const container = document.getElementById('test-questions-container');
+      if (!container) return;
       container.innerHTML = '';
 
       testData.questions.forEach((qObj, qIdx) => {
@@ -2501,13 +2432,14 @@
         const optionLetters = ['A', 'B', 'C', 'D'];
 
         qObj.options.forEach((opt, optIdx) => {
+          const isSelected = userAnswers[qIdx] === optIdx;
           optionsHtml += `
-            <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-indigo-50/50 hover:border-indigo-200 cursor-pointer transition select-none group text-xs sm:text-sm">
-              <input type="radio" name="question_${qIdx}" value="${optIdx}" onchange="recordAnswer(${qIdx}, ${optIdx})" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-              <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition">
+            <label id="opt-label-${qIdx}-${optIdx}" class="opt-label flex items-center gap-3 p-3 rounded-xl border ${isSelected ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200' : 'border-slate-100 hover:bg-indigo-50/40 hover:border-indigo-200'} cursor-pointer transition select-none group text-xs sm:text-sm">
+              <input type="radio" name="question_${qIdx}" value="${optIdx}" ${isSelected ? 'checked' : ''} onchange="recordAnswer(${qIdx}, ${optIdx})" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+              <span class="opt-badge w-6 h-6 rounded-lg ${isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition">
                 ${optionLetters[optIdx]}
               </span>
-              <span class="font-medium text-slate-700">${opt}</span>
+              <span class="font-medium text-slate-700 flex-1">${opt}</span>
             </label>
           `;
         });
@@ -2528,18 +2460,38 @@
 
     function recordAnswer(qIdx, optIdx) {
       userAnswers[qIdx] = optIdx;
+
+      // Update styling across all four options for this question
+      for (let i = 0; i < 4; i++) {
+        const label = document.getElementById(`opt-label-${qIdx}-${i}`);
+        if (!label) continue;
+        const badge = label.querySelector('.opt-badge');
+        if (i === optIdx) {
+          label.className = "opt-label flex items-center gap-3 p-3 rounded-xl border border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200 cursor-pointer transition select-none group text-xs sm:text-sm";
+          if (badge) badge.className = "opt-badge w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center transition";
+        } else {
+          label.className = "opt-label flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-indigo-50/40 hover:border-indigo-200 cursor-pointer transition select-none group text-xs sm:text-sm";
+          if (badge) badge.className = "opt-badge w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition";
+        }
+      }
+
       updateAnsweredTracker();
       playTone(450, 'sine', 0.04, 0.05);
     }
 
     function updateAnsweredTracker() {
       const answeredCount = Object.keys(userAnswers).length;
-      const total = TEST_VERSIONS[currentTestVersion].questions.length;
-      document.getElementById('test-answered-tracker').textContent = `${answeredCount}/${total} Answered`;
+      const test = TEST_VERSIONS[currentTestVersion];
+      const total = test ? test.questions.length : 10;
+      const tracker = document.getElementById('test-answered-tracker');
+      if (tracker) {
+        tracker.textContent = `${answeredCount}/${total} Answered`;
+      }
     }
 
     function gradeActiveTest() {
       const testData = TEST_VERSIONS[currentTestVersion];
+      if (!testData) return;
       const total = testData.questions.length;
       let score = 0;
 
@@ -2547,17 +2499,25 @@
         const userChoice = userAnswers[qIdx];
         const card = document.getElementById(`q-card-${qIdx}`);
         const feedback = document.getElementById(`q-feedback-${qIdx}`);
+        if (!card || !feedback) return;
 
-        feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+        feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200', 'bg-amber-50', 'text-amber-800', 'border-amber-200');
 
-        if (userChoice === qObj.answer) {
+        if (userChoice === undefined) {
+          card.classList.remove('border-slate-200', 'border-emerald-300');
+          card.classList.add('border-amber-300', 'bg-amber-50/20');
+          feedback.classList.add('bg-amber-50', 'text-amber-800', 'border', 'border-amber-200');
+          const correctLetter = ['A', 'B', 'C', 'D'][qObj.answer];
+          const correctText = qObj.options[qObj.answer];
+          feedback.innerHTML = `⚠️ <strong>Unanswered:</strong> The correct answer was <strong>${correctLetter}: ${correctText}</strong>. ${qObj.explain}`;
+        } else if (userChoice === qObj.answer) {
           score++;
-          card.classList.remove('border-slate-200', 'border-rose-300');
+          card.classList.remove('border-slate-200', 'border-rose-300', 'border-amber-300');
           card.classList.add('border-emerald-300', 'bg-emerald-50/20');
           feedback.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
           feedback.innerHTML = `✅ <strong>Correct!</strong> ${qObj.explain}`;
         } else {
-          card.classList.remove('border-slate-200', 'border-emerald-300');
+          card.classList.remove('border-slate-200', 'border-emerald-300', 'border-amber-300');
           card.classList.add('border-rose-300', 'bg-rose-50/20');
           feedback.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
           const correctLetter = ['A', 'B', 'C', 'D'][qObj.answer];
@@ -2582,8 +2542,10 @@
       document.getElementById('test-grade-msg').textContent = msg;
 
       const panel = document.getElementById('test-results-panel');
-      panel.classList.remove('hidden');
-      panel.scrollIntoView({ behavior: 'smooth' });
+      if (panel) {
+        panel.classList.remove('hidden');
+        panel.scrollIntoView({ behavior: 'smooth' });
+      }
 
       if (pct >= 80) {
         playSuccessChime();
@@ -2598,14 +2560,17 @@
     function resetActiveTest() {
       userAnswers = {};
       loadTestVersion(currentTestVersion);
-      showToast('Test cleared and reset!');
+      showToast('Test cleared and reset!', '🔄');
     }
 
     function cycleNextTest() {
       const versions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
       const nextIdx = (versions.indexOf(currentTestVersion) + 1) % versions.length;
       loadTestVersion(versions[nextIdx]);
-      window.scrollTo({ top: 120, behavior: 'smooth' });
+      const testSection = document.getElementById('section-tests');
+      if (testSection) {
+        testSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     let currentBankFilter = 'all';
